@@ -35,7 +35,7 @@
             flex-direction: column;
         }
 
-        /* TOP NAVIGATION HEADER (Matching Login Theme) */
+        /* TOP NAVIGATION HEADER */
         .site-header {
             height: var(--header-height);
             background-color: rgba(21, 26, 35, 0.95);
@@ -64,7 +64,6 @@
             gap: 1rem;
         }
 
-        /* Hamburger Menu Icon */
         .menu-toggle {
             background: transparent;
             border: none;
@@ -200,7 +199,6 @@
             margin-left: 0;
         }
 
-        /* DYNAMIC VIEW SECTIONS */
         .view-section {
             display: none;
         }
@@ -252,7 +250,6 @@
 
         .text-success { color: var(--success); }
         .text-warning { color: var(--primary); }
-        .text-danger { color: var(--danger); }
 
         /* FORM ELEMENTS */
         .form-card {
@@ -347,6 +344,16 @@
             margin-top: 1.5rem;
         }
 
+        .notice-box {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 8px;
+            padding: 0.85rem;
+            font-size: 0.85rem;
+            color: var(--primary);
+            margin-bottom: 1.25rem;
+        }
+
         @media (max-width: 768px) {
             aside { transform: translateX(-100%); }
             aside.open { transform: translateX(0); }
@@ -356,7 +363,6 @@
 </head>
 <body>
 
-    <!-- SITE HEADER WITH LOGO AND MENU TOGGLE -->
     <header class="site-header">
         <div class="header-container">
             <div class="header-left">
@@ -375,7 +381,6 @@
     </header>
 
     <div class="app-container">
-        <!-- SIDEBAR MENU -->
         <aside id="sidebar">
             <ul class="nav-menu">
                 <li class="nav-item"><a class="nav-link active" onclick="switchView('dashboard', this)">📊 Dashboard</a></li>
@@ -391,7 +396,6 @@
             <a href="login.html" class="nav-link logout">Sign Out</a>
         </aside>
 
-        <!-- MAIN DASHBOARD CONTENT -->
         <main id="mainContent">
 
             <!-- 1. DASHBOARD VIEW -->
@@ -493,16 +497,28 @@
                 <div id="paymentInstructions" class="payment-modal">
                     <h3 style="margin-bottom: 0.5rem; color: var(--primary);">Payment Details</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
-                        Send your payment to the official wallet address below. Once sent, click "Confirm Payment".
+                        Send your payment to the official wallet address below, upload proof of payment, then submit for admin verification.
                     </p>
-                    <div style="background: var(--input-bg); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 1rem;">
+
+                    <div style="background: var(--input-bg); padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 1.25rem;">
                         <span class="form-label">Selected Asset:</span>
-                        <strong id="payAsset" style="color: #fff;">-</strong>
-                        <br><br>
-                        <span class="form-label">Deposit Address:</span>
-                        <code id="payAddress" style="color: var(--primary); font-size: 0.95rem; word-break: break-all;">[WALLET_ADDRESS_WILL_BE_LOADED_HERE]</code>
+                        <strong id="payAsset" style="color: #fff; display: block; margin-bottom: 0.75rem;">-</strong>
+
+                        <span class="form-label">Deposit Wallet Address:</span>
+                        <code id="payAddress" style="color: var(--primary); font-size: 0.95rem; word-break: break-all; display: block; margin-bottom: 0.75rem;">[WALLET_ADDRESS_WILL_BE_LOADED_HERE]</code>
                     </div>
-                    <button type="button" class="btn-submit" onclick="confirmDeposit()">Confirm Payment Submitted</button>
+
+                    <!-- PROOF OF PAYMENT UPLOAD -->
+                    <div class="form-group">
+                        <label class="form-label" for="receiptFile">Upload Payment Screenshot / Receipt</label>
+                        <input type="file" id="receiptFile" class="form-input" accept="image/*,.pdf" required>
+                    </div>
+
+                    <div class="notice-box">
+                        ⏳ <strong>Note:</strong> Deposits are pending until verified and manually credited by the admin system.
+                    </div>
+
+                    <button type="button" class="btn-submit" onclick="confirmDeposit()">I HAVE SENT THE FUNDS</button>
                 </div>
             </section>
 
@@ -680,7 +696,6 @@
         // DEPOSIT FORM SUBMISSION
         function handleDepositSubmit(e) {
             e.preventDefault();
-            const amount = parseFloat(document.getElementById('depAmount').value);
             const currency = document.getElementById('depCurrency').value;
 
             document.getElementById('payAsset').textContent = currency;
@@ -688,12 +703,33 @@
         }
 
         function confirmDeposit() {
+            const receiptInput = document.getElementById('receiptFile');
             const amount = parseFloat(document.getElementById('depAmount').value);
-            state.totalDeposit += amount;
-            state.availableBalance += amount;
-            renderBalances();
-            alert('Deposit registered successfully! Pending block network confirmation.');
+
+            if (!receiptInput.files || receiptInput.files.length === 0) {
+                alert('Please upload a screenshot or receipt of your payment before proceeding.');
+                return;
+            }
+
+            // Add pending deposit transaction to history tables
+            const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            const newRow = `
+                <tr>
+                    <td>${today}</td>
+                    <td>Deposit</td>
+                    <td>+$${amount.toFixed(2)}</td>
+                    <td><span class="badge pending">Pending Approval</span></td>
+                </tr>
+            `;
+
+            document.getElementById('dashboardRecentTable').insertAdjacentHTML('afterbegin', newRow);
+            document.getElementById('fullTransactionTable').insertAdjacentHTML('afterbegin', newRow);
+
+            alert('Your deposit request has been submitted successfully!\n\nPlease wait for the system and admin to verify your transaction before funds reflect in your available balance.');
+            
             document.getElementById('paymentInstructions').style.display = 'none';
+            document.getElementById('depositForm').reset();
+            document.getElementById('receiptFile').value = '';
             switchView('dashboard');
         }
 
