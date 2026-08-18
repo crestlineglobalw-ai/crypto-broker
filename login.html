@@ -87,7 +87,6 @@
             font-size: 0.9rem;
         }
 
-        /* Error message styling */
         .error-message {
             display: none;
             background: rgba(239, 68, 68, 0.15);
@@ -169,7 +168,6 @@
                 <p>Welcome back! Enter your details to continue.</p>
             </div>
 
-            <!-- Error message container -->
             <div id="errorMessage" class="error-message">
                 Invalid email or password. Please try again.
             </div>
@@ -195,9 +193,9 @@
     </footer>
 
     <script>
-        // Pre-registered credentials for designing/testing:
-        const REGISTERED_EMAIL = "user@crestline.com";
-        const REGISTERED_PASSWORD = "user123";
+        // Updated pre-registered user credentials
+        const REGISTERED_EMAIL = "user123@user.com";
+        const REGISTERED_PASSWORD = "user123@";
 
         function handleUserLogin(e) {
             e.preventDefault();
@@ -206,7 +204,6 @@
             const passwordInput = document.getElementById('userPassword').value.trim();
             const errorDiv = document.getElementById('errorMessage');
 
-            // Check if entered details match the pre-registered ones
             if (emailInput === REGISTERED_EMAIL && passwordInput === REGISTERED_PASSWORD) {
                 errorDiv.style.display = "none";
                 window.location.href = "user-dashboard.html";
