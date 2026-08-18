@@ -5,12 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wallet & Deposit | Crestline Global</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        // AUTHENTICATION GUARD: Redirect unauthenticated visitors to login
-        if (sessionStorage.getItem("userLoggedIn") !== "true") {
-            window.location.href = "login.html";
-        }
-    </script>
+    <!-- AUTHENTICATION GUARD -->
+    <script src="auth.js"></script>
     <style>
         :root {
             --bg-dark: #0b0e11;
@@ -33,13 +29,15 @@
             border-bottom: 1px solid var(--border-color);
         }
         .brand-logo { font-size: 20px; font-weight: 800; color: var(--accent-gold); display: flex; align-items: center; gap: 8px; }
+        .nav-links a { margin-left: 20px; font-size: 14px; font-weight: 600; }
+        .nav-links a:hover { color: var(--accent-gold); }
 
         .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
         .card { background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 8px; margin-bottom: 25px; }
 
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 14px; }
-        .form-group input, .form-group select {
+        .form-group input {
             width: 100%;
             padding: 12px;
             background-color: var(--bg-dark);
@@ -52,7 +50,7 @@
 
         .deposit-method-grid {
             display: grid;
-            grid-template-columns: repeat( auto-fit, minmax(220px, 1fr) );
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 15px;
             margin-top: 15px;
         }
@@ -85,26 +83,28 @@
             font-size: 14px;
         }
 
-        .btn { background-color: var(--accent-gold); color: #000; padding: 12px 24px; font-weight: bold; border-radius: 4px; border: none; cursor: pointer; display: inline-block; }
+        .btn { background-color: var(--accent-gold); color: #000; padding: 12px 24px; font-weight: bold; border-radius: 4px; border: none; cursor: pointer; display: inline-block; margin-top: 15px; }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="index.html" class="brand-logo"><i class="fa-solid fa-chart-line"></i> Crestline Global</a>
-        <div>
-            <a href="trade.html" style="margin-right: 15px;">Spot Trade</a>
-            <a href="kyc.html" style="margin-right: 15px; color: var(--accent-gold);">Verification</a>
-            <button onclick="logout()" class="btn" style="padding: 6px 12px; font-size: 12px;">Log Out</button>
+        <a href="dashboard.html" class="brand-logo"><i class="fa-solid fa-chart-line"></i> Crestline Global</a>
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="wallet.html" style="color: var(--accent-gold);">Deposit/Wallet</a>
+            <a href="trade.html">Spot Trade</a>
+            <a href="kyc.html">Verification</a>
+            <button onclick="logoutUser()" class="btn" style="padding: 6px 12px; font-size: 12px; margin-top: 0; margin-left: 15px;">Log Out</button>
         </div>
     </nav>
 
     <div class="container">
         <div class="card">
             <h2>Deposit Funds</h2>
-            <p style="color: var(--text-muted); margin-bottom: 25px;">Enter your preferred deposit amount first, then select your payment method.</p>
+            <p style="color: var(--text-muted); margin-bottom: 25px;">Enter your preferred deposit amount first, then select your crypto payment method.</p>
 
-            <!-- STEP 1: AMOUNT -->
+            <!-- STEP 1: AMOUNT FIRST -->
             <div class="form-group">
                 <label for="depositAmount"><strong>Step 1: Enter Deposit Amount (USD Equivalent)</strong></label>
                 <input type="number" id="depositAmount" placeholder="e.g. 500" min="10">
@@ -112,7 +112,7 @@
 
             <!-- STEP 2: METHOD SELECTION -->
             <div class="form-group" id="methodSection" style="display: none;">
-                <label><strong>Step 2: Select Cryptocurrency Deposit Method</strong></label>
+                <label><strong>Step 2: Select Cryptocurrency Method</strong></label>
                 <div class="deposit-method-grid">
                     <div class="method-card" onclick="selectMethod('BTC', 'Bitcoin', 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh')">
                         <i class="fa-bold fa-btc" style="color: #f7931a; font-size: 20px;"></i>
@@ -144,9 +144,9 @@
             <!-- STEP 3: DEPOSIT DISPLAY -->
             <div id="depositDetails" style="display: none; margin-top: 25px;">
                 <h4 id="selectedTitle"></h4>
-                <p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">Send exact payment to the address below:</p>
+                <p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">Transfer funds to the assigned deposit address below:</p>
                 <div class="address-box" id="walletAddress"></div>
-                <button class="btn" onclick="alert('Deposit status pending. System will credit your account upon 1 block confirmation.')">Confirm I Have Transferred</button>
+                <button class="btn" onclick="alert('Deposit status updated to Pending. Account will update after 1 network confirmation.')">Confirm I Have Transferred</button>
             </div>
         </div>
     </div>
@@ -169,11 +169,6 @@
             document.getElementById("selectedTitle").innerText = `Deposit $${amount} via ${name} (${symbol})`;
             document.getElementById("walletAddress").innerText = address;
             document.getElementById("depositDetails").style.display = "block";
-        }
-
-        function logout() {
-            sessionStorage.removeItem("userLoggedIn");
-            window.location.href = "login.html";
         }
     </script>
 
