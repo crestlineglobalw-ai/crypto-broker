@@ -8,12 +8,13 @@
         :root {
             --bg-color: #0b0e14;
             --card-bg: #151a23;
-            --primary: #ef4444; /* Distinct red tone for Admin authority */
+            --primary: #ef4444;
             --primary-hover: #dc2626;
             --text-main: #f0f6fc;
             --text-muted: #8b949e;
             --border-color: #262d3a;
             --input-bg: #0e121a;
+            --danger: #ef4444;
             --header-height: 70px;
         }
 
@@ -33,15 +34,11 @@
             justify-content: space-between;
         }
 
-        /* HEADER */
         .site-header {
             height: var(--header-height);
             background-color: rgba(21, 26, 35, 0.85);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
         }
 
         .header-container {
@@ -54,39 +51,9 @@
             justify-content: space-between;
         }
 
-        .brand-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            text-decoration: none;
-            color: var(--text-main);
-        }
-
-        .logo-chart-box {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 12px rgba(239, 68, 68, 0.3);
-        }
-
-        .logo-chart-box svg {
-            width: 24px;
-            height: 24px;
-            fill: none;
-            stroke: #ffffff;
-            stroke-width: 2.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
         .brand-name {
             font-size: 1.3rem;
             font-weight: 800;
-            letter-spacing: -0.02em;
         }
 
         .admin-tag {
@@ -98,10 +65,8 @@
             border-radius: 4px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
         }
 
-        /* AUTH CONTAINER */
         .auth-container {
             max-width: 440px;
             width: 100%;
@@ -146,14 +111,16 @@
             font-size: 0.9rem;
         }
 
-        .demo-notice {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px dashed var(--primary);
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
-            font-size: 0.8rem;
+        .error-message {
+            display: none;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--danger);
             color: #f87171;
-            margin-bottom: 1.5rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 1.25rem;
+            text-align: center;
         }
 
         .form-group {
@@ -177,7 +144,6 @@
             color: var(--text-main);
             font-size: 0.95rem;
             outline: none;
-            transition: border-color 0.2s;
         }
 
         .form-input:focus {
@@ -194,7 +160,6 @@
             font-size: 1rem;
             font-weight: 800;
             cursor: pointer;
-            transition: background 0.2s;
             margin-top: 0.5rem;
         }
 
@@ -206,7 +171,6 @@
             text-align: center;
             margin-top: 1.5rem;
             font-size: 0.9rem;
-            color: var(--text-muted);
         }
 
         .auth-footer a {
@@ -216,10 +180,8 @@
 
         .auth-footer a:hover {
             color: var(--text-main);
-            text-decoration: underline;
         }
 
-        /* FOOTER */
         footer {
             border-top: 1px solid var(--border-color);
             background-color: #080b10;
@@ -234,15 +196,7 @@
 
     <header class="site-header">
         <div class="header-container">
-            <a href="index.html" class="brand-logo">
-                <div class="logo-chart-box">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                    </svg>
-                </div>
-                <span class="brand-name">Crestline Global</span>
-            </a>
-
+            <span class="brand-name">Crestline Global</span>
             <span class="admin-tag">Admin Control Center</span>
         </div>
     </header>
@@ -255,21 +209,19 @@
                 <p>Restricted access for platform managers</p>
             </div>
 
-            <div class="demo-notice">
-                <strong>Admin Demo Access:</strong><br>
-                Email: <code>admin@crestline.com</code><br>
-                Password: <code>admin123</code>
+            <div id="errorMessage" class="error-message">
+                Invalid admin credentials. Please try again.
             </div>
 
             <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
                 <div class="form-group">
                     <label class="form-label" for="adminEmail">Admin Email</label>
-                    <input type="email" id="adminEmail" class="form-input" value="admin@crestline.com" required>
+                    <input type="email" id="adminEmail" class="form-input" placeholder="Enter admin email" required>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label" for="adminPassword">Password</label>
-                    <input type="password" id="adminPassword" class="form-input" value="admin123" required>
+                    <input type="password" id="adminPassword" class="form-input" placeholder="Enter admin password" required>
                 </div>
 
                 <button type="submit" class="btn-submit">Sign In to Admin Console</button>
@@ -286,11 +238,23 @@
     </footer>
 
     <script>
+        // Updated pre-registered admin credentials
+        const ADMIN_EMAIL = "admin123@admin.com";
+        const ADMIN_PASSWORD = "admin123@";
+
         function handleAdminLogin(e) {
             e.preventDefault();
-            // Mock admin authentication redirect
-            alert("Admin Access Granted! Redirecting to Admin Dashboard...");
-            window.location.href = "admin-dashboard.html";
+
+            const emailInput = document.getElementById('adminEmail').value.trim();
+            const passwordInput = document.getElementById('adminPassword').value.trim();
+            const errorDiv = document.getElementById('errorMessage');
+
+            if (emailInput === ADMIN_EMAIL && passwordInput === ADMIN_PASSWORD) {
+                errorDiv.style.display = "none";
+                window.location.href = "admin-dashboard.html";
+            } else {
+                errorDiv.style.display = "block";
+            }
         }
     </script>
 </body>
