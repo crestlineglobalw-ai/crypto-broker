@@ -34,15 +34,11 @@
             justify-content: space-between;
         }
 
-        /* HEADER & NAV */
         .site-header {
             height: var(--header-height);
             background-color: rgba(21, 26, 35, 0.85);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
         }
 
         .header-container {
@@ -55,79 +51,11 @@
             justify-content: space-between;
         }
 
-        .brand-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            text-decoration: none;
-            color: var(--text-main);
-        }
-
-        .logo-chart-box {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
-        }
-
-        .logo-chart-box svg {
-            width: 24px;
-            height: 24px;
-            fill: none;
-            stroke: #000000;
-            stroke-width: 2.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
         .brand-name {
             font-size: 1.3rem;
             font-weight: 800;
-            letter-spacing: -0.02em;
         }
 
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .btn-secondary {
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            transition: all 0.2s;
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            color: #000000;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.9rem;
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
-            transition: background 0.2s;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-hover);
-        }
-
-        /* LOGIN CONTAINER */
         .auth-container {
             max-width: 440px;
             width: 100%;
@@ -159,14 +87,17 @@
             font-size: 0.9rem;
         }
 
-        .demo-notice {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px dashed var(--primary);
-            border-radius: 8px;
+        /* Error message styling */
+        .error-message {
+            display: none;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--danger);
+            color: #f87171;
             padding: 0.75rem 1rem;
-            font-size: 0.8rem;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 1.25rem;
+            text-align: center;
         }
 
         .form-group {
@@ -190,37 +121,10 @@
             color: var(--text-main);
             font-size: 0.95rem;
             outline: none;
-            transition: border-color 0.2s;
         }
 
         .form-input:focus {
             border-color: var(--primary);
-        }
-
-        .form-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-muted);
-            cursor: pointer;
-        }
-
-        .forgot-link {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .forgot-link:hover {
-            text-decoration: underline;
         }
 
         .btn-submit {
@@ -233,31 +137,13 @@
             font-size: 1rem;
             font-weight: 800;
             cursor: pointer;
-            transition: background 0.2s;
+            margin-top: 0.5rem;
         }
 
         .btn-submit:hover {
             background-color: var(--primary-hover);
         }
 
-        .auth-footer {
-            text-align: center;
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .auth-footer a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 700;
-        }
-
-        .auth-footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* FOOTER */
         footer {
             border-top: 1px solid var(--border-color);
             background-color: #080b10;
@@ -272,20 +158,7 @@
 
     <header class="site-header">
         <div class="header-container">
-            <a href="index.html" class="brand-logo">
-                <div class="logo-chart-box">
-                    <svg viewBox="0 0 24 24">
-                        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-                        <polyline points="16 7 22 7 22 13"></polyline>
-                    </svg>
-                </div>
-                <span class="brand-name">Crestline Global</span>
-            </a>
-
-            <div class="header-actions">
-                <a href="login.html" class="btn-secondary">Log In</a>
-                <a href="register.html" class="btn-primary">Get Started</a>
-            </div>
+            <span class="brand-name">Crestline Global</span>
         </div>
     </header>
 
@@ -296,36 +169,24 @@
                 <p>Welcome back! Enter your details to continue.</p>
             </div>
 
-            <div class="demo-notice">
-                <strong>Demo Access:</strong><br>
-                Email: <code>user@crestline.com</code><br>
-                Password: <code>user123</code>
+            <!-- Error message container -->
+            <div id="errorMessage" class="error-message">
+                Invalid email or password. Please try again.
             </div>
 
             <form id="userLoginForm" onsubmit="handleUserLogin(event)">
                 <div class="form-group">
                     <label class="form-label" for="userEmail">Email Address</label>
-                    <input type="email" id="userEmail" class="form-input" value="user@crestline.com" required>
+                    <input type="email" id="userEmail" class="form-input" placeholder="Enter your email" required>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label" for="userPassword">Password</label>
-                    <input type="password" id="userPassword" class="form-input" value="user123" required>
+                    <input type="password" id="userPassword" class="form-input" placeholder="Enter your password" required>
                 </div>
 
-                <div class="form-options">
-                    <label class="remember-me">
-                        <input type="checkbox" checked> Remember me
-                    </label>
-                    <a href="#" class="forgot-link">Forgot password?</a>
-                </div>
-
-                <button type="submit" class="btn-submit">Sign In to User Dashboard</button>
+                <button type="submit" class="btn-submit">Sign In</button>
             </form>
-
-            <div class="auth-footer">
-                Don't have an account? <a href="register.html">Register</a>
-            </div>
         </div>
     </div>
 
@@ -334,11 +195,24 @@
     </footer>
 
     <script>
+        // Pre-registered credentials for designing/testing:
+        const REGISTERED_EMAIL = "user@crestline.com";
+        const REGISTERED_PASSWORD = "user123";
+
         function handleUserLogin(e) {
             e.preventDefault();
-            // Mock authentication redirect
-            alert("Login successful! Redirecting to User Dashboard...");
-            window.location.href = "user-dashboard.html";
+
+            const emailInput = document.getElementById('userEmail').value.trim();
+            const passwordInput = document.getElementById('userPassword').value.trim();
+            const errorDiv = document.getElementById('errorMessage');
+
+            // Check if entered details match the pre-registered ones
+            if (emailInput === REGISTERED_EMAIL && passwordInput === REGISTERED_PASSWORD) {
+                errorDiv.style.display = "none";
+                window.location.href = "user-dashboard.html";
+            } else {
+                errorDiv.style.display = "block";
+            }
         }
     </script>
 </body>
