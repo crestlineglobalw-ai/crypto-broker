@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account - Crestline Global</title>
+    <title>Register - Crestline Global</title>
     <style>
         :root {
             --bg-color: #0b0e14;
             --card-bg: #151a23;
+            --card-hover: #1c2330;
             --primary: #f59e0b;
             --primary-hover: #d97706;
             --text-main: #f0f6fc;
             --text-muted: #8b949e;
             --border-color: #262d3a;
             --input-bg: #0e121a;
+            --success: #22c55e;
+            --danger: #ef4444;
             --header-height: 70px;
         }
 
@@ -30,16 +33,22 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
         }
 
+        /* HEADER & NAV */
         .site-header {
             height: var(--header-height);
-            background-color: var(--card-bg);
+            background-color: rgba(21, 26, 35, 0.85);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         .header-container {
-            max-width: 1280px;
+            max-width: 1400px;
             height: 100%;
             margin: 0 auto;
             padding: 0 1.5rem;
@@ -83,40 +92,76 @@
             letter-spacing: -0.02em;
         }
 
-        .auth-container {
-            flex: 1;
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .header-actions {
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 2.5rem 1.5rem;
+            gap: 1rem;
+        }
+
+        .btn-secondary {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* REGISTER CONTAINER */
+        .auth-container {
+            max-width: 480px;
+            width: 100%;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
         }
 
         .auth-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            width: 100%;
-            max-width: 460px;
+            border-radius: 16px;
             padding: 2.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
 
-        .auth-title {
-            font-size: 1.75rem;
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h1 {
+            font-size: 1.8rem;
             font-weight: 800;
             margin-bottom: 0.5rem;
         }
 
-        .auth-subtitle {
+        .auth-header p {
             color: var(--text-muted);
             font-size: 0.9rem;
-            margin-bottom: 1.75rem;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
         }
 
         .form-group {
@@ -133,32 +178,59 @@
 
         .form-input {
             width: 100%;
-            padding: 0.75rem 1rem;
             background-color: var(--input-bg);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 8px;
+            padding: 0.85rem 1rem;
             color: var(--text-main);
             font-size: 0.95rem;
             outline: none;
-            transition: border-color 0.15s ease;
+            transition: border-color 0.2s;
         }
 
         .form-input:focus {
             border-color: var(--primary);
         }
 
+        .referral-box {
+            display: block;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            margin: 1.5rem 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 0.15rem;
+            accent-color: var(--primary);
+        }
+
+        .checkbox-group a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .checkbox-group a:hover {
+            text-decoration: underline;
+        }
+
         .btn-submit {
             width: 100%;
-            padding: 0.85rem;
+            padding: 0.9rem;
             background-color: var(--primary);
             color: #000000;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 1rem;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
-            transition: background-color 0.15s ease;
-            margin-top: 0.5rem;
+            transition: background 0.2s;
         }
 
         .btn-submit:hover {
@@ -166,25 +238,42 @@
         }
 
         .auth-footer {
-            margin-top: 1.5rem;
             text-align: center;
-            font-size: 0.875rem;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
         }
 
         .auth-footer a {
             color: var(--primary);
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .auth-footer a:hover {
             text-decoration: underline;
         }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid var(--border-color);
+            background-color: #080b10;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 600px) {
+            .auth-card {
+                padding: 1.75rem;
+            }
+        }
     </style>
 </head>
 <body>
 
+    <!-- SITE HEADER -->
     <header class="site-header">
         <div class="header-container">
             <a href="index.html" class="brand-logo">
@@ -196,49 +285,71 @@
                 </div>
                 <span class="brand-name">Crestline Global</span>
             </a>
+
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html#markets" class="nav-link">Markets</a></li>
+                    <li><a href="index.html#how-it-works" class="nav-link">How it Works</a></li>
+                    <li><a href="index.html#trade" class="nav-link">Trade</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <a href="login.html" class="btn-secondary">Log In</a>
+            </div>
         </div>
     </header>
 
-    <main class="auth-container">
+    <!-- REGISTER CARD CONTAINER -->
+    <div class="auth-container">
         <div class="auth-card">
-            <h1 class="auth-title">Create Account</h1>
-            <p class="auth-subtitle">Join Crestline Global trading ecosystem</p>
+            <div class="auth-header">
+                <h1>Create Account</h1>
+                <p>Join 15M+ users trading digital assets globally</p>
+            </div>
 
             <form action="dashboard.html" method="GET">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">First Name</label>
-                        <input type="text" class="form-input" placeholder="John" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Last Name</label>
-                        <input type="text" class="form-input" placeholder="Doe" required>
-                    </div>
+                <div class="form-group">
+                    <label class="form-label" for="fullname">Full Name</label>
+                    <input type="text" id="fullname" class="form-input" placeholder="e.g. John Doe" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Email Address</label>
-                    <input type="email" class="form-input" placeholder="name@example.com" required>
+                    <label class="form-label" for="email">Email Address</label>
+                    <input type="email" id="email" class="form-input" placeholder="name@example.com" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-input" placeholder="••••••••" required>
+                    <label class="form-label" for="password">Password</label>
+                    <input type="password" id="password" class="form-input" placeholder="Minimum 8 characters" required>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Confirm Password</label>
-                    <input type="password" class="form-input" placeholder="••••••••" required>
+                <!-- REFERRAL CODE (OPTIONAL) -->
+                <div class="form-group referral-box">
+                    <label class="form-label" for="referral">Referral Code <span style="color: var(--text-muted); font-weight: normal;">(Optional)</span></label>
+                    <input type="text" id="referral" class="form-input" placeholder="Enter invitation or promo code">
                 </div>
 
-                <button type="submit" class="btn-submit">Register</button>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">
+                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-submit">Create Account</button>
             </form>
 
             <div class="auth-footer">
-                Already registered? <a href="login.html">Sign In</a>
+                Already have an account? <a href="login.html">Log In</a>
             </div>
         </div>
-    </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        © 2026 Crestline Global. All rights reserved.
+    </footer>
 
 </body>
 </html>
