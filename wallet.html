@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wallet & Deposit | Crestline Global</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        // AUTHENTICATION GUARD: Redirect unauthenticated visitors to login
+        if (sessionStorage.getItem("userLoggedIn") !== "true") {
+            window.location.href = "login.html";
+        }
+    </script>
     <style>
         :root {
             --bg-dark: #0b0e11;
@@ -28,32 +34,58 @@
         }
         .brand-logo { font-size: 20px; font-weight: 800; color: var(--accent-gold); display: flex; align-items: center; gap: 8px; }
 
-        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
-        .card { background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 8px; margin-bottom: 20px; }
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        .card { background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 8px; margin-bottom: 25px; }
 
-        .banner {
-            background-color: rgba(240, 185, 11, 0.1);
-            border: 1px solid var(--accent-gold);
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 14px; }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: #fff;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+
+        .deposit-method-grid {
+            display: grid;
+            grid-template-columns: repeat( auto-fit, minmax(220px, 1fr) );
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .method-card {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border-color);
             padding: 15px;
             border-radius: 6px;
-            color: var(--accent-gold);
+            cursor: pointer;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            gap: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .method-card:hover, .method-card.active {
+            border-color: var(--accent-gold);
+            background-color: rgba(240, 185, 11, 0.05);
         }
 
         .address-box {
             background-color: var(--bg-dark);
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
+            padding: 15px;
+            border: 1px dashed var(--accent-gold);
+            border-radius: 6px;
             font-family: monospace;
             word-break: break-all;
-            margin: 10px 0 20px;
+            margin-top: 15px;
+            font-size: 14px;
         }
 
-        .btn { background-color: var(--accent-gold); color: #000; padding: 10px 20px; font-weight: bold; border-radius: 4px; display: inline-block; }
+        .btn { background-color: var(--accent-gold); color: #000; padding: 12px 24px; font-weight: bold; border-radius: 4px; border: none; cursor: pointer; display: inline-block; }
     </style>
 </head>
 <body>
@@ -62,33 +94,88 @@
         <a href="index.html" class="brand-logo"><i class="fa-solid fa-chart-line"></i> Crestline Global</a>
         <div>
             <a href="trade.html" style="margin-right: 15px;">Spot Trade</a>
-            <a href="kyc.html" style="color: var(--accent-gold);">Verification</a>
+            <a href="kyc.html" style="margin-right: 15px; color: var(--accent-gold);">Verification</a>
+            <button onclick="logout()" class="btn" style="padding: 6px 12px; font-size: 12px;">Log Out</button>
         </div>
     </nav>
 
     <div class="container">
-        <div class="banner">
-            <span><strong>Withdrawal Status:</strong> Unverified accounts can deposit and trade freely. Identity verification is required prior to external withdrawals.</span>
-            <a href="kyc.html" class="btn" style="padding: 6px 12px; font-size: 12px;">Verify Now</a>
-        </div>
-
         <div class="card">
-            <h2>Deposit Cryptocurrency</h2>
-            <p style="color: var(--text-muted); margin-bottom: 20px;">Fund your account instantly with zero deposit fees.</p>
+            <h2>Deposit Funds</h2>
+            <p style="color: var(--text-muted); margin-bottom: 25px;">Enter your preferred deposit amount first, then select your payment method.</p>
 
-            <h3>Bitcoin (BTC) Deposit Address</h3>
-            <div class="address-box">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</div>
+            <!-- STEP 1: AMOUNT -->
+            <div class="form-group">
+                <label for="depositAmount"><strong>Step 1: Enter Deposit Amount (USD Equivalent)</strong></label>
+                <input type="number" id="depositAmount" placeholder="e.g. 500" min="10">
+            </div>
 
-            <h3>USDT (TRC20) Deposit Address</h3>
-            <div class="address-box">TYDjh82Nsh192KS83JnsmK291jsn3910SK</div>
-        </div>
+            <!-- STEP 2: METHOD SELECTION -->
+            <div class="form-group" id="methodSection" style="display: none;">
+                <label><strong>Step 2: Select Cryptocurrency Deposit Method</strong></label>
+                <div class="deposit-method-grid">
+                    <div class="method-card" onclick="selectMethod('BTC', 'Bitcoin', 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh')">
+                        <i class="fa-bold fa-btc" style="color: #f7931a; font-size: 20px;"></i>
+                        <div><strong>Bitcoin</strong> (BTC)</div>
+                    </div>
+                    <div class="method-card" onclick="selectMethod('XRP', 'XRP', 'rEb8TK3gBg2yvCvp7huzM12345XRPAddress')">
+                        <i class="fa-solid fa-coins" style="color: #23292f; font-size: 20px;"></i>
+                        <div><strong>XRP</strong> (XRP)</div>
+                    </div>
+                    <div class="method-card" onclick="selectMethod('SOL', 'Solana', 'SolanaAddress11111111111111111111111111111')">
+                        <i class="fa-solid fa-bolt" style="color: #14f195; font-size: 20px;"></i>
+                        <div><strong>Solana</strong> (SOL)</div>
+                    </div>
+                    <div class="method-card" onclick="selectMethod('ADA', 'Cardano', 'addr1q9d482j0s82kks831ms019js283n281js92k01')">
+                        <i class="fa-solid fa-layer-group" style="color: #0033ad; font-size: 20px;"></i>
+                        <div><strong>Cardano</strong> (ADA)</div>
+                    </div>
+                    <div class="method-card" onclick="selectMethod('BNB', 'BNB (Smart Chain)', '0x71C7656EC7ab88b098defB751B7401B5f6d8976F')">
+                        <i class="fa-solid fa-cubes" style="color: #f3ba2f; font-size: 20px;"></i>
+                        <div><strong>BNB (Smart Chain)</strong> (BNB)</div>
+                    </div>
+                    <div class="method-card" onclick="selectMethod('USDT', 'USDT (Tether)', 'TYDjh82Nsh192KS83JnsmK291jsn3910SK')">
+                        <i class="fa-solid fa-dollar-sign" style="color: #26a17b; font-size: 20px;"></i>
+                        <div><strong>USDT (Tether)</strong> (USDT)</div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="card" style="text-align: center;">
-            <h2>Start Trading Immediately</h2>
-            <p style="color: var(--text-muted); margin-bottom: 20px;">Your deposits automatically balance to your spot wallet once confirmed on-chain.</p>
-            <a href="trade.html" class="btn">Open Spot Terminal</a>
+            <!-- STEP 3: DEPOSIT DISPLAY -->
+            <div id="depositDetails" style="display: none; margin-top: 25px;">
+                <h4 id="selectedTitle"></h4>
+                <p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">Send exact payment to the address below:</p>
+                <div class="address-box" id="walletAddress"></div>
+                <button class="btn" onclick="alert('Deposit status pending. System will credit your account upon 1 block confirmation.')">Confirm I Have Transferred</button>
+            </div>
         </div>
     </div>
+
+    <script>
+        const amountInput = document.getElementById("depositAmount");
+        const methodSection = document.getElementById("methodSection");
+
+        amountInput.addEventListener("input", function() {
+            if (this.value > 0) {
+                methodSection.style.display = "block";
+            } else {
+                methodSection.style.display = "none";
+                document.getElementById("depositDetails").style.display = "none";
+            }
+        });
+
+        function selectMethod(symbol, name, address) {
+            const amount = amountInput.value;
+            document.getElementById("selectedTitle").innerText = `Deposit $${amount} via ${name} (${symbol})`;
+            document.getElementById("walletAddress").innerText = address;
+            document.getElementById("depositDetails").style.display = "block";
+        }
+
+        function logout() {
+            sessionStorage.removeItem("userLoggedIn");
+            window.location.href = "login.html";
+        }
+    </script>
 
 </body>
 </html>
