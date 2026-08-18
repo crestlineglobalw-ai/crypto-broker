@@ -3,240 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TradeX | Leading Cryptocurrency Exchange & Web3 Wallet</title>
+    <title>Crestline Global | Premier Crypto Exchange & Trading Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-main: #0b0e11;
-            --bg-card: #181a20;
-            --bg-hover: #2b313a;
+            --bg-dark: #0b0e11;
+            --card-bg: #181a20;
             --border-color: #2b313a;
-            --accent-yellow: #f0b90b;
+            --accent-gold: #f0b90b;
             --accent-green: #0ecb81;
             --accent-red: #f6465d;
-            --text-main: #eaecef;
+            --text-main: #ffffff;
             --text-muted: #848e9c;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            overflow-x: hidden;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.5; }
         a { text-decoration: none; color: inherit; }
 
-        /* --- TOP TICKER BAR --- */
+        /* TICKER BAR */
         .ticker-bar {
             background-color: #12161c;
             border-bottom: 1px solid var(--border-color);
             padding: 8px 5%;
             display: flex;
-            gap: 30px;
+            gap: 25px;
             overflow-x: auto;
             white-space: nowrap;
-            font-size: 12px;
+            font-size: 13px;
         }
-        .ticker-item { display: inline-flex; align-items: center; gap: 8px; }
-        .ticker-symbol { font-weight: bold; }
-        .ticker-price { font-weight: 600; }
         .up { color: var(--accent-green); }
         .down { color: var(--accent-red); }
 
-        /* --- NAVBAR --- */
+        /* NAVBAR */
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 16px 5%;
-            background-color: var(--bg-main);
+            background-color: var(--bg-dark);
             border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 0;
             z-index: 100;
         }
-        .nav-left { display: flex; align-items: center; gap: 40px; }
-        .logo { font-size: 22px; font-weight: 800; color: var(--accent-yellow); letter-spacing: -0.5px; }
-        .nav-links { display: flex; gap: 24px; font-size: 14px; font-weight: 500; }
-        .nav-links a:hover { color: var(--accent-yellow); }
-        .nav-right { display: flex; align-items: center; gap: 12px; }
-        .btn {
-            padding: 8px 18px;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .btn-secondary { background-color: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); }
-        .btn-secondary:hover { background-color: var(--bg-hover); }
-        .btn-primary { background-color: var(--accent-yellow); color: #000; border: none; }
-        .btn-primary:hover { opacity: 0.9; }
+        .brand-logo { font-size: 24px; font-weight: 800; color: var(--accent-gold); display: flex; align-items: center; gap: 10px; }
+        .nav-links { display: flex; gap: 25px; font-size: 14px; font-weight: 600; }
+        .nav-links a:hover { color: var(--accent-gold); }
+        .nav-btns { display: flex; gap: 12px; }
+        .btn { padding: 9px 20px; border-radius: 4px; font-weight: 700; font-size: 14px; cursor: pointer; }
+        .btn-outline { border: 1px solid var(--border-color); color: #fff; background: transparent; }
+        .btn-primary { background-color: var(--accent-gold); color: #000; border: none; }
 
-        /* --- HERO SECTION --- */
+        /* HERO */
         .hero {
-            padding: 70px 5% 50px;
+            padding: 80px 5% 60px;
+            max-width: 1280px;
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1.2fr 0.8fr;
             gap: 40px;
             align-items: center;
-            max-width: 1300px;
-            margin: 0 auto;
         }
-        .hero-title { font-size: 52px; font-weight: 800; line-height: 1.15; margin-bottom: 20px; }
-        .hero-subtitle { font-size: 18px; color: var(--text-muted); margin-bottom: 35px; line-height: 1.5; }
-        .quick-signup {
-            display: flex;
-            gap: 10px;
-            max-width: 450px;
-            background-color: var(--bg-card);
-            padding: 6px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-        }
-        .quick-signup input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            padding: 10px 15px;
-            color: var(--text-main);
-            outline: none;
-            font-size: 14px;
-        }
+        .hero h1 { font-size: 48px; font-weight: 800; line-height: 1.15; margin-bottom: 20px; }
+        .hero p { font-size: 18px; color: var(--text-muted); margin-bottom: 30px; }
 
-        /* HERO STATS CARDS */
-        .hero-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        .stat-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 20px;
-            transition: transform 0.2s;
-        }
-        .stat-card:hover { transform: translateY(-3px); border-color: var(--accent-yellow); }
-        .stat-card .pair { font-size: 14px; color: var(--text-muted); font-weight: 600; }
-        .stat-card .val { font-size: 24px; font-weight: 700; margin: 8px 0 4px; }
-
-        /* --- MARKETS TABLE SECTION --- */
-        .markets-section {
-            max-width: 1300px;
-            margin: 40px auto 80px;
-            padding: 0 5%;
-        }
-        .market-tabs {
-            display: flex;
-            gap: 20px;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-        }
-        .tab { font-size: 16px; font-weight: 600; color: var(--text-muted); cursor: pointer; }
-        .tab.active { color: var(--accent-yellow); border-bottom: 2px solid var(--accent-yellow); padding-bottom: 8px; }
+        /* MARKETS TABLE */
+        .markets-container { max-width: 1280px; margin: 40px auto 80px; padding: 0 5%; }
+        .markets-container h2 { margin-bottom: 20px; font-size: 28px; }
         .market-table {
             width: 100%;
             border-collapse: collapse;
-            text-align: left;
-            background-color: var(--bg-card);
+            background-color: var(--card-bg);
             border-radius: 8px;
+            border: 1px solid var(--border-color);
             overflow: hidden;
-            border: 1px solid var(--border-color);
         }
-        .market-table th { padding: 16px; color: var(--text-muted); font-size: 12px; border-bottom: 1px solid var(--border-color); }
-        .market-table td { padding: 18px 16px; border-bottom: 1px solid var(--border-color); font-size: 14px; font-weight: 500; }
-        .coin-cell { display: flex; align-items: center; gap: 12px; font-weight: 700; }
-        .coin-symbol { color: var(--text-muted); font-weight: 400; margin-left: 4px; }
-        .trade-btn {
-            background-color: var(--bg-hover);
-            color: var(--text-main);
-            padding: 6px 14px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        .trade-btn:hover { background-color: var(--accent-yellow); color: #000; }
+        .market-table th, .market-table td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        .market-table th { color: var(--text-muted); font-size: 13px; }
 
-        /* --- 3 STEP ONBOARDING SECTION --- */
-        .onboarding-section {
-            background-color: #12161c;
-            padding: 80px 5%;
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-        }
-        .section-header { text-align: center; max-width: 600px; margin: 0 auto 50px; }
-        .section-header h2 { font-size: 36px; font-weight: 800; margin-bottom: 12px; }
-        .section-header p { color: var(--text-muted); font-size: 16px; }
-        
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            max-width: 1300px;
-            margin: 0 auto;
-        }
+        /* 3-STEP ONBOARDING */
+        .onboarding { background-color: #12161c; padding: 80px 5%; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
+        .onboarding-header { text-align: center; max-width: 600px; margin: 0 auto 50px; }
+        .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1280px; margin: 0 auto; }
         .step-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
+            background-color: var(--card-bg);
             padding: 35px 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
             position: relative;
         }
-        .step-num {
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            font-size: 40px;
-            font-weight: 900;
-            color: rgba(255, 255, 255, 0.05);
-        }
-        .step-card i { font-size: 32px; color: var(--accent-yellow); margin-bottom: 20px; }
-        .step-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
-        .step-card p { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
+        .step-number { position: absolute; top: 15px; right: 20px; font-size: 36px; font-weight: 900; color: rgba(255,255,255,0.05); }
+        .step-card i { font-size: 32px; color: var(--accent-gold); margin-bottom: 20px; }
+        .step-card h3 { font-size: 20px; margin-bottom: 10px; }
+        .step-card p { color: var(--text-muted); font-size: 14px; }
 
-        /* --- TRUST & SECURITY --- */
-        .security-section {
-            max-width: 1300px;
-            margin: 80px auto;
-            padding: 0 5%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
-        }
-        .security-list { margin-top: 30px; display: flex; flex-direction: column; gap: 20px; }
-        .sec-item { display: flex; gap: 16px; }
-        .sec-item i { font-size: 24px; color: var(--accent-yellow); margin-top: 4px; }
-        .sec-item h4 { font-size: 16px; margin-bottom: 4px; }
-        .sec-item p { color: var(--text-muted); font-size: 14px; }
+        /* FOOTER */
+        footer { background-color: #080a0e; padding: 60px 5% 30px; border-top: 1px solid var(--border-color); }
+        .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 1280px; margin: 0 auto 40px; }
+        .footer-col h4 { margin-bottom: 20px; font-size: 16px; color: var(--text-main); }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 10px; font-size: 14px; color: var(--text-muted); }
+        .footer-bottom { text-align: center; border-top: 1px solid var(--border-color); padding-top: 20px; color: var(--text-muted); font-size: 13px; }
 
-        /* --- FOOTER --- */
-        footer {
-            background-color: #080a0e;
-            padding: 60px 5% 30px;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-muted);
-            font-size: 13px;
-        }
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 30px;
-            max-width: 1300px;
-            margin: 0 auto 50px;
-        }
-        .footer-col h4 { color: var(--text-main); font-size: 15px; margin-bottom: 18px; }
-        .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-        .footer-col ul a:hover { color: var(--accent-yellow); }
-        .footer-bottom { text-align: center; border-top: 1px solid var(--border-color); padding-top: 25px; }
-
-        @media (max-width: 900px) {
-            .hero, .security-section { grid-template-columns: 1fr; }
+        @media (max-width: 850px) {
+            .hero { grid-template-columns: 1fr; }
             .steps-grid { grid-template-columns: 1fr; }
             .footer-grid { grid-template-columns: 1fr 1fr; }
         }
@@ -244,253 +115,152 @@
 </head>
 <body>
 
-    <!-- 1. LIVE MARKET TICKER BAR -->
+    <!-- TICKER -->
     <div class="ticker-bar">
-        <div class="ticker-item"><span class="ticker-symbol">BTC/USDT</span> <span class="ticker-price">$96,420.50</span> <span class="up">+3.42%</span></div>
-        <div class="ticker-item"><span class="ticker-symbol">ETH/USDT</span> <span class="ticker-price">$3,480.10</span> <span class="up">+2.15%</span></div>
-        <div class="ticker-item"><span class="ticker-symbol">SOL/USDT</span> <span class="ticker-price">$198.75</span> <span class="up">+8.90%</span></div>
-        <div class="ticker-item"><span class="ticker-symbol">BNB/USDT</span> <span class="ticker-price">$650.30</span> <span class="down">-0.45%</span></div>
-        <div class="ticker-item"><span class="ticker-symbol">XRP/USDT</span> <span class="ticker-price">$1.85</span> <span class="up">+12.4%</span></div>
+        <span><strong>BTC/USDT</strong> $96,420.50 <span class="up">+3.42%</span></span>
+        <span><strong>ETH/USDT</strong> $3,480.10 <span class="up">+2.15%</span></span>
+        <span><strong>SOL/USDT</strong> $198.75 <span class="up">+8.90%</span></span>
+        <span><strong>BNB/USDT</strong> $650.30 <span class="down">-0.45%</span></span>
     </div>
 
-    <!-- 2. NAVBAR -->
+    <!-- NAVIGATION -->
     <nav>
-        <div class="nav-left">
-            <a href="index.html" class="logo"><i class="fa-solid fa-chart-simple"></i> TradeX</a>
-            <div class="nav-links">
-                <a href="#markets">Markets</a>
-                <a href="trade.html">Trade</a>
-                <a href="wallet.html">Wallet</a>
-                <a href="#">Earn</a>
-                <a href="#">Institutional</a>
-            </div>
+        <a href="index.html" class="brand-logo">
+            <i class="fa-solid fa-chart-line"></i> Crestline Global
+        </a>
+        <div class="nav-links">
+            <a href="index.html#markets">Markets</a>
+            <a href="trade.html">Spot Trade</a>
+            <a href="wallet.html">Wallet</a>
+            <a href="kyc.html">Verification</a>
         </div>
-        <div class="nav-right">
-            <a href="login.html" class="btn btn-secondary">Log In</a>
+        <div class="nav-btns">
+            <a href="login.html" class="btn btn-outline">Log In</a>
             <a href="register.html" class="btn btn-primary">Sign Up</a>
         </div>
     </nav>
 
-    <!-- 3. HERO SECTION -->
+    <!-- HERO -->
     <section class="hero">
         <div>
-            <h1 class="hero-title">Trade 350+ Cryptocurrencies with Low Fees</h1>
-            <p class="hero-subtitle">The world's fastest digital asset trading engine. High liquidity, institutional security, and instant order matching.</p>
-            <div class="quick-signup">
-                <input type="email" placeholder="Email / Phone number">
-                <a href="register.html" class="btn btn-primary">Get Started</a>
-            </div>
+            <h1>Trade Digital Assets with Institutional Precision on Crestline Global</h1>
+            <p>Access high liquidity, ultra-low trading fees, and instant crypto settlements across major digital assets.</p>
+            <a href="register.html" class="btn btn-primary" style="padding: 15px 35px; font-size: 16px;">Create Free Account</a>
         </div>
-
-        <div class="hero-cards">
-            <div class="stat-card">
-                <div class="pair">BTC/USDT <span class="up">+3.42%</span></div>
-                <div class="val">$96,420.50</div>
-                <div class="pair">24h Vol: $42.8B</div>
+        <div style="background-color: var(--card-bg); padding: 30px; border-radius: 8px; border: 1px solid var(--border-color);">
+            <h3 style="margin-bottom: 20px;">Top Asset Rates</h3>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                <span>Bitcoin (BTC)</span>
+                <strong>$96,420.50 <span class="up">+3.42%</span></strong>
             </div>
-            <div class="stat-card">
-                <div class="pair">ETH/USDT <span class="up">+2.15%</span></div>
-                <div class="val">$3,480.10</div>
-                <div class="pair">24h Vol: $18.2B</div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                <span>Ethereum (ETH)</span>
+                <strong>$3,480.10 <span class="up">+2.15%</span></strong>
             </div>
-            <div class="stat-card">
-                <div class="pair">SOL/USDT <span class="up">+8.90%</span></div>
-                <div class="val">$198.75</div>
-                <div class="pair">24h Vol: $9.4B</div>
-            </div>
-            <div class="stat-card">
-                <div class="pair">PEPE/USDT <span class="up">+18.50%</span></div>
-                <div class="val">$0.000021</div>
-                <div class="pair">24h Vol: $3.1B</div>
+            <div style="display: flex; justify-content: space-between;">
+                <span>Solana (SOL)</span>
+                <strong>$198.75 <span class="up">+8.90%</span></strong>
             </div>
         </div>
     </section>
 
-    <!-- 4. LIVE MARKETS TABLE -->
-    <section class="markets-section" id="markets">
-        <div class="market-tabs">
-            <div class="tab active">Hot Pairs</div>
-            <div class="tab">Top Gainers</div>
-            <div class="tab">New Listing</div>
-            <div class="tab">Layer 1 / Layer 2</div>
-        </div>
-
+    <!-- LIVE MARKETS -->
+    <section class="markets-container" id="markets">
+        <h2>Live Market Trends</h2>
         <table class="market-table">
             <thead>
                 <tr>
                     <th>Asset</th>
-                    <th>Last Price</th>
+                    <th>Price</th>
                     <th>24h Change</th>
-                    <th>24h High</th>
-                    <th>24h Volume</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="coin-cell"><i class="fa-bold fa-bitcoin" style="color:#f7931a;"></i> Bitcoin <span class="coin-symbol">BTC</span></td>
+                    <td><strong>Bitcoin</strong> BTC</td>
                     <td>$96,420.50</td>
                     <td class="up">+3.42%</td>
-                    <td>$97,100.00</td>
-                    <td>$42.8B</td>
-                    <td><a href="trade.html" class="trade-btn">Trade</a></td>
+                    <td><a href="trade.html" class="btn btn-primary" style="padding: 6px 14px; font-size: 12px;">Trade</a></td>
                 </tr>
                 <tr>
-                    <td class="coin-cell"><i class="fa-brands fa-ethereum" style="color:#627eea;"></i> Ethereum <span class="coin-symbol">ETH</span></td>
+                    <td><strong>Ethereum</strong> ETH</td>
                     <td>$3,480.10</td>
                     <td class="up">+2.15%</td>
-                    <td>$3,520.00</td>
-                    <td>$18.2B</td>
-                    <td><a href="trade.html" class="trade-btn">Trade</a></td>
+                    <td><a href="trade.html" class="btn btn-primary" style="padding: 6px 14px; font-size: 12px;">Trade</a></td>
                 </tr>
                 <tr>
-                    <td class="coin-cell"><i class="fa-solid fa-s" style="color:#14f195;"></i> Solana <span class="coin-symbol">SOL</span></td>
+                    <td><strong>Solana</strong> SOL</td>
                     <td>$198.75</td>
                     <td class="up">+8.90%</td>
-                    <td>$202.40</td>
-                    <td>$9.4B</td>
-                    <td><a href="trade.html" class="trade-btn">Trade</a></td>
-                </tr>
-                <tr>
-                    <td class="coin-cell"><i class="fa-solid fa-shield-halved" style="color:#f3ba2f;"></i> BNB <span class="coin-symbol">BNB</span></td>
-                    <td>$650.30</td>
-                    <td class="down">-0.45%</td>
-                    <td>$658.00</td>
-                    <td>$2.1B</td>
-                    <td><a href="trade.html" class="trade-btn">Trade</a></td>
-                </tr>
-                <tr>
-                    <td class="coin-cell"><i class="fa-solid fa-dollar-sign" style="color:#26a17b;"></i> Tether <span class="coin-symbol">USDT</span></td>
-                    <td>$1.00</td>
-                    <td>0.00%</td>
-                    <td>$1.001</td>
-                    <td>$68.5B</td>
-                    <td><a href="trade.html" class="trade-btn">Trade</a></td>
+                    <td><a href="trade.html" class="btn btn-primary" style="padding: 6px 14px; font-size: 12px;">Trade</a></td>
                 </tr>
             </tbody>
         </table>
     </section>
 
-    <!-- 5. ONBOARDING ENGINE (3 STEPS) -->
-    <section class="onboarding-section">
-        <div class="section-header">
-            <h2>Build Your Portfolio in 3 Steps</h2>
-            <p>TradeX is engineered for instant onboarding. Start trading crypto in minutes.</p>
+    <!-- ONBOARDING ENGINE -->
+    <section class="onboarding">
+        <div class="onboarding-header">
+            <h2>Start Trading in 3 Simple Steps</h2>
+            <p>Get started with Crestline Global in under 5 minutes with zero initial KYC friction.</p>
         </div>
-
         <div class="steps-grid">
             <div class="step-card">
-                <div class="step-num">01</div>
+                <div class="step-number">01</div>
                 <i class="fa-solid fa-user-plus"></i>
                 <h3>Sign Up in Minutes</h3>
-                <p>Create your verified account with an email address and password to unlock immediate market entry.</p>
+                <p>Register with your email address and password to unlock instant access to your trading dashboard.</p>
             </div>
             <div class="step-card">
-                <div class="step-num">02</div>
+                <div class="step-number">02</div>
                 <i class="fa-solid fa-wallet"></i>
                 <h3>Deposit Funds</h3>
-                <p>Transfer crypto or stablecoins using zero-fee native blockchain deposit addresses instantly.</p>
+                <p>Generate deposit addresses across Bitcoin, Solana, and USDT networks with zero deposit fees.</p>
             </div>
             <div class="step-card">
-                <div class="step-num">03</div>
+                <div class="step-number">03</div>
                 <i class="fa-solid fa-chart-line"></i>
                 <h3>Start Trading</h3>
-                <p>Execute spot trades on real-time order books. Complete optional KYC in your dashboard when ready to withdraw.</p>
+                <p>Execute spot trades immediately. Complete optional KYC in your dashboard whenever you wish to withdraw.</p>
             </div>
         </div>
     </section>
 
-    <!-- 6. SECURITY & TRUST -->
-    <section class="security-section">
-        <div>
-            <h2 style="font-size: 38px; font-weight: 800; margin-bottom: 16px;">Your Assets Are Protected by Industry-Leading Security</h2>
-            <p style="color: var(--text-muted); line-height: 1.6;">TradeX operates with strict cold-storage protocols, real-time risk surveillance, and institutional-grade proof-of-reserves.</p>
-
-            <div class="security-list">
-                <div class="sec-item">
-                    <i class="fa-solid fa-vault"></i>
-                    <div>
-                        <h4>Cold Storage Vaults</h4>
-                        <p>The majority of user assets are stored in air-gapped multisig offline vaults.</p>
-                    </div>
-                </div>
-                <div class="sec-item">
-                    <i class="fa-solid fa-user-shield"></i>
-                    <div>
-                        <h4>Proof of Reserves (1:1)</h4>
-                        <p>All user balances are backed 1:1 on-chain with verifiable Merkle tree audits.</p>
-                    </div>
-                </div>
-                <div class="sec-item">
-                    <i class="fa-solid fa-key"></i>
-                    <div>
-                        <h4>Dashboard Security Controls</h4>
-                        <p>2FA, Anti-phishing codes, hardware security keys, and withdrawal whitelist settings.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div style="background-color: var(--bg-card); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); text-align: center;">
-            <i class="fa-solid fa-shield-virus" style="font-size: 60px; color: var(--accent-yellow); margin-bottom: 20px;"></i>
-            <h3>Trade With Confidence</h3>
-            <p style="color: var(--text-muted); margin: 12px 0 24px;">Join over 10 million registered traders globally on the ultimate crypto trading engine.</p>
-            <a href="register.html" class="btn btn-primary" style="display: block; padding: 14px;">Create Free Account</a>
-        </div>
-    </section>
-
-    <!-- 7. FOOTER -->
+    <!-- FOOTER -->
     <footer>
         <div class="footer-grid">
             <div class="footer-col">
-                <h4>About Us</h4>
-                <ul>
-                    <li><a href="#">About TradeX</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Announcements</a></li>
-                    <li><a href="#">Proof of Reserves</a></li>
-                </ul>
+                <div class="brand-logo" style="margin-bottom: 15px;"><i class="fa-solid fa-chart-line"></i> Crestline Global</div>
+                <p style="font-size: 13px; color: var(--text-muted);">The premier spot trading engine for high-yield crypto markets.</p>
             </div>
             <div class="footer-col">
                 <h4>Products</h4>
                 <ul>
                     <li><a href="trade.html">Spot Trading</a></li>
-                    <li><a href="#">Futures Trading</a></li>
-                    <li><a href="wallet.html">Crypto Wallet</a></li>
-                    <li><a href="#">TradeX Earn</a></li>
+                    <li><a href="wallet.html">Deposit Wallet</a></li>
+                    <li><a href="kyc.html">Account Verification</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Service & Support</h4>
+                <h4>Services</h4>
                 <ul>
-                    <li><a href="#">24/7 Help Center</a></li>
+                    <li><a href="#">Security Overview</a></li>
+                    <li><a href="#">Proof of Reserves</a></li>
                     <li><a href="#">Fee Schedule</a></li>
-                    <li><a href="#">API Documentation</a></li>
-                    <li><a href="kyc.html">Identity Verification</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Legal & Policy</h4>
+                <h4>Legal</h4>
                 <ul>
                     <li><a href="#">Privacy Policy</a></li>
                     <li><a href="#">Terms of Service</a></li>
                     <li><a href="#">Risk Disclosure</a></li>
-                    <li><a href="#">Law Enforcement Request</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Community</h4>
-                <ul>
-                    <li><a href="#"><i class="fa-brands fa-telegram"></i> Telegram</a></li>
-                    <li><a href="#"><i class="fa-brands fa-x-twitter"></i> X / Twitter</a></li>
-                    <li><a href="#"><i class="fa-brands fa-discord"></i> Discord</a></li>
-                    <li><a href="#"><i class="fa-brands fa-youtube"></i> YouTube</a></li>
                 </ul>
             </div>
         </div>
-
         <div class="footer-bottom">
-            <p>© 2026 TradeX.com. All rights reserved. Cryptocurrency trading involves substantial risk of loss.</p>
+            <p>© 2026 Crestline Global. All rights reserved.</p>
         </div>
     </footer>
 
