@@ -3,20 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Crestline Global</title>
+    <title>Create Account - Crestline Global</title>
     <style>
         :root {
-            --bg-color: #0d1117;
-            --card-bg: #161b22;
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
+            --bg-color: #0b0e14;
+            --card-bg: #151a23;
+            --primary: #f59e0b;
+            --primary-hover: #d97706;
             --text-main: #f0f6fc;
             --text-muted: #8b949e;
-            --border-color: #30363d;
-            --error-color: #f85149;
-            --error-bg: rgba(248, 81, 73, 0.1);
-            --success-color: #3fb950;
-            --success-bg: rgba(63, 185, 80, 0.1);
+            --border-color: #262d3a;
+            --input-bg: #0e121a;
+            --header-height: 70px;
         }
 
         * {
@@ -29,89 +27,138 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .site-header {
+            height: var(--header-height);
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-container {
+            max-width: 1280px;
+            height: 100%;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .logo-chart-box {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            padding: 1rem;
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .logo-chart-box svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: #000000;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .brand-name {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .auth-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem 1.5rem;
         }
 
         .auth-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 12px;
             width: 100%;
-            max-width: 400px;
-            padding: 2rem;
+            max-width: 460px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        .auth-header {
-            text-align: center;
-            margin-bottom: 1.5rem;
+        .auth-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
         }
 
-        .brand-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-top: 0.5rem;
+        .auth-subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
         }
 
         .form-group {
             margin-bottom: 1.25rem;
         }
 
-        .form-group label {
+        .form-label {
             display: block;
-            font-size: 0.875rem;
-            margin-bottom: 0.375rem;
+            font-size: 0.85rem;
+            font-weight: 600;
             color: var(--text-muted);
+            margin-bottom: 0.5rem;
         }
 
-        .form-group input {
+        .form-input {
             width: 100%;
-            padding: 0.625rem 0.75rem;
-            background-color: var(--bg-color);
+            padding: 0.75rem 1rem;
+            background-color: var(--input-bg);
             border: 1px solid var(--border-color);
             border-radius: 6px;
             color: var(--text-main);
-            font-size: 0.875rem;
-        }
-
-        .form-group input:focus {
+            font-size: 0.95rem;
             outline: none;
+            transition: border-color 0.15s ease;
+        }
+
+        .form-input:focus {
             border-color: var(--primary);
-        }
-
-        .alert {
-            padding: 0.75rem;
-            border-radius: 6px;
-            font-size: 0.875rem;
-            margin-bottom: 1rem;
-            display: none;
-        }
-
-        .alert-error {
-            background-color: var(--error-bg);
-            color: var(--error-color);
-            border: 1px solid var(--error-color);
-        }
-
-        .alert-success {
-            background-color: var(--success-bg);
-            color: var(--success-color);
-            border: 1px solid var(--success-color);
         }
 
         .btn-submit {
             width: 100%;
-            padding: 0.625rem;
+            padding: 0.85rem;
             background-color: var(--primary);
-            color: white;
+            color: #000000;
             border: none;
             border-radius: 6px;
-            font-size: 0.875rem;
-            font-weight: 600;
+            font-size: 1rem;
+            font-weight: 700;
             cursor: pointer;
+            transition: background-color 0.15s ease;
+            margin-top: 0.5rem;
         }
 
         .btn-submit:hover {
@@ -128,103 +175,70 @@
         .auth-footer a {
             color: var(--primary);
             text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 
-    <div class="auth-card">
-        <div class="auth-header">
-            <div class="brand-title">Create Account</div>
+    <header class="site-header">
+        <div class="header-container">
+            <a href="index.html" class="brand-logo">
+                <div class="logo-chart-box">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+                        <polyline points="16 7 22 7 22 13"></polyline>
+                    </svg>
+                </div>
+                <span class="brand-name">Crestline Global</span>
+            </a>
         </div>
+    </header>
 
-        <div id="alert-message" class="alert"></div>
+    <main class="auth-container">
+        <div class="auth-card">
+            <h1 class="auth-title">Create Account</h1>
+            <p class="auth-subtitle">Join Crestline Global trading ecosystem</p>
 
-        <form id="register-form">
-            <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" required placeholder="John Doe">
+            <form action="dashboard.html" method="GET">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">First Name</label>
+                        <input type="text" class="form-input" placeholder="John" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" class="form-input" placeholder="Doe" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" placeholder="name@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" placeholder="••••••••" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" class="form-input" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn-submit">Register</button>
+            </form>
+
+            <div class="auth-footer">
+                Already registered? <a href="login.html">Sign In</a>
             </div>
-
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" required placeholder="name@example.com">
-            </div>
-
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" required placeholder="••••••••">
-            </div>
-
-            <div class="form-group">
-                <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" required placeholder="••••••••">
-            </div>
-
-            <button type="submit" id="submit-btn" class="btn-submit">Register</button>
-        </form>
-
-        <div class="auth-footer">
-            Already have an account? <a href="login.html">Sign In</a>
         </div>
-    </div>
+    </main>
 
-    <script src="auth.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('register-form');
-            const alertBox = document.getElementById('alert-message');
-            const submitBtn = document.getElementById('submit-btn');
-
-            function showAlert(message, type = 'error') {
-                alertBox.textContent = message;
-                alertBox.className = `alert alert-${type}`;
-                alertBox.style.display = 'block';
-            }
-
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                alertBox.style.display = 'none';
-
-                const name = document.getElementById('name').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const password = document.getElementById('password').value;
-                const confirmPassword = document.getElementById('confirm-password').value;
-
-                if (password !== confirmPassword) {
-                    showAlert('Passwords do not match.', 'error');
-                    return;
-                }
-
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Registering...';
-
-                try {
-                    if (typeof register === 'function') {
-                        await register({ name, email, password });
-                    } else if (window.Auth && typeof window.Auth.register === 'function') {
-                        await window.Auth.register({ name, email, password });
-                    } else {
-                        const res = await fetch('/api/auth/register', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ name, email, password })
-                        });
-                        const data = await res.json();
-                        if (!res.ok) throw new Error(data.message || 'Registration failed');
-                    }
-
-                    showAlert('Registration successful! Redirecting to login...', 'success');
-                    setTimeout(() => {
-                        window.location.href = 'login.html';
-                    }, 1500);
-                } catch (err) {
-                    showAlert(err.message || 'An error occurred during registration.', 'error');
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Register';
-                }
-            });
-        });
-    </script>
 </body>
 </html>
