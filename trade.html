@@ -3,63 +3,436 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spot Trading | Crestline Global</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- AUTHENTICATION GUARD -->
-    <script src="auth.js"></script>
+    <title>Spot Trading - Crestline Global</title>
     <style>
         :root {
-            --bg-dark: #0b0e11;
-            --card-bg: #181a20;
-            --border-color: #2b313a;
-            --accent-gold: #f0b90b;
-            --text-main: #ffffff;
-            --text-muted: #848e9c;
+            --bg-color: #0b0e14;
+            --card-bg: #151a23;
+            --primary: #f59e0b;
+            --primary-hover: #d97706;
+            --text-main: #f0f6fc;
+            --text-muted: #8b949e;
+            --border-color: #262d3a;
+            --input-bg: #0e121a;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --header-height: 70px;
         }
 
-        body { background-color: var(--bg-dark); color: var(--text-main); font-family: Arial, sans-serif; margin: 0; }
-        a { text-decoration: none; color: inherit; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
 
-        nav {
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        .site-header {
+            height: var(--header-height);
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1440px;
+            height: 100%;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .logo-chart-box {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .logo-chart-box svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: #000000;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .brand-name {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .dash-nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .dash-nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .dash-nav-link.active {
+            color: var(--primary);
+        }
+
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.4rem 0.85rem;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            font-size: 0.85rem;
+        }
+
+        /* TRADE INTERFACE GRID */
+        .trade-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            width: 100%;
+            flex: 1;
+            display: grid;
+            grid-template-columns: 2.5fr 1fr 1fr;
+            gap: 1.25rem;
+        }
+
+        .panel {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 5%;
-            background-color: var(--card-bg);
-            border-bottom: 1px solid var(--border-color);
         }
-        .brand-logo { font-size: 20px; font-weight: 800; color: var(--accent-gold); display: flex; align-items: center; gap: 8px; }
-        .nav-links a { margin-left: 20px; font-size: 14px; font-weight: 600; }
-        .nav-links a:hover { color: var(--accent-gold); }
 
-        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
-        .card { background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 8px; }
+        /* TICKER BAR */
+        .ticker-bar {
+            grid-column: 1 / -1;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .pair-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ticker-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .ticker-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .ticker-val {
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        /* CHART AREA */
+        .chart-box {
+            width: 100%;
+            height: 380px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            position: relative;
+        }
+
+        /* ORDER BOOK */
+        .orderbook-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .orderbook-table th {
+            color: var(--text-muted);
+            font-weight: 600;
+            text-align: left;
+            padding-bottom: 0.5rem;
+        }
+
+        .orderbook-table td {
+            padding: 0.35rem 0;
+            font-weight: 600;
+        }
+
+        .text-ask { color: var(--danger); }
+        .text-bid { color: var(--success); }
+
+        /* TRADE FORM */
+        .trade-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.6rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        .tab-buy {
+            background-color: var(--success);
+            color: #ffffff;
+        }
+
+        .tab-sell {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.7rem;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-main);
+            font-weight: 600;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+        }
+
+        .btn-trade {
+            width: 100%;
+            padding: 0.85rem;
+            background-color: var(--primary);
+            color: #000000;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+
+        .btn-trade:hover {
+            background-color: var(--primary-hover);
+        }
+
+        @media (max-width: 1100px) {
+            .trade-container {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="dashboard.html" class="brand-logo"><i class="fa-solid fa-chart-line"></i> Crestline Global</a>
-        <div class="nav-links">
-            <a href="dashboard.html">Dashboard</a>
-            <a href="wallet.html">Deposit/Wallet</a>
-            <a href="trade.html" style="color: var(--accent-gold);">Spot Trade</a>
-            <a href="kyc.html">Verification</a>
-            <button onclick="logoutUser()" style="background-color: var(--accent-gold); color: #000; padding: 6px 12px; font-size: 12px; border: none; border-radius: 4px; cursor: pointer; margin-left: 15px;">Log Out</button>
-        </div>
-    </nav>
+    <header class="site-header">
+        <div class="header-container">
+            <a href="index.html" class="brand-logo">
+                <div class="logo-chart-box">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+                        <polyline points="16 7 22 7 22 13"></polyline>
+                    </svg>
+                </div>
+                <span class="brand-name">Crestline Global</span>
+            </a>
 
-    <div class="container">
-        <div class="card">
-            <h2>Spot Trading Engine</h2>
-            <p style="color: var(--text-muted);">Trade BTC, XRP, SOL, ADA, BNB, and USDT in real-time.</p>
-            <div style="padding: 50px; text-align: center; border: 1px dashed var(--border-color); margin-top: 20px;">
-                <i class="fa-solid fa-chart-candlestick" style="font-size: 48px; color: var(--accent-gold); margin-bottom: 15px;"></i>
-                <h3>Live Orderbook & Chart Module</h3>
-                <p style="color: var(--text-muted);">Authenticated session confirmed. Trading interface active.</p>
+            <nav class="dash-nav">
+                <a href="dashboard.html" class="dash-nav-link">Overview</a>
+                <a href="trade.html" class="dash-nav-link active">Spot Trading</a>
+                <a href="#wallets" class="dash-nav-link">Wallets</a>
+                <a href="#orders" class="dash-nav-link">Orders</a>
+            </nav>
+
+            <div class="user-badge">
+                <span style="width: 8px; height: 8px; background: var(--success); border-radius: 50%;"></span>
+                <span>Courage Ukpomwan</span>
             </div>
         </div>
-    </div>
+    </header>
+
+    <main class="trade-container">
+        <!-- TICKER HEADER -->
+        <div class="ticker-bar">
+            <div class="pair-title">
+                <span>BTC / USDT</span>
+                <span style="font-size: 0.75rem; color: var(--primary); background: rgba(245, 158, 11, 0.1); padding: 0.2rem 0.5rem; border-radius: 4px;">Spot</span>
+            </div>
+            <div class="ticker-stat">
+                <span class="ticker-label">Last Price</span>
+                <span class="ticker-val" style="color: var(--success);">$67,420.50</span>
+            </div>
+            <div class="ticker-stat">
+                <span class="ticker-label">24h Change</span>
+                <span class="ticker-val" style="color: var(--success);">+3.42%</span>
+            </div>
+            <div class="ticker-stat">
+                <span class="ticker-label">24h High</span>
+                <span class="ticker-val">$68,110.00</span>
+            </div>
+            <div class="ticker-stat">
+                <span class="ticker-label">24h Low</span>
+                <span class="ticker-val">$65,200.00</span>
+            </div>
+            <div class="ticker-stat">
+                <span class="ticker-label">24h Volume</span>
+                <span class="ticker-val">18,420 BTC</span>
+            </div>
+        </div>
+
+        <!-- MAIN CHART PANEL -->
+        <div class="panel">
+            <div class="panel-title">
+                <span>Price Chart</span>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Interval: 1H</span>
+            </div>
+            <div class="chart-box">
+                <svg width="100%" height="100%" viewBox="0 0 500 280" preserveAspectRatio="none">
+                    <line x1="0" y1="70" x2="500" y2="70" stroke="#262d3a" stroke-dasharray="4" />
+                    <line x1="0" y1="140" x2="500" y2="140" stroke="#262d3a" stroke-dasharray="4" />
+                    <line x1="0" y1="210" x2="500" y2="210" stroke="#262d3a" stroke-dasharray="4" />
+                    
+                    <path d="M 0,210 Q 90,160 180,180 T 360,90 T 450,110 T 500,40 L 500,280 L 0,280 Z" fill="rgba(245, 158, 11, 0.12)" />
+                    <path d="M 0,210 Q 90,160 180,180 T 360,90 T 450,110 T 500,40" fill="none" stroke="#f59e0b" stroke-width="3" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- ORDER BOOK PANEL -->
+        <div class="panel">
+            <div class="panel-title">Order Book</div>
+            <table class="orderbook-table">
+                <thead>
+                    <tr>
+                        <th>Price (USDT)</th>
+                        <th>Size (BTC)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Asks (Red) -->
+                    <tr class="text-ask"><td>67,440.00</td><td>0.421</td></tr>
+                    <tr class="text-ask"><td>67,435.50</td><td>1.105</td></tr>
+                    <tr class="text-ask"><td>67,428.00</td><td>0.089</td></tr>
+                    
+                    <!-- Current Spread -->
+                    <tr style="border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+                        <td colspan="2" style="text-align: center; font-size: 1.05rem; font-weight: 800; color: var(--primary); padding: 0.5rem 0;">$67,420.50</td>
+                    </tr>
+
+                    <!-- Bids (Green) -->
+                    <tr class="text-bid"><td>67,418.00</td><td>0.850</td></tr>
+                    <tr class="text-bid"><td>67,412.20</td><td>2.410</td></tr>
+                    <tr class="text-bid"><td>67,400.00</td><td>0.500</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ORDER EXECUTION FORM PANEL -->
+        <div class="panel">
+            <div class="panel-title">Place Order</div>
+            
+            <div class="trade-tabs">
+                <button class="tab-btn tab-buy">Buy BTC</button>
+                <button class="tab-btn tab-sell">Sell BTC</button>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Order Type</label>
+                <select class="form-input" style="cursor: pointer;">
+                    <option>Limit Order</option>
+                    <option>Market Order</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Price (USDT)</label>
+                <input type="text" class="form-input" value="67420.50">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Amount (BTC)</label>
+                <input type="text" class="form-input" placeholder="0.00">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Total (USDT)</label>
+                <input type="text" class="form-input" placeholder="0.00" readonly style="background: rgba(255,255,255,0.02);">
+            </div>
+
+            <button class="btn-trade">Buy BTC</button>
+        </div>
+    </main>
 
 </body>
 </html>
