@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet - Deposit & Withdraw</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0b0e11; color: #eaecef; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .card { background: #1e2329; width: 100%; max-width: 500px; padding: 32px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+        h2 { font-size: 22px; margin-bottom: 20px; color: #f0b90b; text-align: center; }
+        .tab-buttons { display: flex; gap: 10px; margin-bottom: 20px; }
+        .tab-btn { flex: 1; padding: 12px; background: #2b313a; border: 1px solid #474d57; color: #848e9c; border-radius: 6px; font-weight: bold; cursor: pointer; text-align: center; }
+        .tab-btn.active { background: #f0b90b; color: #0e1114; border-color: #f0b90b; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; font-size: 13px; margin-bottom: 6px; color: #848e9c; }
+        select, input { width: 100%; padding: 12px; background: #2b313a; border: 1px solid #474d57; border-radius: 6px; color: #fff; font-size: 14px; outline: none; }
+        select:focus, input:focus { border-color: #f0b90b; }
+        .deposit-box { background: #2b313a; padding: 16px; border-radius: 6px; border: 1px solid #474d57; text-align: center; margin-top: 10px; word-break: break-all; }
+        .deposit-address { font-size: 13px; color: #f0b90b; margin-top: 8px; font-family: monospace; font-weight: bold; }
+        .btn-submit { width: 100%; padding: 12px; background: #0ecb81; border: none; border-radius: 6px; color: #fff; font-weight: bold; font-size: 15px; cursor: pointer; margin-top: 10px; }
+        .btn-submit:hover { background: #0baf6f; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Wallet Operations</h2>
+
+    <!-- Navigation Tabs -->
+    <div class="tab-buttons">
+        <button class="tab-btn active" onclick="switchTab('deposit')">Deposit</button>
+        <button class="tab-btn" onclick="switchTab('withdraw')">Withdraw</button>
+    </div>
+
+    <!-- ================= DEPOSIT SECTION ================= -->
+    <div id="depositSection">
+        <div class="form-group">
+            <label>Select Cryptocurrency to Deposit</label>
+            <select id="depositAsset" onchange="updateDepositAddress()">
+                <option value="BTC">Bitcoin (BTC)</option>
+                <option value="SOL">Solana (SOL)</option>
+                <option value="XRP">XRP (Ripple)</option>
+                <option value="ADA">Cardano (ADA)</option>
+                <option value="USDT">Tether (USDT - TRC20/ERC20)</option>
+                <option value="BNB">Binance Coin (BNB - BEP20)</option>
+            </select>
+        </div>
+
+        <div class="deposit-box">
+            <p style="font-size: 12px; color: #848e9c;">Send funds to your personal deposit address:</p>
+            <div id="addressDisplay" class="deposit-address">Generating wallet address...</div>
+            <p style="font-size: 11px; color: #848e9c; margin-top: 10px;">Network confirmations required: 3</p>
+        </div>
+    </div>
+
+    <!-- ================= WITHDRAW SECTION ================= -->
+    <div id="withdrawSection" class="hidden">
+        <div class="form-group">
+            <label>Withdrawal Method</label>
+            <select id="withdrawMethod" onchange="toggleWithdrawFields()">
+                <option value="crypto">Crypto Wallet</option>
+                <option value="bank">Direct Bank Account Transfer</option>
+            </select>
+        </div>
+
+        <!-- Crypto Withdrawal Fields -->
+        <div id="cryptoFields">
+            <div class="form-group">
+                <label>Select Asset</label>
+                <select id="withdrawAsset">
+                    <option value="BTC">Bitcoin (BTC)</option>
+                    <option value="SOL">Solana (SOL)</option>
+                    <option value="XRP">XRP (Ripple)</option>
+                    <option value="ADA">Cardano (ADA)</option>
+                    <option value="USDT">Tether (USDT)</option>
+                    <option value="BNB">Binance Coin (BNB)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Destination Wallet Address</label>
+                <input type="text" placeholder="Enter recipient address" id="cryptoAddress">
+            </div>
+            <div class="form-group">
+                <label>Amount</label>
+                <input type="number" step="any" placeholder="0.00" id="cryptoAmount">
+            </div>
+        </div>
+
+        <!-- Direct Bank Account Withdrawal Fields -->
+        <div id="bankFields" class="hidden">
+            <div class="form-group">
+                <label>Account Holder Full Name</label>
+                <input type="text" placeholder="John Doe" id="accountName">
+            </div>
+            <div class="form-group">
+                <label>Bank Name</label>
+                <input type="text" placeholder="e.g. Barclays, Chase, Guarantee Trust" id="bankName">
+            </div>
+            <div class="form-group">
+                <label>Account Number / IBAN</label>
+                <input type="text" placeholder="Enter IBAN or Account Number" id="accountNumber">
+            </div>
+            <div class="form-group">
+                <label>SWIFT / BIC Code</label>
+                <input type="text" placeholder="e.g. CHASUS33" id="swiftCode">
+            </div>
+            <div class="form-group">
+                <label>Country of Bank</label>
+                <input type="text" placeholder="e.g. United Kingdom, United States, Nigeria" id="bankCountry">
+            </div>
+            <div class="form-group">
+                <label>Amount (USD Equivalent)</label>
+                <input type="number" step="any" placeholder="100.00" id="bankAmount">
+            </div>
+        </div>
+
+        <button class="btn-submit" onclick="processWithdrawal()">Submit Withdrawal Request</button>
+    </div>
+</div>
+
+<script>
+    // Sample static deposit addresses for display
+    const addresses = {
+        BTC: "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+        SOL: "7xKXtg2CW87d97TXJSDpbD5jBk45M5j283",
+        XRP: "rEb8TK3gGKwB24BJCY625E2533CBDL842",
+        ADA: "addr1q9x0c83a7a934d40a2334888",
+        USDT: "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
+        BNB: "0x71C7656EC7ab88b098defB751B7401B5f6d8976F"
+    };
+
+    function updateDepositAddress() {
+        const asset = document.getElementById('depositAsset').value;
+        document.getElementById('addressDisplay').innerText = addresses[asset] || "Address unavailable";
+    }
+
+    function switchTab(tab) {
+        const depositSec = document.getElementById('depositSection');
+        const withdrawSec = document.getElementById('withdrawSection');
+        const btns = document.querySelectorAll('.tab-btn');
+
+        if (tab === 'deposit') {
+            depositSec.classList.remove('hidden');
+            withdrawSec.classList.add('hidden');
+            btns[0].classList.add('active');
+            btns[1].classList.remove('active');
+        } else {
+            depositSec.classList.add('hidden');
+            withdrawSec.classList.remove('hidden');
+            btns[0].classList.remove('active');
+            btns[1].classList.add('active');
+        }
+    }
+
+    function toggleWithdrawFields() {
+        const method = document.getElementById('withdrawMethod').value;
+        const cryptoFields = document.getElementById('cryptoFields');
+        const bankFields = document.getElementById('bankFields');
+
+        if (method === 'crypto') {
+            cryptoFields.classList.remove('hidden');
+            bankFields.classList.add('hidden');
+        } else {
+            cryptoFields.classList.add('hidden');
+            bankFields.classList.remove('hidden');
+        }
+    }
+
+    function processWithdrawal() {
+        alert("Withdrawal request submitted successfully! Pending processing.");
+    }
+
+    // Initialize initial deposit address on load
+    updateDepositAddress();
+</script>
+
+</body>
+</html>
