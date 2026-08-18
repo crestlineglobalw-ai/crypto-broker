@@ -3,120 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spot Trading Terminal | Crestline Global</title>
+    <title>Spot Trading | Crestline Global</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AUTHENTICATION GUARD -->
+    <script src="auth.js"></script>
     <style>
         :root {
             --bg-dark: #0b0e11;
             --card-bg: #181a20;
             --border-color: #2b313a;
             --accent-gold: #f0b90b;
-            --accent-green: #0ecb81;
-            --accent-red: #f6465d;
             --text-main: #ffffff;
             --text-muted: #848e9c;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-        body { background-color: var(--bg-dark); color: var(--text-main); }
+        body { background-color: var(--bg-dark); color: var(--text-main); font-family: Arial, sans-serif; margin: 0; }
         a { text-decoration: none; color: inherit; }
 
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 3%;
+            padding: 16px 5%;
             background-color: var(--card-bg);
             border-bottom: 1px solid var(--border-color);
         }
         .brand-logo { font-size: 20px; font-weight: 800; color: var(--accent-gold); display: flex; align-items: center; gap: 8px; }
+        .nav-links a { margin-left: 20px; font-size: 14px; font-weight: 600; }
+        .nav-links a:hover { color: var(--accent-gold); }
 
-        .terminal-grid {
-            display: grid;
-            grid-template-columns: 280px 1fr 320px;
-            height: calc(100vh - 55px);
-        }
-
-        .panel {
-            background-color: var(--card-bg);
-            border-right: 1px solid var(--border-color);
-            padding: 15px;
-            overflow-y: auto;
-        }
-
-        .chart-box {
-            background-color: var(--bg-dark);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-right: 1px solid var(--border-color);
-            color: var(--text-muted);
-            flex-direction: column;
-        }
-
-        .order-form input {
-            width: 100%;
-            padding: 10px;
-            background-color: var(--bg-dark);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            color: #fff;
-            margin-bottom: 12px;
-        }
-
-        .btn-buy { background-color: var(--accent-green); color: #fff; width: 100%; padding: 12px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
-        .btn-sell { background-color: var(--accent-red); color: #fff; width: 100%; padding: 12px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
-
-        @media (max-width: 900px) {
-            .terminal-grid { grid-template-columns: 1fr; height: auto; }
-        }
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .card { background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 8px; }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="index.html" class="brand-logo"><i class="fa-solid fa-chart-line"></i> Crestline Global</a>
-        <div>
-            <a href="wallet.html" style="margin-right: 15px; color: var(--accent-gold); font-size: 14px;">Wallet</a>
-            <a href="kyc.html" style="color: var(--text-muted); font-size: 14px;">Verify Account</a>
+        <a href="dashboard.html" class="brand-logo"><i class="fa-solid fa-chart-line"></i> Crestline Global</a>
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="wallet.html">Deposit/Wallet</a>
+            <a href="trade.html" style="color: var(--accent-gold);">Spot Trade</a>
+            <a href="kyc.html">Verification</a>
+            <button onclick="logoutUser()" style="background-color: var(--accent-gold); color: #000; padding: 6px 12px; font-size: 12px; border: none; border-radius: 4px; cursor: pointer; margin-left: 15px;">Log Out</button>
         </div>
     </nav>
 
-    <div class="terminal-grid">
-        <!-- ORDERBOOK PANEL -->
-        <div class="panel">
-            <h4 style="margin-bottom: 15px;">Order Book (BTC/USDT)</h4>
-            <div style="font-size: 13px;">
-                <div style="display: flex; justify-content: space-between; color: var(--accent-red); margin-bottom: 4px;"><span>96,450.00</span><span>0.421 BTC</span></div>
-                <div style="display: flex; justify-content: space-between; color: var(--accent-red); margin-bottom: 4px;"><span>96,435.10</span><span>1.150 BTC</span></div>
-                <div style="display: flex; justify-content: space-between; color: var(--accent-red); margin-bottom: 12px;"><span>96,428.00</span><span>0.085 BTC</span></div>
-                
-                <div style="font-size: 18px; font-weight: bold; margin-bottom: 12px; color: var(--accent-green);">$96,420.50</div>
-
-                <div style="display: flex; justify-content: space-between; color: var(--accent-green); margin-bottom: 4px;"><span>96,415.00</span><span>0.890 BTC</span></div>
-                <div style="display: flex; justify-content: space-between; color: var(--accent-green); margin-bottom: 4px;"><span>96,410.20</span><span>2.410 BTC</span></div>
-                <div style="display: flex; justify-content: space-between; color: var(--accent-green);"><span>96,400.00</span><span>1.050 BTC</span></div>
+    <div class="container">
+        <div class="card">
+            <h2>Spot Trading Engine</h2>
+            <p style="color: var(--text-muted);">Trade BTC, XRP, SOL, ADA, BNB, and USDT in real-time.</p>
+            <div style="padding: 50px; text-align: center; border: 1px dashed var(--border-color); margin-top: 20px;">
+                <i class="fa-solid fa-chart-candlestick" style="font-size: 48px; color: var(--accent-gold); margin-bottom: 15px;"></i>
+                <h3>Live Orderbook & Chart Module</h3>
+                <p style="color: var(--text-muted);">Authenticated session confirmed. Trading interface active.</p>
             </div>
-        </div>
-
-        <!-- CHART PANEL -->
-        <div class="chart-box">
-            <i class="fa-solid fa-chart-candlestick" style="font-size: 48px; color: var(--accent-gold); margin-bottom: 15px;"></i>
-            <h3>Live Interactive Candlestick Chart</h3>
-            <p>BTC/USDT Real-time Execution Feed</p>
-        </div>
-
-        <!-- ORDER FORM -->
-        <div class="panel order-form">
-            <h4 style="margin-bottom: 15px;">Spot Execution</h4>
-            <label style="font-size: 12px; color: var(--text-muted);">Price (USDT)</label>
-            <input type="text" value="96420.50">
-
-            <label style="font-size: 12px; color: var(--text-muted);">Amount (BTC)</label>
-            <input type="text" placeholder="0.00">
-
-            <button class="btn-buy">Buy BTC</button>
-            <button class="btn-sell">Sell BTC</button>
         </div>
     </div>
 
