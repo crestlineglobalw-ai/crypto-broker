@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Register - Crestline Global</title>
     <style>
         :root {
-            --primary-color: #2563eb;
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --primary: #2563eb;
             --primary-hover: #1d4ed8;
-            --bg-color: #f3f4f6;
-            --card-bg: #ffffff;
-            --text-color: #1f2937;
-            --border-color: #d1d5db;
-            --error-color: #dc2626;
-            --success-color: #16a34a;
+            --text-main: #f0f6fc;
+            --text-muted: #8b949e;
+            --border-color: #30363d;
+            --error-color: #f85149;
+            --error-bg: rgba(248, 81, 73, 0.1);
+            --success-color: #3fb950;
+            --success-bg: rgba(63, 185, 80, 0.1);
         }
 
         * {
@@ -25,7 +28,7 @@
 
         body {
             background-color: var(--bg-color);
-            color: var(--text-color);
+            color: var(--text-main);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -33,43 +36,24 @@
             padding: 1rem;
         }
 
-        .auth-container {
+        .auth-card {
             background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             width: 100%;
             max-width: 400px;
             padding: 2rem;
         }
 
         .auth-header {
-            margin-bottom: 1.5rem;
             text-align: center;
+            margin-bottom: 1.5rem;
         }
 
-        .auth-header h1 {
+        .brand-title {
             font-size: 1.5rem;
             font-weight: 700;
-        }
-
-        .alert {
-            padding: 0.75rem;
-            border-radius: 4px;
-            font-size: 0.875rem;
-            margin-bottom: 1rem;
-            display: none;
-        }
-
-        .alert-error {
-            background-color: #fee2e2;
-            color: var(--error-color);
-            border: 1px solid #fca5a5;
-        }
-
-        .alert-success {
-            background-color: #dcfce7;
-            color: var(--success-color);
-            border: 1px solid #86efac;
+            margin-top: 0.5rem;
         }
 
         .form-group {
@@ -79,91 +63,102 @@
         .form-group label {
             display: block;
             font-size: 0.875rem;
-            font-weight: 500;
             margin-bottom: 0.375rem;
+            color: var(--text-muted);
         }
 
         .form-group input {
             width: 100%;
             padding: 0.625rem 0.75rem;
+            background-color: var(--bg-color);
             border: 1px solid var(--border-color);
-            border-radius: 4px;
+            border-radius: 6px;
+            color: var(--text-main);
             font-size: 0.875rem;
-            transition: border-color 0.15s ease-in-out;
         }
 
         .form-group input:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            border-color: var(--primary);
+        }
+
+        .alert {
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .alert-error {
+            background-color: var(--error-bg);
+            color: var(--error-color);
+            border: 1px solid var(--error-color);
+        }
+
+        .alert-success {
+            background-color: var(--success-bg);
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
         }
 
         .btn-submit {
             width: 100%;
             padding: 0.625rem;
-            background-color: var(--primary-color);
+            background-color: var(--primary);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 0.875rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.15s ease-in-out;
         }
 
         .btn-submit:hover {
             background-color: var(--primary-hover);
         }
 
-        .btn-submit:disabled {
-            opacity: 0.65;
-            cursor: not-allowed;
-        }
-
         .auth-footer {
             margin-top: 1.5rem;
             text-align: center;
             font-size: 0.875rem;
+            color: var(--text-muted);
         }
 
         .auth-footer a {
-            color: var(--primary-color);
+            color: var(--primary);
             text-decoration: none;
-        }
-
-        .auth-footer a:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 
-    <div class="auth-container">
+    <div class="auth-card">
         <div class="auth-header">
-            <h1>Create an Account</h1>
+            <div class="brand-title">Create Account</div>
         </div>
 
         <div id="alert-message" class="alert"></div>
 
-        <form id="register-form" novalidate>
+        <form id="register-form">
             <div class="form-group">
                 <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" required placeholder="John Doe">
+                <input type="text" id="name" required placeholder="John Doe">
             </div>
 
             <div class="form-group">
                 <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" required placeholder="name@example.com">
+                <input type="email" id="email" required placeholder="name@example.com">
             </div>
 
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required placeholder="••••••••">
+                <input type="password" id="password" required placeholder="••••••••">
             </div>
 
             <div class="form-group">
                 <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" name="confirmPassword" required placeholder="••••••••">
+                <input type="password" id="confirm-password" required placeholder="••••••••">
             </div>
 
             <button type="submit" id="submit-btn" class="btn-submit">Register</button>
@@ -174,7 +169,6 @@
         </div>
     </div>
 
-    <!-- Integration point for auth.js -->
     <script src="auth.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -188,33 +182,17 @@
                 alertBox.style.display = 'block';
             }
 
-            function clearAlert() {
-                alertBox.textContent = '';
-                alertBox.style.display = 'none';
-            }
-
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                clearAlert();
+                alertBox.style.display = 'none';
 
                 const name = document.getElementById('name').value.trim();
                 const email = document.getElementById('email').value.trim();
                 const password = document.getElementById('password').value;
                 const confirmPassword = document.getElementById('confirm-password').value;
 
-                // Client-side validation
-                if (!name || !email || !password || !confirmPassword) {
-                    showAlert('Please fill in all fields.');
-                    return;
-                }
-
                 if (password !== confirmPassword) {
-                    showAlert('Passwords do not match.');
-                    return;
-                }
-
-                if (password.length < 6) {
-                    showAlert('Password must be at least 6 characters long.');
+                    showAlert('Passwords do not match.', 'error');
                     return;
                 }
 
@@ -222,30 +200,26 @@
                 submitBtn.textContent = 'Registering...';
 
                 try {
-                    // Check if register function exists on window or Auth instance from auth.js
-                    let response;
                     if (typeof register === 'function') {
-                        response = await register({ name, email, password });
+                        await register({ name, email, password });
                     } else if (window.Auth && typeof window.Auth.register === 'function') {
-                        response = await window.Auth.register({ name, email, password });
+                        await window.Auth.register({ name, email, password });
                     } else {
-                        // Fallback API call if auth.js exposes endpoints or uses fetch wrapper
                         const res = await fetch('/api/auth/register', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ name, email, password })
                         });
-                        response = await res.json();
-                        if (!res.ok) throw new Error(response.message || 'Registration failed');
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.message || 'Registration failed');
                     }
 
-                    showAlert('Registration successful! Redirecting...', 'success');
+                    showAlert('Registration successful! Redirecting to login...', 'success');
                     setTimeout(() => {
                         window.location.href = 'login.html';
                     }, 1500);
-
-                } catch (error) {
-                    showAlert(error.message || 'An error occurred during registration.');
+                } catch (err) {
+                    showAlert(err.message || 'An error occurred during registration.', 'error');
                     submitBtn.disabled = false;
                     submitBtn.textContent = 'Register';
                 }
