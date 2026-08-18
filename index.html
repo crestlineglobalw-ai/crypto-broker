@@ -89,24 +89,6 @@
             letter-spacing: -0.02em;
         }
 
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-link {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: color 0.2s;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: var(--primary);
-        }
-
         .header-actions {
             display: flex;
             align-items: center;
@@ -631,18 +613,9 @@
                 <span class="brand-name">Crestline Global</span>
             </a>
 
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="#markets" class="nav-link">Markets</a></li>
-                    <li><a href="#how-it-works" class="nav-link">How it Works</a></li>
-                    <li><a href="#trade" class="nav-link">Trade</a></li>
-                    <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
-                </ul>
-            </nav>
-
             <div class="header-actions">
-                <a href="dashboard.html" class="btn-secondary">Log In</a>
-                <a href="dashboard.html" class="btn-primary">Get Started</a>
+                <a href="login.html" class="btn-secondary">Log In</a>
+                <a href="register.html" class="btn-primary">Get Started</a>
             </div>
         </div>
     </header>
@@ -663,7 +636,7 @@
     </div>
 
     <!-- HERO SECTION -->
-    <section class="hero-section" id="trade">
+    <section class="hero-section">
         <div class="hero-content">
             <div class="trust-badge-banner">
                 <span>🌐</span> 15M+ Users Globally • Trusted Since 2020
@@ -724,14 +697,14 @@
                 <span style="color: var(--text-main); font-weight: 600;">1 BTC = 67,420.50 USDT</span>
             </div>
 
-            <a href="dashboard.html" style="text-decoration: none;">
+            <a href="register.html" style="text-decoration: none;">
                 <button class="widget-btn">Trade Now</button>
             </a>
         </div>
     </section>
 
     <!-- 3-STEP ONBOARDING SECTION -->
-    <section class="steps-section" id="how-it-works">
+    <section class="steps-section">
         <div class="section-header">
             <h2>Start Trading in 3 Simple Steps</h2>
             <p>Join over 15 million users worldwide. Trusted by investors around the world since 2020.</p>
@@ -759,13 +732,13 @@
     </section>
 
     <!-- LIVE MARKETS TABLE WITH DYNAMIC SVG CHARTS FOR ALL 9 CRYPTOS -->
-    <section class="market-section" id="markets">
+    <section class="market-section">
         <div class="section-title-bar">
             <div>
                 <h2>Live Market Overview</h2>
                 <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.25rem;">Dynamic real-time trend pattern charts updating automatically</p>
             </div>
-            <a href="dashboard.html" style="color: var(--primary); text-decoration: none; font-weight: 700;">View Full Terminal →</a>
+            <a href="register.html" style="color: var(--primary); text-decoration: none; font-weight: 700;">View Full Terminal →</a>
         </div>
 
         <div class="market-table-card">
@@ -795,7 +768,7 @@
                                 <path id="chart-btc" d="M 0,20 Q 25,10 50,15 T 100,5" fill="none" stroke="#22c55e" stroke-width="2.5" />
                             </svg>
                         </td>
-                        <td><a href="dashboard.html" class="btn-trade-sm">Trade</a></td>
+                        <td><a href="register.html" class="btn-trade-sm">Trade</a></td>
                     </tr>
 
                     <!-- 2. ETHEREUM -->
@@ -813,7 +786,7 @@
                                 <path id="chart-eth" d="M 0,25 Q 25,15 50,20 T 100,8" fill="none" stroke="#22c55e" stroke-width="2.5" />
                             </svg>
                         </td>
-                        <td><a href="dashboard.html" class="btn-trade-sm">Trade</a></td>
+                        <td><a href="register.html" class="btn-trade-sm">Trade</a></td>
                     </tr>
 
                     <!-- 3. XRP -->
@@ -831,7 +804,7 @@
                                 <path id="chart-xrp" d="M 0,22 Q 25,18 50,10 T 100,4" fill="none" stroke="#22c55e" stroke-width="2.5" />
                             </svg>
                         </td>
-                        <td><a href="dashboard.html" class="btn-trade-sm">Trade</a></td>
+                        <td><a href="register.html" class="btn-trade-sm">Trade</a></td>
                     </tr>
 
                     <!-- 4. SHIBA INU -->
@@ -849,7 +822,7 @@
                                 <path id="chart-shib" d="M 0,8 Q 25,15 50,12 T 100,22" fill="none" stroke="#ef4444" stroke-width="2.5" />
                             </svg>
                         </td>
-                        <td><a href="dashboard.html" class="btn-trade-sm">Trade</a></td>
+                        <td><a href="register.html" class="btn-trade-sm">Trade</a></td>
                     </tr>
 
                     <!-- 5. CARDANO -->
@@ -867,7 +840,7 @@
                                 <path id="chart-ada" d="M 0,18 Q 25,22 50,12 T 100,10" fill="none" stroke="#22c55e" stroke-width="2.5" />
                             </svg>
                         </td>
-                        <td><a href="dashboard.html" class="btn-trade-sm">Trade</a></td>
+                        <td><a href="register.html" class="btn-trade-sm">Trade</a></td>
                     </tr>
 
                     <!-- 6. SOLANA -->
@@ -885,7 +858,7 @@
                                 <path id="chart-sol" d="M 0,5 Q 25,12 50,18 T 100,24" fill="none" stroke="#ef4444" stroke-width="2.5" />
                             </svg>
                         </td>
-                        <td><a href="dashboard.html" class="btn-trade-sm">Trade</a></td>
+                        <td><a href="register.html" class="btn-trade-sm">Trade</a></td>
                     </tr>
 
                     <!-- 7. DOGECOIN -->
@@ -903,7 +876,7 @@
                                 <path id="chart-doge" d="M 0,25 Q 25,10 50,18 T 100,6" fill="none" stroke="#22c55e" stroke-width="2.5" />
                             </svg>
                         </td>
-                        <td><a href="dashboard.html" class="btn-trade-sm">Trade</a></td>
+                        <td><a href="register.html" class="btn-trade-sm">Trade</a></td>
                     </tr>
 
                     <!-- 8. AVALANCHE -->
@@ -921,7 +894,7 @@
                                 <path id="chart-avax" d="M 0,20 Q 25,14 50,16 T 100,8" fill="none" stroke="#22c55e" stroke-width="2.5" />
                             </svg>
                         </td>
-                        <td><a href="dashboard.html" class="btn-trade-sm">Trade</a></td>
+                        <td><a href="register.html" class="btn-trade-sm">Trade</a></td>
                     </tr>
 
                     <!-- 9. STELLAR -->
@@ -939,7 +912,7 @@
                                 <path id="chart-xlm" d="M 0,15 Q 25,18 50,12 T 100,9" fill="none" stroke="#22c55e" stroke-width="2.5" />
                             </svg>
                         </td>
-                        <td><a href="dashboard.html" class="btn-trade-sm">Trade</a></td>
+                        <td><a href="register.html" class="btn-trade-sm">Trade</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -992,7 +965,7 @@
                     <div class="ob-row" style="color: var(--success);"><span>67,410.20</span><span id="ob-bid-2">0.412</span></div>
                     <div class="ob-row" style="color: var(--success);"><span>67,402.00</span><span id="ob-bid-3">2.800</span></div>
                 </div>
-                <a href="dashboard.html" class="btn-primary" style="text-align: center; margin-top: 1rem; display: block;">Open Full Dashboard</a>
+                <a href="register.html" class="btn-primary" style="text-align: center; margin-top: 1rem; display: block;">Open Full Dashboard</a>
             </div>
         </div>
     </section>
@@ -1016,10 +989,10 @@
             <div class="footer-col">
                 <h4>Markets</h4>
                 <ul>
-                    <li><a href="#markets">Bitcoin (BTC)</a></li>
-                    <li><a href="#markets">Ethereum (ETH)</a></li>
-                    <li><a href="#markets">Solana (SOL)</a></li>
-                    <li><a href="#markets">View All 300+</a></li>
+                    <li><a href="register.html">Bitcoin (BTC)</a></li>
+                    <li><a href="register.html">Ethereum (ETH)</a></li>
+                    <li><a href="register.html">Solana (SOL)</a></li>
+                    <li><a href="register.html">View All 300+</a></li>
                 </ul>
             </div>
 
