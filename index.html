@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crestline Global - Digital Asset Platform</title>
+    <title>Crestline Global</title>
     <style>
         :root {
             --bg-color: #0d1117;
@@ -20,7 +20,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
@@ -31,7 +31,7 @@
             flex-direction: column;
         }
 
-        /* HEADER & NAVIGATION */
+        /* HEADER */
         .site-header {
             height: var(--header-height);
             background-color: var(--card-bg);
@@ -51,7 +51,6 @@
             justify-content: space-between;
         }
 
-        /* BRAND / LOGO */
         .brand-logo {
             display: flex;
             align-items: center;
@@ -79,7 +78,6 @@
             letter-spacing: -0.025em;
         }
 
-        /* HEADER ACTIONS */
         .header-actions {
             display: flex;
             align-items: center;
@@ -118,7 +116,6 @@
 
         .btn-primary:hover {
             background-color: var(--primary-hover);
-            border-color: var(--primary-hover);
         }
 
         /* HERO SECTION */
@@ -170,22 +167,20 @@
 </head>
 <body>
 
-    <!-- SITE HEADER: Contains ONLY Brand Logo and Login/Sign Up controls -->
     <header class="site-header">
         <div class="header-container">
-            <!-- Brand Logo & Name -->
             <a href="index.html" class="brand-logo">
                 <div class="logo-icon">C</div>
                 <span class="brand-name">Crestline Global</span>
             </a>
 
-            <!-- Guest Header Actions (Default view for logged-out visitors) -->
+            <!-- Public controls only -->
             <div id="public-header-actions" class="header-actions">
                 <a href="login.html" class="btn btn-outline">Login</a>
                 <a href="register.html" class="btn btn-primary">Sign Up</a>
             </div>
 
-            <!-- Authenticated Header Actions (Hidden by default; revealed only with valid auth token) -->
+            <!-- Dashboard access for logged-in users only -->
             <div id="user-header-actions" class="header-actions" style="display: none;">
                 <a href="dashboard.html" class="btn btn-primary">Dashboard</a>
                 <button id="logout-btn" class="btn btn-outline" onclick="logoutUser()">Log Out</button>
@@ -193,7 +188,6 @@
         </div>
     </header>
 
-    <!-- PUBLIC LANDING CONTENT -->
     <main class="hero-section">
         <div class="hero-content">
             <h1>Secure Digital Asset Infrastructure</h1>
@@ -205,31 +199,25 @@
         </div>
     </main>
 
-    <!-- FOOTER -->
     <footer class="site-footer">
         <p>&copy; 2026 Crestline Global. All rights reserved.</p>
     </footer>
 
-    <!-- AUTHENTICATION SCRIPT INTEGRATION -->
     <script src="auth.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Check for explicit session or local token
             const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-            
             const publicActions = document.getElementById('public-header-actions');
             const userActions = document.getElementById('user-header-actions');
             const heroCtaGroup = document.getElementById('hero-cta-group');
 
             if (token) {
-                // Logged-in state
                 if (publicActions) publicActions.style.display = 'none';
                 if (userActions) userActions.style.display = 'flex';
                 if (heroCtaGroup) {
                     heroCtaGroup.innerHTML = `<a href="dashboard.html" class="btn btn-primary">Go to Dashboard</a>`;
                 }
             } else {
-                // Logged-out state (Strict public isolation)
                 if (publicActions) publicActions.style.display = 'flex';
                 if (userActions) userActions.style.display = 'none';
             }
