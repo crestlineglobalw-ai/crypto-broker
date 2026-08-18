@@ -7,16 +7,15 @@
     <style>
         :root {
             --bg-color: #0b0e14;
-            --panel-bg: #151a23;
-            --border-color: #262d3a;
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
+            --card-bg: #151a23;
+            --primary: #f59e0b;
+            --primary-hover: #d97706;
             --text-main: #f0f6fc;
             --text-muted: #8b949e;
+            --border-color: #262d3a;
             --success: #22c55e;
             --danger: #ef4444;
-            --sidebar-width: 240px;
-            --header-height: 64px;
+            --header-height: 70px;
         }
 
         * {
@@ -29,383 +28,328 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            display: flex;
             min-height: 100vh;
-        }
-
-        /* SIDEBAR NAVIGATION */
-        .sidebar {
-            width: var(--sidebar-width);
-            background-color: var(--panel-bg);
-            border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
-            position: fixed;
+        }
+
+        /* HEADER */
+        .site-header {
+            height: var(--header-height);
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
             top: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 100;
+            z-index: 1000;
         }
 
-        .sidebar-brand {
-            height: var(--header-height);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0 1.25rem;
-            border-bottom: 1px solid var(--border-color);
-            text-decoration: none;
-            color: var(--text-main);
-        }
-
-        .logo-box {
-            width: 32px;
-            height: 32px;
-            background-color: var(--primary);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            color: #ffffff;
-        }
-
-        .brand-title {
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .sidebar-nav {
-            padding: 1.5rem 0.75rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-            flex: 1;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.15s ease;
-        }
-
-        .nav-item:hover, .nav-item.active {
-            color: var(--text-main);
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .nav-item.active {
-            border-left: 3px solid var(--primary);
-            border-radius: 0 6px 6px 0;
-        }
-
-        /* MAIN CONTENT AREA */
-        .main-wrapper {
-            margin-left: var(--sidebar-width);
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-        }
-
-        /* DASHBOARD TOP HEADER */
-        .top-header {
-            height: var(--header-height);
-            background-color: var(--panel-bg);
-            border-bottom: 1px solid var(--border-color);
+        .header-container {
+            max-width: 1380px;
+            height: 100%;
+            margin: 0 auto;
+            padding: 0 1.5rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 90;
         }
 
-        .page-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-        }
-
-        .user-menu {
+        .brand-logo {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-main);
         }
 
-        .user-badge {
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            padding: 0.35rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .btn-logout {
-            background-color: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--danger);
-            padding: 0.4rem 0.85rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: background 0.15s ease;
-        }
-
-        .btn-logout:hover {
-            background-color: rgba(239, 68, 68, 0.1);
-        }
-
-        /* DASHBOARD BODY CONTAINER */
-        .dashboard-body {
-            padding: 2rem;
+        .logo-chart-box {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            border-radius: 8px;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .logo-chart-box svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: #000000;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .brand-name {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .dash-nav {
+            display: flex;
             gap: 1.5rem;
         }
 
-        /* STATS CARDS GRID */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.25rem;
+        .dash-nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
         }
 
-        .stat-card {
-            background-color: var(--panel-bg);
+        .dash-nav-link.active {
+            color: var(--primary);
+        }
+
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.4rem 0.85rem;
+            border-radius: 20px;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1.25rem;
+            font-size: 0.85rem;
         }
 
-        .stat-label {
+        /* MAIN DASHBOARD LAYOUT */
+        .dash-container {
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            width: 100%;
+            flex: 1;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .metric-label {
             font-size: 0.85rem;
             color: var(--text-muted);
             margin-bottom: 0.5rem;
         }
 
-        .stat-value {
+        .metric-value {
             font-size: 1.75rem;
-            font-weight: 700;
+            font-weight: 800;
             margin-bottom: 0.25rem;
         }
 
-        .stat-change {
-            font-size: 0.8rem;
-            font-weight: 600;
+        .metric-sub {
+            font-size: 0.85rem;
+            color: var(--success);
         }
 
-        .stat-change.positive { color: var(--success); }
-        .stat-change.neutral { color: var(--text-muted); }
+        /* DASHBOARD CONTENT GRID */
+        .dash-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
 
-        /* DATA TABLES / PANELS */
-        .panel {
-            background-color: var(--panel-bg);
+        .content-panel {
+            background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 1.5rem;
         }
 
         .panel-header {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
         }
 
-        .panel-title {
-            font-size: 1rem;
+        .chart-box {
+            width: 100%;
+            height: 320px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+        }
+
+        .asset-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .asset-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+
+        .asset-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .asset-amount {
+            text-align: right;
             font-weight: 600;
         }
 
-        .data-table {
+        .btn-action {
+            display: inline-block;
             width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            font-size: 0.9rem;
+            padding: 0.75rem;
+            background-color: var(--primary);
+            color: #000000;
+            text-align: center;
+            font-weight: 700;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-top: 1rem;
         }
 
-        .data-table th, .data-table td {
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid var(--border-color);
+        .btn-action:hover {
+            background-color: var(--primary-hover);
         }
 
-        .data-table th {
-            color: var(--text-muted);
-            font-weight: 500;
-            background-color: rgba(0, 0, 0, 0.2);
-        }
-
-        .data-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* RESPONSIVE LAYOUT ADJUSTMENT */
-        @media (max-width: 768px) {
-            .sidebar { width: 60px; }
-            .brand-title, .nav-text { display: none; }
-            .main-wrapper { margin-left: 60px; }
-            .dashboard-body { padding: 1rem; }
+        @media (max-width: 900px) {
+            .dash-grid { grid-template-columns: 1fr; }
+            .dash-nav { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <!-- DASHBOARD SIDEBAR -->
-    <aside class="sidebar">
-        <a href="dashboard.html" class="sidebar-brand">
-            <div class="logo-box">C</div>
-            <span class="brand-title">Crestline Global</span>
-        </a>
+    <header class="site-header">
+        <div class="header-container">
+            <a href="index.html" class="brand-logo">
+                <div class="logo-chart-box">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+                        <polyline points="16 7 22 7 22 13"></polyline>
+                    </svg>
+                </div>
+                <span class="brand-name">Crestline Global</span>
+            </a>
 
-        <nav class="sidebar-nav">
-            <a href="dashboard.html" class="nav-item active">
-                <span class="nav-text">Dashboard</span>
-            </a>
-            <a href="#wallet" class="nav-item">
-                <span class="nav-text">Wallet & Balances</span>
-            </a>
-            <a href="#trading" class="nav-item">
-                <span class="nav-text">Spot Trading</span>
-            </a>
-            <a href="#verification" class="nav-item">
-                <span class="nav-text">Identity Verification</span>
-            </a>
-            <a href="#settings" class="nav-item">
-                <span class="nav-text">Account Settings</span>
-            </a>
-        </nav>
-    </aside>
+            <nav class="dash-nav">
+                <a href="dashboard.html" class="dash-nav-link active">Overview</a>
+                <a href="#markets" class="dash-nav-link">Spot Markets</a>
+                <a href="#wallets" class="dash-nav-link">Wallets</a>
+                <a href="#orders" class="dash-nav-link">Orders</a>
+            </nav>
 
-    <!-- MAIN WORKSPACE -->
-    <div class="main-wrapper">
-        <!-- TOP HEADER -->
-        <header class="top-header">
-            <h1 class="page-title">User Workspace</h1>
-
-            <div class="user-menu">
-                <span class="user-badge" id="user-display">Account Verified</span>
-                <button class="btn-logout" onclick="logoutUser()">Log Out</button>
+            <div class="user-badge">
+                <span style="width: 8px; height: 8px; background: var(--success); border-radius: 50%;"></span>
+                <span>Courage Ukpomwan</span>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <!-- DASHBOARD PANELS -->
-        <main class="dashboard-body">
-            <!-- STATS CARDS -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">Total Portfolio Balance</div>
-                    <div class="stat-value">$0.00</div>
-                    <div class="stat-change neutral">0.00% 24h</div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-label">Available Spot Margin</div>
-                    <div class="stat-value">$0.00</div>
-                    <div class="stat-change neutral">Ready to trade</div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-label">Security Status</div>
-                    <div class="stat-value" style="font-size: 1.25rem; color: var(--success);">Protected</div>
-                    <div class="stat-change positive">2FA Active</div>
-                </div>
+    <main class="dash-container">
+        <!-- TOP METRICS CARDS -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-label">Estimated Balance</div>
+                <div class="metric-value">$128,450.00</div>
+                <div class="metric-sub">+4.2% (24h)</div>
             </div>
 
-            <!-- ASSET BALANCES TABLE -->
-            <div class="panel">
+            <div class="metric-card">
+                <div class="metric-label">Active Positions</div>
+                <div class="metric-value">4 Spot</div>
+                <div class="metric-sub" style="color: var(--text-muted);">Margin Ratio: 12%</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-label">Unrealized PnL</div>
+                <div class="metric-value" style="color: var(--success);">+$3,210.50</div>
+                <div class="metric-sub">+2.55% overall</div>
+            </div>
+        </div>
+
+        <!-- MAIN DASHBOARD CONTENT -->
+        <div class="dash-grid">
+            <!-- LIVE CHART PANEL -->
+            <div class="content-panel">
                 <div class="panel-header">
-                    <h2 class="panel-title">Asset Overview</h2>
+                    <span>BTC/USDT Performance</span>
+                    <span style="font-size: 0.85rem; color: var(--primary);">Realtime Feed</span>
                 </div>
-
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Asset</th>
-                            <th>Total Balance</th>
-                            <th>In Orders</th>
-                            <th>USD Value</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>BTC</strong> (Bitcoin)</td>
-                            <td>0.00000000</td>
-                            <td>0.00000000</td>
-                            <td>$0.00</td>
-                        </tr>
-                        <tr>
-                            <td><strong>ETH</strong> (Ethereum)</td>
-                            <td>0.00000000</td>
-                            <td>0.00000000</td>
-                            <td>$0.00</td>
-                        </tr>
-                        <tr>
-                            <td><strong>USDT</strong> (Tether)</td>
-                            <td>0.0000</td>
-                            <td>0.0000</td>
-                            <td>$0.00</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="chart-box">
+                    <svg width="100%" height="100%" viewBox="0 0 500 240" preserveAspectRatio="none">
+                        <line x1="0" y1="50" x2="500" y2="50" stroke="#262d3a" stroke-dasharray="4" />
+                        <line x1="0" y1="120" x2="500" y2="120" stroke="#262d3a" stroke-dasharray="4" />
+                        <line x1="0" y1="190" x2="500" y2="190" stroke="#262d3a" stroke-dasharray="4" />
+                        
+                        <path d="M 0,180 Q 80,130 160,150 T 320,80 T 420,100 T 500,30 L 500,240 L 0,240 Z" fill="rgba(245, 158, 11, 0.12)" />
+                        <path d="M 0,180 Q 80,130 160,150 T 320,80 T 420,100 T 500,30" fill="none" stroke="#f59e0b" stroke-width="3" />
+                    </svg>
+                </div>
             </div>
 
-            <!-- RECENT ACTIVITY TABLE -->
-            <div class="panel">
+            <!-- WALLET BREAKDOWN PANEL -->
+            <div class="content-panel">
                 <div class="panel-header">
-                    <h2 class="panel-title">Recent Activity</h2>
+                    <span>Portfolio Balances</span>
+                </div>
+                <div class="asset-list">
+                    <div class="asset-item">
+                        <div>
+                            <div class="asset-name">Bitcoin</div>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">BTC</span>
+                        </div>
+                        <div class="asset-amount">
+                            <div>1.42 BTC</div>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">$95,737.11</span>
+                        </div>
+                    </div>
+
+                    <div class="asset-item">
+                        <div>
+                            <div class="asset-name">Ethereum</div>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">ETH</span>
+                        </div>
+                        <div class="asset-amount">
+                            <div>6.5 ETH</div>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">$22,816.30</span>
+                        </div>
+                    </div>
+
+                    <div class="asset-item">
+                        <div>
+                            <div class="asset-name">Tether</div>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">USDT</span>
+                        </div>
+                        <div class="asset-amount">
+                            <div>9,896.59 USDT</div>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">$9,896.59</span>
+                        </div>
+                    </div>
                 </div>
 
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Time</th>
-                            <th>Type</th>
-                            <th>Status</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="color: var(--text-muted);">Just now</td>
-                            <td>Session Login</td>
-                            <td style="color: var(--success);">Successful</td>
-                            <td style="color: var(--text-muted);">Web Session Initiated</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <a href="#" class="btn-action">Deposit Funds</a>
             </div>
-        </main>
-    </div>
+        </div>
+    </main>
 
-    <!-- STRICT AUTHENTICATION GUARD SCRIPT -->
-    <script src="auth.js"></script>
-    <script>
-        // STRICT GUARD: Check authentication before page loads content
-        (function enforceProtection() {
-            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-            
-            // If no token exists, immediately boot user to login page
-            if (!token) {
-                window.location.replace('login.html');
-            }
-        })();
-
-        // Logout action
-        function logoutUser() {
-            localStorage.removeItem('authToken');
-            sessionStorage.removeItem('authToken');
-            window.location.replace('login.html');
-        }
-    </script>
 </body>
 </html>
