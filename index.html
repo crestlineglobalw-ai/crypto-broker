@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crestline Global - Digital Asset Platform</title>
+    <title>Crestline Global</title>
     <style>
         :root {
-            --bg-color: #0b0e14;
-            --card-bg: #151a23;
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
             --primary: #2563eb;
             --primary-hover: #1d4ed8;
             --text-main: #f0f6fc;
             --text-muted: #8b949e;
-            --border-color: #262d3a;
-            --success: #22c55e;
-            --danger: #ef4444;
+            --border-color: #30363d;
             --header-height: 70px;
         }
 
@@ -33,7 +31,7 @@
             flex-direction: column;
         }
 
-        /* HEADER & NAVIGATION */
+        /* HEADER */
         .site-header {
             height: var(--header-height);
             background-color: var(--card-bg);
@@ -44,7 +42,7 @@
         }
 
         .header-container {
-            max-width: 1280px;
+            max-width: 1200px;
             height: 100%;
             margin: 0 auto;
             padding: 0 1.5rem;
@@ -53,7 +51,6 @@
             justify-content: space-between;
         }
 
-        /* BRAND & CHART LOGO */
         .brand-logo {
             display: flex;
             align-items: center;
@@ -62,24 +59,17 @@
             color: var(--text-main);
         }
 
-        .logo-chart-icon {
-            width: 38px;
-            height: 38px;
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background-color: var(--primary);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .logo-chart-icon svg {
-            width: 22px;
-            height: 22px;
-            fill: none;
-            stroke: #ffffff;
-            stroke-width: 2.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #ffffff;
         }
 
         .brand-name {
@@ -88,28 +78,10 @@
             letter-spacing: -0.025em;
         }
 
-        .main-nav {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .nav-link {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: color 0.15s ease;
-        }
-
-        .nav-link:hover {
-            color: var(--text-main);
-        }
-
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1rem;
         }
 
         .btn {
@@ -146,122 +118,42 @@
             background-color: var(--primary-hover);
         }
 
-        /* MAIN CONTENT & HERO */
-        .main-container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 2.5rem 1.5rem;
-            width: 100%;
+        /* HERO SECTION */
+        .hero-section {
             flex: 1;
-        }
-
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            align-items: center;
-            margin-bottom: 3rem;
-        }
-
-        .hero-text h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            line-height: 1.15;
-            margin-bottom: 1.25rem;
-        }
-
-        .hero-text p {
-            font-size: 1.125rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 2rem;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-
-        /* EMBEDDED CHART CARD */
-        .chart-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-        }
-
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .symbol-info {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .symbol-title {
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .symbol-price {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--success);
-        }
-
-        .chart-preview {
-            width: 100%;
-            height: 260px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px dashed var(--border-color);
+            text-align: center;
+            padding: 4rem 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        /* MARKET OVERVIEW */
-        .market-section {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
+        .hero-content h1 {
+            font-size: 2.75rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.25rem;
         }
 
-        .market-header {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .market-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        .market-table th, .market-table td {
-            padding: 0.85rem 1rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .market-table th {
+        .hero-content p {
+            font-size: 1.125rem;
             color: var(--text-muted);
-            font-size: 0.85rem;
-            font-weight: 500;
+            margin-bottom: 2rem;
+            line-height: 1.6;
         }
 
-        .market-table tr:last-child td {
-            border-bottom: none;
+        .hero-cta {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
         }
 
-        .text-green { color: var(--success); }
-        .text-red { color: var(--danger); }
+        .hero-cta .btn {
+            padding: 0.75rem 1.75rem;
+            font-size: 1rem;
+        }
 
         /* FOOTER */
         .site-footer {
@@ -270,113 +162,72 @@
             text-align: center;
             font-size: 0.875rem;
             color: var(--text-muted);
-            background-color: var(--card-bg);
-        }
-
-        @media (max-width: 900px) {
-            .hero-grid { grid-template-columns: 1fr; }
-            .main-nav { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <!-- HEADER WITH CHART LOGO -->
     <header class="site-header">
         <div class="header-container">
             <a href="index.html" class="brand-logo">
-                <!-- Chart Icon in front of name -->
-                <div class="logo-chart-icon">
-                    <svg viewBox="0 0 24 24">
-                        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-                        <polyline points="16 7 22 7 22 13"></polyline>
-                    </svg>
-                </div>
+                <div class="logo-icon">C</div>
                 <span class="brand-name">Crestline Global</span>
             </a>
 
-            <nav class="main-nav">
-                <a href="#markets" class="nav-link">Markets</a>
-                <a href="#trade" class="nav-link">Spot Trading</a>
-                <a href="#wallet" class="nav-link">Wallet</a>
-                <a href="#verification" class="nav-link">Verification</a>
-            </nav>
-
-            <div class="header-actions">
+            <!-- Public controls only -->
+            <div id="public-header-actions" class="header-actions">
                 <a href="login.html" class="btn btn-outline">Login</a>
                 <a href="register.html" class="btn btn-primary">Sign Up</a>
+            </div>
+
+            <!-- Dashboard access for logged-in users only -->
+            <div id="user-header-actions" class="header-actions" style="display: none;">
+                <a href="dashboard.html" class="btn btn-primary">Dashboard</a>
+                <button id="logout-btn" class="btn btn-outline" onclick="logoutUser()">Log Out</button>
             </div>
         </div>
     </header>
 
-    <!-- MAIN LANDING AREA WITH HERO & LIVE CHART DISPLAY -->
-    <main class="main-container">
-        <section class="hero-grid">
-            <div class="hero-text">
-                <h1>Global Digital Asset Trading</h1>
-                <p>Institutional liquidity, ultra-fast execution, and institutional-grade portfolio control on Crestline Global.</p>
-                <div class="hero-buttons">
-                    <a href="register.html" class="btn btn-primary" style="padding: 0.75rem 1.5rem;">Get Started</a>
-                    <a href="login.html" class="btn btn-outline" style="padding: 0.75rem 1.5rem;">Access Portal</a>
-                </div>
+    <main class="hero-section">
+        <div class="hero-content">
+            <h1>Secure Digital Asset Infrastructure</h1>
+            <p>Institutional-grade performance and high-security access for trading, managing, and storing global assets seamlessly.</p>
+            <div class="hero-cta" id="hero-cta-group">
+                <a href="register.html" class="btn btn-primary">Get Started</a>
+                <a href="login.html" class="btn btn-outline">Sign In</a>
             </div>
-
-            <!-- EMBEDDED CHART PANEL -->
-            <div class="chart-card">
-                <div class="chart-header">
-                    <div class="symbol-info">
-                        <span class="symbol-title">BTC / USDT</span>
-                    </div>
-                    <span class="symbol-price">$67,420.50</span>
-                </div>
-                <div class="chart-preview">
-                    <svg width="100%" height="180" viewBox="0 0 500 180" style="overflow: visible;">
-                        <path d="M 0,140 Q 60,120 120,130 T 240,80 T 360,90 T 500,20" fill="none" stroke="#22c55e" stroke-width="3" />
-                        <path d="M 0,140 Q 60,120 120,130 T 240,80 T 360,90 T 500,20 L 500,180 L 0,180 Z" fill="rgba(34, 197, 94, 0.08)" />
-                    </svg>
-                </div>
-            </div>
-        </section>
-
-        <!-- MARKETS SECTION -->
-        <section class="market-section" id="markets">
-            <h2 class="market-header">Market Overview</h2>
-            <table class="market-table">
-                <thead>
-                    <tr>
-                        <th>Asset</th>
-                        <th>Last Price</th>
-                        <th>24h Change</th>
-                        <th>24h Volume</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>BTC</strong> / USDT</td>
-                        <td>$67,420.50</td>
-                        <td class="text-green">+3.42%</td>
-                        <td>$1.2B</td>
-                    </tr>
-                    <tr>
-                        <td><strong>ETH</strong> / USDT</td>
-                        <td>$3,510.20</td>
-                        <td class="text-green">+1.85%</td>
-                        <td>$840M</td>
-                    </tr>
-                    <tr>
-                        <td><strong>SOL</strong> / USDT</td>
-                        <td>$145.80</td>
-                        <td class="text-red">-0.65%</td>
-                        <td>$310M</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+        </div>
     </main>
 
     <footer class="site-footer">
         <p>&copy; 2026 Crestline Global. All rights reserved.</p>
     </footer>
 
+    <script src="auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+            const publicActions = document.getElementById('public-header-actions');
+            const userActions = document.getElementById('user-header-actions');
+            const heroCtaGroup = document.getElementById('hero-cta-group');
+
+            if (token) {
+                if (publicActions) publicActions.style.display = 'none';
+                if (userActions) userActions.style.display = 'flex';
+                if (heroCtaGroup) {
+                    heroCtaGroup.innerHTML = `<a href="dashboard.html" class="btn btn-primary">Go to Dashboard</a>`;
+                }
+            } else {
+                if (publicActions) publicActions.style.display = 'flex';
+                if (userActions) userActions.style.display = 'none';
+            }
+        });
+
+        function logoutUser() {
+            localStorage.removeItem('authToken');
+            sessionStorage.removeItem('authToken');
+            window.location.reload();
+        }
+    </script>
 </body>
 </html>
