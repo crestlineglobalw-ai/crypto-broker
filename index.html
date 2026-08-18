@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crestline Global - Digital Asset Exchange</title>
+    <title>Crestline Global - Buy, Sell & Trade Cryptocurrency</title>
     <style>
         :root {
             --bg-color: #0b0e14;
             --card-bg: #151a23;
-            --primary: #f59e0b; /* Amber Gold Primary */
+            --card-hover: #1c2330;
+            --primary: #f59e0b;
             --primary-hover: #d97706;
             --text-main: #f0f6fc;
             --text-muted: #8b949e;
             --border-color: #262d3a;
+            --input-bg: #0e121a;
             --success: #22c55e;
             --danger: #ef4444;
             --header-height: 70px;
@@ -28,15 +30,14 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            overflow-x: hidden;
         }
 
-        /* HEADER & NAVIGATION */
+        /* HEADER & NAV */
         .site-header {
             height: var(--header-height);
-            background-color: var(--card-bg);
+            background-color: rgba(21, 26, 35, 0.85);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 0;
@@ -44,7 +45,7 @@
         }
 
         .header-container {
-            max-width: 1280px;
+            max-width: 1400px;
             height: 100%;
             margin: 0 auto;
             padding: 0 1.5rem;
@@ -53,7 +54,6 @@
             justify-content: space-between;
         }
 
-        /* BRANDING WITH CHART ICON IN FRONT OF NAME */
         .brand-logo {
             display: flex;
             align-items: center;
@@ -87,170 +87,359 @@
             font-size: 1.3rem;
             font-weight: 800;
             letter-spacing: -0.02em;
-            color: var(--text-main);
         }
 
-        .main-nav {
+        .nav-links {
             display: flex;
-            align-items: center;
-            gap: 1.75rem;
+            gap: 2rem;
+            list-style: none;
         }
 
         .nav-link {
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: color 0.15s ease;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: color 0.2s;
         }
 
-        .nav-link:hover {
+        .nav-link:hover, .nav-link.active {
             color: var(--primary);
         }
 
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 0.85rem;
+            gap: 1rem;
         }
 
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.55rem 1.35rem;
-            border-radius: 6px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.15s ease;
-        }
-
-        .btn-outline {
-            background-color: transparent;
+        .btn-secondary {
             color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
             border: 1px solid var(--border-color);
+            transition: all 0.2s;
         }
 
-        .btn-outline:hover {
+        .btn-secondary:hover {
             border-color: var(--primary);
             color: var(--primary);
-            background-color: rgba(245, 158, 11, 0.05);
         }
 
         .btn-primary {
             background-color: var(--primary);
             color: #000000;
-            border: 1px solid var(--primary);
+            text-decoration: none;
             font-weight: 700;
+            font-size: 0.9rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            transition: background 0.2s;
         }
 
         .btn-primary:hover {
             background-color: var(--primary-hover);
-            border-color: var(--primary-hover);
         }
 
-        /* HERO & CHART WORKSPACE */
-        .main-container {
-            max-width: 1280px;
+        /* LIVE TICKER BANNER */
+        .ticker-bar {
+            background-color: #0e121a;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 0;
+            overflow: hidden;
+        }
+
+        .ticker-wrapper {
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 2.5rem 1.5rem;
-            width: 100%;
-            flex: 1;
-        }
-
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.1fr;
+            padding: 0 1.5rem;
+            display: flex;
             gap: 2.5rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .ticker-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .ticker-item {
+            display: flex;
             align-items: center;
-            margin-bottom: 3.5rem;
+            gap: 0.6rem;
+            white-space: nowrap;
+            font-size: 0.85rem;
         }
 
-        .hero-text h1 {
-            font-size: 3.25rem;
-            font-weight: 800;
+        .ticker-symbol {
+            font-weight: 700;
+        }
+
+        .ticker-price {
+            font-weight: 600;
+        }
+
+        .ticker-change {
+            font-weight: 700;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .up { color: var(--success); background: rgba(34, 197, 94, 0.1); }
+        .down { color: var(--danger); background: rgba(239, 68, 68, 0.1); }
+
+        /* HERO SECTION */
+        .hero-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem 3rem;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
             line-height: 1.15;
+            font-weight: 800;
             margin-bottom: 1.25rem;
+            letter-spacing: -0.03em;
         }
 
-        .hero-text h1 span {
+        .hero-content h1 span {
             color: var(--primary);
         }
 
-        .hero-text p {
-            font-size: 1.125rem;
+        .hero-content p {
+            font-size: 1.15rem;
             color: var(--text-muted);
-            line-height: 1.6;
             margin-bottom: 2rem;
+            line-height: 1.6;
         }
 
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-
-        /* LIVE CHART DISPLAY PANEL */
-        .chart-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.25rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .symbol-info {
-            display: flex;
+        .trust-badge-banner {
+            display: inline-flex;
             align-items: center;
             gap: 0.75rem;
-        }
-
-        .symbol-title {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            color: var(--primary);
+            font-size: 0.875rem;
             font-weight: 700;
-            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
         }
 
-        .symbol-price {
-            font-size: 1.35rem;
+        .stats-row {
+            display: flex;
+            gap: 2.5rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+        }
+
+        .stat-item h3 {
+            font-size: 1.8rem;
             font-weight: 800;
-            color: var(--success);
+            color: var(--primary);
         }
 
-        .chart-preview-box {
-            width: 100%;
-            height: 280px;
-            background: rgba(0, 0, 0, 0.25);
-            border-radius: 8px;
-            padding: 1rem;
-            border: 1px solid var(--border-color);
-            position: relative;
+        .stat-item p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin: 0;
         }
 
-        /* MARKET METRICS OVERVIEW */
-        .market-section {
+        /* QUICK TRADE WIDGET */
+        .trade-widget-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 1.75rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
-        .market-header {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 1.25rem;
+        .widget-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .widget-tabs {
+            display: flex;
+            background: var(--input-bg);
+            padding: 0.25rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .widget-tab {
+            padding: 0.5rem 1.25rem;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .widget-tab.active-buy {
+            background-color: var(--success);
+            color: #ffffff;
+        }
+
+        .input-group {
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 0.85rem 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .input-field {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-main);
+            font-size: 1.2rem;
+            font-weight: 700;
+            width: 60%;
+        }
+
+        .asset-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.4rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .widget-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary);
+            color: #000000;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: background 0.2s;
+        }
+
+        .widget-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* 3-STEP ONBOARDING SECTION */
+        .steps-section {
+            max-width: 1400px;
+            margin: 4rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 650px;
+            margin: 0 auto 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .step-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2.2rem;
+            position: relative;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .step-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+        }
+
+        .step-badge {
+            width: 44px;
+            height: 44px;
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: 1.25rem;
+        }
+
+        .step-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .step-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* POPULAR MARKETS TABLE (9 CRYPTOS + SPARKLINE CHARTS) */
+        .market-section {
+            max-width: 1400px;
+            margin: 5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-title-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title-bar h2 {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .market-table-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
         }
 
         .market-table {
@@ -259,44 +448,177 @@
             text-align: left;
         }
 
-        .market-table th, .market-table td {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
         .market-table th {
+            padding: 1.2rem 1.5rem;
             color: var(--text-muted);
             font-size: 0.85rem;
             font-weight: 600;
-            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .market-table tr:last-child td {
-            border-bottom: none;
+        .market-table td {
+            padding: 1.1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+            vertical-align: middle;
         }
 
-        .text-green { color: var(--success); font-weight: 600; }
-        .text-red { color: var(--danger); font-weight: 600; }
+        .market-table tr:hover {
+            background-color: var(--card-hover);
+        }
+
+        .coin-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .coin-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #262d3a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.85rem;
+        }
+
+        .sparkline-svg {
+            width: 120px;
+            height: 35px;
+        }
+
+        .btn-trade-sm {
+            padding: 0.4rem 1rem;
+            background-color: rgba(245, 158, 11, 0.15);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        .btn-trade-sm:hover {
+            background-color: var(--primary);
+            color: #000000;
+        }
+
+        /* LIVE CHART TERMINAL PREVIEW */
+        .chart-preview-section {
+            max-width: 1400px;
+            margin: 5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .chart-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 2.2fr 1fr;
+            gap: 2rem;
+        }
+
+        .chart-visual {
+            height: 380px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .orderbook-preview {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .ob-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
 
         /* FOOTER */
-        .site-footer {
+        footer {
             border-top: 1px solid var(--border-color);
-            padding: 1.5rem;
-            text-align: center;
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            background-color: var(--card-bg);
+            background-color: #080b10;
+            padding: 4rem 1.5rem 2rem;
+            margin-top: 5rem;
         }
 
-        @media (max-width: 960px) {
-            .hero-grid { grid-template-columns: 1fr; }
-            .main-nav { display: none; }
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-muted);
+            margin-top: 1rem;
+            max-width: 320px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .footer-col h4 {
+            font-size: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-col a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-section, .chart-card, .steps-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- SITE HEADER WITH CHART LOGO IN FRONT OF NAME -->
+    <!-- SITE HEADER -->
     <header class="site-header">
         <div class="header-container">
             <a href="index.html" class="brand-logo">
@@ -309,100 +631,469 @@
                 <span class="brand-name">Crestline Global</span>
             </a>
 
-            <nav class="main-nav">
-                <a href="#markets" class="nav-link">Markets</a>
-                <a href="#trade" class="nav-link">Spot Trading</a>
-                <a href="#wallet" class="nav-link">Wallet</a>
-                <a href="#verification" class="nav-link">Verification</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#markets" class="nav-link">Markets</a></li>
+                    <li><a href="#how-it-works" class="nav-link">How it Works</a></li>
+                    <li><a href="#trade" class="nav-link">Trade</a></li>
+                    <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                </ul>
             </nav>
 
             <div class="header-actions">
-                <a href="login.html" class="btn btn-outline">Login</a>
-                <a href="register.html" class="btn btn-primary">Sign Up</a>
+                <a href="dashboard.html" class="btn-secondary">Log In</a>
+                <a href="dashboard.html" class="btn-primary">Get Started</a>
             </div>
         </div>
     </header>
 
-    <!-- MAIN LANDING SECTION WITH HERO & EMBEDDED CHART -->
-    <main class="main-container">
-        <section class="hero-grid">
-            <div class="hero-text">
-                <h1>Next-Gen <span>Global Asset</span> Infrastructure</h1>
-                <p>Institutional liquidity, deep market orderbooks, and high-speed asset execution tailored for Crestline Global traders.</p>
-                <div class="hero-buttons">
-                    <a href="register.html" class="btn btn-primary" style="padding: 0.75rem 1.75rem; font-size: 1rem;">Open Account</a>
-                    <a href="login.html" class="btn btn-outline" style="padding: 0.75rem 1.75rem; font-size: 1rem;">Sign In</a>
+    <!-- LIVE TICKER BANNER -->
+    <div class="ticker-bar">
+        <div class="ticker-wrapper">
+            <div class="ticker-item"><span class="ticker-symbol">BTC/USDT</span><span class="ticker-price" id="tick-btc">$67,420.50</span><span class="ticker-change up">+3.42%</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">ETH/USDT</span><span class="ticker-price" id="tick-eth">$3,540.10</span><span class="ticker-change up">+2.15%</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">XRP/USDT</span><span class="ticker-price" id="tick-xrp">$0.5840</span><span class="ticker-change up">+5.12%</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">SHIB/USDT</span><span class="ticker-price" id="tick-shib">$0.000024</span><span class="ticker-change down">-0.82%</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">ADA/USDT</span><span class="ticker-price" id="tick-ada">$0.4520</span><span class="ticker-change up">+1.90%</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">SOL/USDT</span><span class="ticker-price" id="tick-sol">$184.20</span><span class="ticker-change down">-1.08%</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">DOGE/USDT</span><span class="ticker-price" id="tick-doge">$0.1280</span><span class="ticker-change up">+4.20%</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">AVAX/USDT</span><span class="ticker-price" id="tick-avax">$28.40</span><span class="ticker-change up">+2.80%</span></div>
+            <div class="ticker-item"><span class="ticker-symbol">XLM/USDT</span><span class="ticker-price" id="tick-xlm">$0.1020</span><span class="ticker-change up">+0.95%</span></div>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="trade">
+        <div class="hero-content">
+            <div class="trust-badge-banner">
+                <span>🌐</span> 15M+ Users Globally • Trusted Since 2020
+            </div>
+            <h1>Trade Digital Assets with <span>Zero Friction</span></h1>
+            <p>Trusted by investors around the world since 2020. Access deep order book liquidity, zero-fee fiat deposits, and real-time market execution.</p>
+            
+            <div class="stats-row">
+                <div class="stat-item">
+                    <h3>15M+</h3>
+                    <p>Global Users</p>
+                </div>
+                <div class="stat-item">
+                    <h3>$1.2B+</h3>
+                    <p>24h Trading Vol</p>
+                </div>
+                <div class="stat-item">
+                    <h3>0%</h3>
+                    <p>Deposit Fees</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUICK SPOT TRADE WIDGET -->
+        <div class="trade-widget-card">
+            <div class="widget-header">
+                <div class="widget-tabs">
+                    <button class="widget-tab active-buy">Buy</button>
+                    <button class="widget-tab">Sell</button>
+                </div>
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Instant Execution</span>
+            </div>
+
+            <div class="input-group">
+                <div>
+                    <span style="display:block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.2rem;">Spend</span>
+                    <input type="text" class="input-field" value="1,000">
+                </div>
+                <div class="asset-selector">
+                    <span>💵</span>
+                    <span>USDT</span>
                 </div>
             </div>
 
-            <!-- EMBEDDED TRADING CHART CARD -->
-            <div class="chart-card">
-                <div class="chart-header">
-                    <div class="symbol-info">
-                        <span class="symbol-title">BTC / USDT</span>
-                        <span style="font-size: 0.85rem; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 0.2rem 0.5rem; border-radius: 4px;">Spot</span>
-                    </div>
-                    <span class="symbol-price">$67,420.50</span>
+            <div class="input-group">
+                <div>
+                    <span style="display:block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.2rem;">Receive (Est.)</span>
+                    <input type="text" class="input-field" id="calc-receive" value="0.0148" readonly>
                 </div>
-                <div class="chart-preview-box">
-                    <svg width="100%" height="100%" viewBox="0 0 500 220" preserveAspectRatio="none">
-                        <!-- Grid Lines -->
-                        <line x1="0" y1="40" x2="500" y2="40" stroke="#262d3a" stroke-dasharray="4" />
-                        <line x1="0" y1="100" x2="500" y2="100" stroke="#262d3a" stroke-dasharray="4" />
-                        <line x1="0" y1="160" x2="500" y2="160" stroke="#262d3a" stroke-dasharray="4" />
-                        
-                        <!-- Area Fill -->
-                        <path d="M 0,160 Q 70,140 140,150 T 280,90 T 420,100 T 500,20 L 500,220 L 0,220 Z" fill="rgba(245, 158, 11, 0.12)" />
-                        
-                        <!-- Line Chart Trend -->
-                        <path d="M 0,160 Q 70,140 140,150 T 280,90 T 420,100 T 500,20" fill="none" stroke="#f59e0b" stroke-width="3" />
-                    </svg>
+                <div class="asset-selector">
+                    <span>₿</span>
+                    <span>BTC</span>
                 </div>
             </div>
-        </section>
 
-        <!-- MARKET OVERVIEW PANEL -->
-        <section class="market-section" id="markets">
-            <div class="market-header">
-                <h2>Market Trends</h2>
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin: 0.5rem 0 1rem;">
+                <span>Estimated Rate:</span>
+                <span style="color: var(--text-main); font-weight: 600;">1 BTC = 67,420.50 USDT</span>
             </div>
+
+            <a href="dashboard.html" style="text-decoration: none;">
+                <button class="widget-btn">Trade Now</button>
+            </a>
+        </div>
+    </section>
+
+    <!-- 3-STEP ONBOARDING SECTION -->
+    <section class="steps-section" id="how-it-works">
+        <div class="section-header">
+            <h2>Start Trading in 3 Simple Steps</h2>
+            <p>Join over 15 million users worldwide. Trusted by investors around the world since 2020.</p>
+        </div>
+
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-badge">1</div>
+                <h3>Sign Up in Minutes</h3>
+                <p>Set up your account and begin trading in a few steps with quick identity verification and enterprise-grade security.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-badge">2</div>
+                <h3>Zero-Fee Deposits</h3>
+                <p>Fund your wallet at no cost with major fiat currencies via credit card, bank transfer, or instant wire options.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-badge">3</div>
+                <h3>Start Trading Assets</h3>
+                <p>Buy, sell, and manage 300+ crypto assets including Bitcoin, Ethereum, and altcoins with real-time dynamic market charts.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIVE MARKETS TABLE WITH DYNAMIC SVG CHARTS FOR ALL 9 CRYPTOS -->
+    <section class="market-section" id="markets">
+        <div class="section-title-bar">
+            <div>
+                <h2>Live Market Overview</h2>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.25rem;">Dynamic real-time trend pattern charts updating automatically</p>
+            </div>
+            <a href="dashboard.html" style="color: var(--primary); text-decoration: none; font-weight: 700;">View Full Terminal →</a>
+        </div>
+
+        <div class="market-table-card">
             <table class="market-table">
                 <thead>
                     <tr>
-                        <th>Asset Pair</th>
+                        <th>Asset</th>
                         <th>Last Price</th>
                         <th>24h Change</th>
-                        <th>24h Volume</th>
+                        <th>Dynamic Trend Pattern</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- 1. BITCOIN -->
                     <tr>
-                        <td><strong>BTC</strong> / USDT</td>
-                        <td>$67,420.50</td>
-                        <td class="text-green">+3.42%</td>
-                        <td>$1.24B</td>
+                        <td>
+                            <div class="coin-cell">
+                                <div class="coin-icon" style="color: #f59e0b;">₿</div>
+                                <div><div>Bitcoin</div><div style="font-size: 0.75rem; color: var(--text-muted);">BTC</div></div>
+                            </div>
+                        </td>
+                        <td id="price-btc">$67,420.50</td>
+                        <td><span class="ticker-change up" id="change-btc">+3.42%</span></td>
+                        <td>
+                            <svg class="sparkline-svg" viewBox="0 0 100 30">
+                                <path id="chart-btc" d="M 0,20 Q 25,10 50,15 T 100,5" fill="none" stroke="#22c55e" stroke-width="2.5" />
+                            </svg>
+                        </td>
+                        <td><a href="dashboard.html" class="btn-trade-sm">Trade</a></td>
                     </tr>
+
+                    <!-- 2. ETHEREUM -->
                     <tr>
-                        <td><strong>ETH</strong> / USDT</td>
-                        <td>$3,510.20</td>
-                        <td class="text-green">+1.85%</td>
-                        <td>$840M</td>
+                        <td>
+                            <div class="coin-cell">
+                                <div class="coin-icon" style="color: #6366f1;">Ξ</div>
+                                <div><div>Ethereum</div><div style="font-size: 0.75rem; color: var(--text-muted);">ETH</div></div>
+                            </div>
+                        </td>
+                        <td id="price-eth">$3,540.10</td>
+                        <td><span class="ticker-change up" id="change-eth">+2.15%</span></td>
+                        <td>
+                            <svg class="sparkline-svg" viewBox="0 0 100 30">
+                                <path id="chart-eth" d="M 0,25 Q 25,15 50,20 T 100,8" fill="none" stroke="#22c55e" stroke-width="2.5" />
+                            </svg>
+                        </td>
+                        <td><a href="dashboard.html" class="btn-trade-sm">Trade</a></td>
                     </tr>
+
+                    <!-- 3. XRP -->
                     <tr>
-                        <td><strong>SOL</strong> / USDT</td>
-                        <td>$145.80</td>
-                        <td class="text-red">-0.65%</td>
-                        <td>$310M</td>
+                        <td>
+                            <div class="coin-cell">
+                                <div class="coin-icon" style="color: #00aae4;">✕</div>
+                                <div><div>XRP</div><div style="font-size: 0.75rem; color: var(--text-muted);">XRP</div></div>
+                            </div>
+                        </td>
+                        <td id="price-xrp">$0.5840</td>
+                        <td><span class="ticker-change up" id="change-xrp">+5.12%</span></td>
+                        <td>
+                            <svg class="sparkline-svg" viewBox="0 0 100 30">
+                                <path id="chart-xrp" d="M 0,22 Q 25,18 50,10 T 100,4" fill="none" stroke="#22c55e" stroke-width="2.5" />
+                            </svg>
+                        </td>
+                        <td><a href="dashboard.html" class="btn-trade-sm">Trade</a></td>
+                    </tr>
+
+                    <!-- 4. SHIBA INU -->
+                    <tr>
+                        <td>
+                            <div class="coin-cell">
+                                <div class="coin-icon" style="color: #e65c00;">🐕</div>
+                                <div><div>Shiba Inu</div><div style="font-size: 0.75rem; color: var(--text-muted);">SHIB</div></div>
+                            </div>
+                        </td>
+                        <td id="price-shib">$0.0000240</td>
+                        <td><span class="ticker-change down" id="change-shib">-0.82%</span></td>
+                        <td>
+                            <svg class="sparkline-svg" viewBox="0 0 100 30">
+                                <path id="chart-shib" d="M 0,8 Q 25,15 50,12 T 100,22" fill="none" stroke="#ef4444" stroke-width="2.5" />
+                            </svg>
+                        </td>
+                        <td><a href="dashboard.html" class="btn-trade-sm">Trade</a></td>
+                    </tr>
+
+                    <!-- 5. CARDANO -->
+                    <tr>
+                        <td>
+                            <div class="coin-cell">
+                                <div class="coin-icon" style="color: #0033ad;">₳</div>
+                                <div><div>Cardano</div><div style="font-size: 0.75rem; color: var(--text-muted);">ADA</div></div>
+                            </div>
+                        </td>
+                        <td id="price-ada">$0.4520</td>
+                        <td><span class="ticker-change up" id="change-ada">+1.90%</span></td>
+                        <td>
+                            <svg class="sparkline-svg" viewBox="0 0 100 30">
+                                <path id="chart-ada" d="M 0,18 Q 25,22 50,12 T 100,10" fill="none" stroke="#22c55e" stroke-width="2.5" />
+                            </svg>
+                        </td>
+                        <td><a href="dashboard.html" class="btn-trade-sm">Trade</a></td>
+                    </tr>
+
+                    <!-- 6. SOLANA -->
+                    <tr>
+                        <td>
+                            <div class="coin-cell">
+                                <div class="coin-icon" style="color: #10b981;">◎</div>
+                                <div><div>Solana</div><div style="font-size: 0.75rem; color: var(--text-muted);">SOL</div></div>
+                            </div>
+                        </td>
+                        <td id="price-sol">$184.20</td>
+                        <td><span class="ticker-change down" id="change-sol">-1.08%</span></td>
+                        <td>
+                            <svg class="sparkline-svg" viewBox="0 0 100 30">
+                                <path id="chart-sol" d="M 0,5 Q 25,12 50,18 T 100,24" fill="none" stroke="#ef4444" stroke-width="2.5" />
+                            </svg>
+                        </td>
+                        <td><a href="dashboard.html" class="btn-trade-sm">Trade</a></td>
+                    </tr>
+
+                    <!-- 7. DOGECOIN -->
+                    <tr>
+                        <td>
+                            <div class="coin-cell">
+                                <div class="coin-icon" style="color: #c2a633;">Ð</div>
+                                <div><div>Dogecoin</div><div style="font-size: 0.75rem; color: var(--text-muted);">DOGE</div></div>
+                            </div>
+                        </td>
+                        <td id="price-doge">$0.1280</td>
+                        <td><span class="ticker-change up" id="change-doge">+4.20%</span></td>
+                        <td>
+                            <svg class="sparkline-svg" viewBox="0 0 100 30">
+                                <path id="chart-doge" d="M 0,25 Q 25,10 50,18 T 100,6" fill="none" stroke="#22c55e" stroke-width="2.5" />
+                            </svg>
+                        </td>
+                        <td><a href="dashboard.html" class="btn-trade-sm">Trade</a></td>
+                    </tr>
+
+                    <!-- 8. AVALANCHE -->
+                    <tr>
+                        <td>
+                            <div class="coin-cell">
+                                <div class="coin-icon" style="color: #e84142;">🔺</div>
+                                <div><div>Avalanche</div><div style="font-size: 0.75rem; color: var(--text-muted);">AVAX</div></div>
+                            </div>
+                        </td>
+                        <td id="price-avax">$28.40</td>
+                        <td><span class="ticker-change up" id="change-avax">+2.80%</span></td>
+                        <td>
+                            <svg class="sparkline-svg" viewBox="0 0 100 30">
+                                <path id="chart-avax" d="M 0,20 Q 25,14 50,16 T 100,8" fill="none" stroke="#22c55e" stroke-width="2.5" />
+                            </svg>
+                        </td>
+                        <td><a href="dashboard.html" class="btn-trade-sm">Trade</a></td>
+                    </tr>
+
+                    <!-- 9. STELLAR -->
+                    <tr>
+                        <td>
+                            <div class="coin-cell">
+                                <div class="coin-icon" style="color: #14b8a6;">🚀</div>
+                                <div><div>Stellar</div><div style="font-size: 0.75rem; color: var(--text-muted);">XLM</div></div>
+                            </div>
+                        </td>
+                        <td id="price-xlm">$0.1020</td>
+                        <td><span class="ticker-change up" id="change-xlm">+0.95%</span></td>
+                        <td>
+                            <svg class="sparkline-svg" viewBox="0 0 100 30">
+                                <path id="chart-xlm" d="M 0,15 Q 25,18 50,12 T 100,9" fill="none" stroke="#22c55e" stroke-width="2.5" />
+                            </svg>
+                        </td>
+                        <td><a href="dashboard.html" class="btn-trade-sm">Trade</a></td>
                     </tr>
                 </tbody>
             </table>
-        </section>
-    </main>
+        </div>
+    </section>
 
-    <footer class="site-footer">
-        <p>&copy; 2026 Crestline Global. All rights reserved.</p>
+    <!-- MAIN INTERACTIVE CHART PREVIEW -->
+    <section class="chart-preview-section">
+        <div style="margin-bottom: 1.5rem;">
+            <h2>Live Spot Trading Terminal</h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">Real-time price feed and active order book order matching</p>
+        </div>
+
+        <div class="chart-card">
+            <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                    <span style="font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
+                        BTC/USDT Real-Time Interactive Chart
+                    </span>
+                    <span style="color: var(--success); font-weight: 700;" id="hero-btc-price">$67,420.50</span>
+                </div>
+                <div class="chart-visual">
+                    <svg width="100%" height="100%" viewBox="0 0 500 250" preserveAspectRatio="none">
+                        <line x1="0" y1="60" x2="500" y2="60" stroke="#262d3a" stroke-dasharray="4" />
+                        <line x1="0" y1="120" x2="500" y2="120" stroke="#262d3a" stroke-dasharray="4" />
+                        <line x1="0" y1="180" x2="500" y2="180" stroke="#262d3a" stroke-dasharray="4" />
+                        
+                        <path id="main-chart-bg" d="M 0,180 Q 80,130 160,150 T 320,70 T 420,90 T 500,20 L 500,250 L 0,250 Z" fill="rgba(245, 158, 11, 0.12)" />
+                        <path id="main-chart-line" d="M 0,180 Q 80,130 160,150 T 320,70 T 420,90 T 500,20" fill="none" stroke="#f59e0b" stroke-width="3" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="orderbook-preview">
+                <div style="font-weight: 800; margin-bottom: 0.5rem;">Live Order Book</div>
+                <div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted); display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span>Price (USDT)</span>
+                        <span>Amount (BTC)</span>
+                    </div>
+                    <div class="ob-row" style="color: var(--danger);"><span>67,438.00</span><span id="ob-ask-1">0.142</span></div>
+                    <div class="ob-row" style="color: var(--danger);"><span>67,432.50</span><span id="ob-ask-2">0.890</span></div>
+                    <div class="ob-row" style="color: var(--danger);"><span>67,425.00</span><span id="ob-ask-3">0.055</span></div>
+                    
+                    <div style="text-align: center; font-weight: 800; color: var(--primary); padding: 0.5rem 0; border-y: 1px solid var(--border-color); font-size: 1rem;" id="ob-mid-price">
+                        $67,420.50
+                    </div>
+
+                    <div class="ob-row" style="color: var(--success);"><span>67,415.00</span><span id="ob-bid-1">1.204</span></div>
+                    <div class="ob-row" style="color: var(--success);"><span>67,410.20</span><span id="ob-bid-2">0.412</span></div>
+                    <div class="ob-row" style="color: var(--success);"><span>67,402.00</span><span id="ob-bid-3">2.800</span></div>
+                </div>
+                <a href="dashboard.html" class="btn-primary" style="text-align: center; margin-top: 1rem; display: block;">Open Full Dashboard</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="index.html" class="brand-logo">
+                    <div class="logo-chart-box">
+                        <svg viewBox="0 0 24 24">
+                            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+                            <polyline points="16 7 22 7 22 13"></polyline>
+                        </svg>
+                    </div>
+                    <span class="brand-name">Crestline Global</span>
+                </a>
+                <p>15M+ users globally. Trusted by investors around the world since 2020. Experience seamless trading and zero-fee deposits today.</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Markets</h4>
+                <ul>
+                    <li><a href="#markets">Bitcoin (BTC)</a></li>
+                    <li><a href="#markets">Ethereum (ETH)</a></li>
+                    <li><a href="#markets">Solana (SOL)</a></li>
+                    <li><a href="#markets">View All 300+</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Trading Fees</a></li>
+                    <li><a href="#">API Docs</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Security</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="copyright">
+            © 2026 Crestline Global. All rights reserved.
+        </div>
     </footer>
 
-    <script src="auth.js"></script>
+    <!-- REAL-TIME CHART & PRICE UPDATER SIMULATION -->
+    <script>
+        // Real-time market tick simulation engine
+        const cryptos = {
+            btc: { price: 67420.50, el: ['price-btc', 'tick-btc', 'hero-btc-price', 'ob-mid-price'], path: 'chart-btc' },
+            eth: { price: 3540.10, el: ['price-eth', 'tick-eth'], path: 'chart-eth' },
+            xrp: { price: 0.5840, el: ['price-xrp', 'tick-xrp'], path: 'chart-xrp' },
+            shib: { price: 0.0000240, el: ['price-shib', 'tick-shib'], path: 'chart-shib' },
+            ada: { price: 0.4520, el: ['price-ada', 'tick-ada'], path: 'chart-ada' },
+            sol: { price: 184.20, el: ['price-sol', 'tick-sol'], path: 'chart-sol' },
+            doge: { price: 0.1280, el: ['price-doge', 'tick-doge'], path: 'chart-doge' },
+            avax: { price: 28.40, el: ['price-avax', 'tick-avax'], path: 'chart-avax' },
+            xlm: { price: 0.1020, el: ['price-xlm', 'tick-xlm'], path: 'chart-xlm' }
+        };
+
+        function updateTicks() {
+            Object.keys(cryptos).forEach(key => {
+                const coin = cryptos[key];
+                const delta = (Math.random() - 0.49) * (coin.price * 0.003);
+                coin.price += delta;
+
+                const formatted = coin.price < 0.001 
+                    ? '$' + coin.price.toFixed(7) 
+                    : coin.price < 2 
+                    ? '$' + coin.price.toFixed(4) 
+                    : '$' + coin.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                coin.el.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = formatted;
+                });
+
+                // Animate SVG path nodes slightly for organic chart movement
+                const chartPath = document.getElementById(coin.path);
+                if (chartPath) {
+                    const y1 = Math.floor(Math.random() * 15) + 5;
+                    const y2 = Math.floor(Math.random() * 15) + 5;
+                    chartPath.setAttribute('d', `M 0,${y1} Q 25,${y2} 50,${y1} T 100,${y2}`);
+                }
+            });
+
+            // Randomize order book depth volume slightly
+            document.getElementById('ob-ask-1').textContent = (Math.random() * 0.5 + 0.1).toFixed(3);
+            document.getElementById('ob-bid-1').textContent = (Math.random() * 1.5 + 0.5).toFixed(3);
+        }
+
+        setInterval(updateTicks, 2000);
+    </script>
 </body>
 </html>
