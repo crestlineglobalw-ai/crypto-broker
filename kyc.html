@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Identity Verification | Crestline Global</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AUTHENTICATION GUARD -->
+    <script src="auth.js"></script>
     <style>
         :root {
             --bg-dark: #0b0e11;
@@ -27,8 +29,12 @@
             border-bottom: 1px solid var(--border-color);
         }
         .brand-logo { font-size: 20px; font-weight: 800; color: var(--accent-gold); display: flex; align-items: center; gap: 8px; }
+        .nav-links a { margin-left: 20px; font-size: 14px; font-weight: 600; }
+        .nav-links a:hover { color: var(--accent-gold); }
 
-        .container { max-width: 600px; margin: 50px auto; padding: 30px; background-color: var(--card-bg); border-radius: 8px; border: 1px solid var(--border-color); }
+        .container { max-width: 700px; margin: 40px auto; padding: 0 20px; }
+        .card { background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 8px; }
+
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 14px; }
         .form-group input, .form-group select {
@@ -39,48 +45,73 @@
             border-radius: 4px;
             color: #fff;
             box-sizing: border-box;
+            font-size: 14px;
         }
-        .btn-submit { width: 100%; padding: 12px; background-color: var(--accent-gold); color: #000; font-weight: bold; border: none; border-radius: 4px; cursor: pointer; }
+
+        .btn-submit {
+            background-color: var(--accent-gold);
+            color: #000;
+            padding: 12px 24px;
+            font-weight: bold;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-size: 15px;
+        }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="index.html" class="brand-logo"><i class="fa-solid fa-chart-line"></i> Crestline Global</a>
-        <div>
-            <a href="wallet.html" style="color: var(--text-muted);">Back to Wallet</a>
+        <a href="dashboard.html" class="brand-logo"><i class="fa-solid fa-chart-line"></i> Crestline Global</a>
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="wallet.html">Deposit/Wallet</a>
+            <a href="trade.html">Spot Trade</a>
+            <a href="kyc.html" style="color: var(--accent-gold);">Verification</a>
+            <button onclick="logoutUser()" class="btn-submit" style="padding: 6px 12px; font-size: 12px; width: auto; margin-left: 15px;">Log Out</button>
         </div>
     </nav>
 
     <div class="container">
-        <h2>Account Verification (KYC)</h2>
-        <p style="color: var(--text-muted); margin-bottom: 25px;">Complete verification inside your dashboard to enable external account withdrawals.</p>
+        <div class="card">
+            <h2>Identity Verification (KYC)</h2>
+            <p style="color: var(--text-muted); margin-bottom: 25px;">Please provide your official identification details to complete verification.</p>
 
-        <form action="wallet.html">
-            <div class="form-group">
-                <label>Full Legal Name</label>
-                <input type="text" placeholder="John Doe" required>
-            </div>
-            <div class="form-group">
-                <label>Document Type</label>
-                <select required>
-                    <option value="">Select ID Type</option>
-                    <option value="passport">Passport</option>
-                    <option value="id">National ID Card</option>
-                    <option value="driver">Driver's License</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Upload ID Front</label>
-                <input type="file" required>
-            </div>
-            <div class="form-group">
-                <label>Upload ID Back</label>
-                <input type="file" required>
-            </div>
-            <button type="submit" class="btn-submit">Submit Verification</button>
-        </form>
+            <form onsubmit="submitKYC(event)">
+                <div class="form-group">
+                    <label>Full Legal Name</label>
+                    <input type="text" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label>ID Document Type</label>
+                    <select required>
+                        <option value="">Select Document Type</option>
+                        <option value="passport">International Passport</option>
+                        <option value="drivers_license">Driver's License</option>
+                        <option value="national_id">National ID Card</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Document Number</label>
+                    <input type="text" required placeholder="Enter ID number">
+                </div>
+                <div class="form-group">
+                    <label>Upload Document (Front Side)</label>
+                    <input type="file" required>
+                </div>
+                <button type="submit" class="btn-submit">Submit Verification</button>
+            </form>
+        </div>
     </div>
+
+    <script>
+        function submitKYC(e) {
+            e.preventDefault();
+            alert("Verification documents submitted successfully. Status: Under Review.");
+        }
+    </script>
 
 </body>
 </html>
