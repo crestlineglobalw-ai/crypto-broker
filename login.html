@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Crestline Global</title>
+    <title>Log In - Crestline Global</title>
     <style>
         :root {
             --bg-color: #0b0e14;
             --card-bg: #151a23;
+            --card-hover: #1c2330;
             --primary: #f59e0b;
             --primary-hover: #d97706;
             --text-main: #f0f6fc;
@@ -30,16 +31,22 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
         }
 
+        /* HEADER & NAV */
         .site-header {
             height: var(--header-height);
-            background-color: var(--card-bg);
+            background-color: rgba(21, 26, 35, 0.85);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         .header-container {
-            max-width: 1280px;
+            max-width: 1400px;
             height: 100%;
             margin: 0 auto;
             padding: 0 1.5rem;
@@ -83,92 +90,132 @@
             letter-spacing: -0.02em;
         }
 
-        .auth-container {
-            flex: 1;
+        .header-actions {
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 2.5rem 1.5rem;
+            gap: 1rem;
+        }
+
+        .btn-secondary {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: #000000;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* CARD CONTAINER */
+        .auth-container {
+            max-width: 460px;
+            width: 100%;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
         }
 
         .auth-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            width: 100%;
-            max-width: 420px;
+            border-radius: 16px;
             padding: 2.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
 
-        .auth-title {
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h1 {
             font-size: 1.75rem;
             font-weight: 800;
             margin-bottom: 0.5rem;
         }
 
-        .auth-subtitle {
+        .auth-header p {
             color: var(--text-muted);
             font-size: 0.9rem;
-            margin-bottom: 1.75rem;
         }
 
         .form-group {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
         }
 
         .form-label {
-            display: block;
             font-size: 0.85rem;
             font-weight: 600;
             color: var(--text-muted);
-            margin-bottom: 0.5rem;
+        }
+
+        .forgot-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+            color: var(--primary-hover);
         }
 
         .form-input {
             width: 100%;
-            padding: 0.75rem 1rem;
             background-color: var(--input-bg);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 8px;
+            padding: 0.85rem 1rem;
             color: var(--text-main);
             font-size: 0.95rem;
             outline: none;
-            transition: border-color 0.15s ease;
+            transition: border-color 0.2s;
         }
 
         .form-input:focus {
             border-color: var(--primary);
         }
 
-        .form-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            font-size: 0.85rem;
-        }
-
-        .forgot-link {
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .forgot-link:hover {
-            text-decoration: underline;
-        }
-
         .btn-submit {
             width: 100%;
-            padding: 0.85rem;
+            padding: 0.9rem;
             background-color: var(--primary);
             color: #000000;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 1rem;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
-            transition: background-color 0.15s ease;
+            transition: background 0.2s;
         }
 
         .btn-submit:hover {
@@ -176,25 +223,42 @@
         }
 
         .auth-footer {
-            margin-top: 1.5rem;
             text-align: center;
-            font-size: 0.875rem;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
         }
 
         .auth-footer a {
             color: var(--primary);
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .auth-footer a:hover {
             text-decoration: underline;
         }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid var(--border-color);
+            background-color: #080b10;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 600px) {
+            .auth-card {
+                padding: 1.75rem;
+            }
+        }
     </style>
 </head>
 <body>
 
+    <!-- SITE HEADER -->
     <header class="site-header">
         <div class="header-container">
             <a href="index.html" class="brand-logo">
@@ -206,40 +270,51 @@
                 </div>
                 <span class="brand-name">Crestline Global</span>
             </a>
+
+            <div class="header-actions">
+                <a href="login.html" class="btn-secondary">Log In</a>
+                <a href="register.html" class="btn-primary">Get Started</a>
+            </div>
         </div>
     </header>
 
-    <main class="auth-container">
+    <!-- LOGIN CONTAINER -->
+    <div class="auth-container">
         <div class="auth-card">
-            <h1 class="auth-title">Welcome Back</h1>
-            <p class="auth-subtitle">Log in to access your trading portal</p>
+            <div class="auth-header">
+                <h1>Welcome Back</h1>
+                <p>Log in to access your dashboard</p>
+            </div>
 
-            <form action="dashboard.html" method="GET">
+            <!-- LOGIN FORM -->
+            <form id="loginForm">
                 <div class="form-group">
-                    <label class="form-label">Email Address</label>
-                    <input type="email" class="form-input" placeholder="name@example.com" required>
+                    <label class="form-label" for="email">Email Address</label>
+                    <input type="email" id="email" class="form-input" placeholder="name@example.com" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-input" placeholder="••••••••" required>
+                    <div class="form-label-row">
+                        <label class="form-label" for="password">Password</label>
+                        <!-- LINK TO FORGOT PASSWORD PAGE -->
+                        <a href="forgot-password.html" class="forgot-link">Forgot password?</a>
+                    </div>
+                    <input type="password" id="password" class="form-input" placeholder="••••••••" required>
                 </div>
 
-                <div class="form-actions">
-                    <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); cursor: pointer;">
-                        <input type="checkbox"> Remember me
-                    </label>
-                    <a href="#" class="forgot-link">Forgot password?</a>
-                </div>
-
-                <button type="submit" class="btn-submit">Sign In</button>
+                <button type="submit" class="btn-submit">Log In</button>
             </form>
 
             <div class="auth-footer">
-                Don't have an account? <a href="register.html">Create Account</a>
+                Don't have an account? <a href="register.html">Sign Up</a>
             </div>
         </div>
-    </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        © 2026 Crestline Global. All rights reserved.
+    </footer>
 
 </body>
 </html>
