@@ -36,7 +36,7 @@
             flex-direction: column;
         }
 
-        /* TOP NAVIGATION HEADER WITH TRADING CHART ICON */
+        /* HOMEPAGE STYLE HEADER (NO LOGIN/GET STARTED BUTTONS) */
         .site-header {
             height: var(--header-height);
             background-color: rgba(21, 26, 35, 0.95);
@@ -62,7 +62,7 @@
         .header-left {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.25rem;
         }
 
         .menu-toggle {
@@ -90,24 +90,15 @@
         .brand-logo-container {
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.5rem;
             text-decoration: none;
-        }
-
-        .brand-name {
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             font-weight: 800;
             color: var(--text-main);
         }
 
-        .header-chart-icon {
-            display: flex;
-            align-items: center;
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            border-radius: 6px;
-            padding: 4px 8px;
-            gap: 6px;
+        .brand-logo-container span {
+            color: var(--primary);
         }
 
         .user-pill {
@@ -116,21 +107,29 @@
             gap: 0.75rem;
             background-color: var(--input-bg);
             border: 1px solid var(--border-color);
-            padding: 0.4rem 0.85rem;
+            padding: 0.35rem 0.85rem;
             border-radius: 30px;
         }
 
-        .avatar {
-            width: 28px;
-            height: 28px;
+        .avatar-container {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
             background-color: var(--primary);
             color: #000;
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
+            overflow: hidden;
+            border: 1px solid var(--primary);
+        }
+
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .user-details {
@@ -259,7 +258,7 @@
 
         /* FORM CONTROLS */
         .form-card {
-            max-width: 650px;
+            max-width: 700px;
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
@@ -305,6 +304,40 @@
         }
 
         .btn-submit:hover { background-color: var(--primary-hover); }
+
+        /* PROFILE PICTURE UPLOADER STYLES */
+        .profile-pic-container {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--input-bg);
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .profile-preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--card-bg);
+            border: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .profile-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
         /* TAB CONTROLS FOR WITHDRAWAL */
         .tab-group {
@@ -367,7 +400,7 @@
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 2rem;
-            max-width: 650px;
+            max-width: 700px;
             margin-top: 1.5rem;
         }
 
@@ -446,6 +479,17 @@
             background: rgba(0, 0, 0, 0.2);
         }
 
+        .bonus-banner {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            color: var(--success);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
         @media (max-width: 768px) {
             aside { transform: translateX(-100%); }
             aside.open { transform: translateX(0); }
@@ -455,7 +499,7 @@
 </head>
 <body>
 
-    <!-- SITE HEADER WITH EMBEDDED MINI TRADING CHART -->
+    <!-- HOMEPAGE-MATCHED HEADER (NO LOGIN/GET STARTED BUTTONS) -->
     <header class="site-header">
         <div class="header-container">
             <div class="header-left">
@@ -464,26 +508,17 @@
                     <span></span>
                     <span></span>
                 </button>
-                <a href="#" class="brand-logo-container">
-                    <span class="brand-name">Crestline Global</span>
-                    <div class="header-chart-icon" title="Live Market Index">
-                        <svg width="22" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M3 3v18h18"/>
-                            <path d="M18 17V9"/>
-                            <path d="M13 17V5"/>
-                            <path d="M8 17v-3"/>
-                        </svg>
-                        <span style="color: #22c55e; font-weight: 800; font-size: 0.75rem;">+2.45%</span>
-                    </div>
+                <a href="https://crestlineglobalw-ai.github.io/crypto-broker/index.html" class="brand-logo-container">
+                    📈 Crestline <span>Global</span>
                 </a>
             </div>
 
-            <!-- USER PROFILE PILL -->
+            <!-- USER PROFILE PILL WITH DYNAMIC PICTURE/INITIAL -->
             <div class="user-pill">
-                <div class="avatar" id="navAvatar">C</div>
+                <div class="avatar-container" id="navAvatar">J</div>
                 <div class="user-details">
-                    <span class="user-fullname" id="navFullName">Courage Ukpomwan</span>
-                    <span class="user-email-text" id="navEmail">user123@user.com</span>
+                    <span class="user-fullname" id="navFullName">John Doe</span>
+                    <span class="user-email-text" id="navEmail">johndoe@gmail.com</span>
                 </div>
             </div>
         </div>
@@ -512,7 +547,7 @@
             <!-- 1. MAIN DASHBOARD VIEW -->
             <section id="view-dashboard" class="view-section active">
                 <div class="page-title">Overview</div>
-                <div class="page-subtitle">Real-time account balances, bonus reserves, and active trade metrics.</div>
+                <div class="page-subtitle">Real-time balances, referral reserves, and active trade metrics.</div>
 
                 <div class="grid-cards">
                     <div class="card">
@@ -521,7 +556,7 @@
                     </div>
                     <div class="card">
                         <div class="card-title">Total Bonus</div>
-                        <div class="card-value text-info" id="valBonus">$250.00</div>
+                        <div class="card-value text-info" id="valBonus">$350.00</div>
                     </div>
                     <div class="card">
                         <div class="card-title">Total Deposit</div>
@@ -566,19 +601,19 @@
                             </tr>
                             <tr>
                                 <td>Aug 17, 2026</td>
-                                <td>Welcome Sign-up Bonus</td>
-                                <td>+$250.00</td>
+                                <td>Referral Commission Bonus (Ref ID: alex_trader)</td>
+                                <td>+$100.00</td>
                                 <td><span class="badge info">In Bonus Vault</span></td>
                             </tr>
                             <tr>
                                 <td>Aug 16, 2026</td>
-                                <td>AI Trade Allocation (Apex Hedge)</td>
-                                <td>-$2,000.00</td>
+                                <td>AI Trade Allocation (Micro Alpha Bot)</td>
+                                <td>-$200.00</td>
                                 <td><span class="badge info">Active Trade</span></td>
                             </tr>
                             <tr>
                                 <td>Aug 15, 2026</td>
-                                <td>Crypto Withdrawal - USDT</td>
+                                <td>Crypto Withdrawal - Solana (SOL)</td>
                                 <td>-$150.00</td>
                                 <td><span class="badge pending">Pending Approval</span></td>
                             </tr>
@@ -590,7 +625,7 @@
             <!-- 2. DEPOSIT VIEW -->
             <section id="view-deposit" class="view-section">
                 <div class="page-title">Deposit Funds</div>
-                <div class="page-subtitle">Select your payment currency with full names and submit receipt proof.</div>
+                <div class="page-subtitle">Select your payment currency and submit receipt proof for verification.</div>
 
                 <div class="form-card">
                     <form id="depositForm" onsubmit="handleDepositSubmit(event)">
@@ -623,7 +658,7 @@
                 <div id="paymentInstructions" class="payment-modal">
                     <h3 style="margin-bottom: 0.5rem; color: var(--primary);">Payment Instructions</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
-                        Copy the exact wallet address below, make payment from your wallet, and upload receipt proof.
+                        Copy the exact wallet address below, complete your transfer, and upload receipt proof.
                     </p>
 
                     <div style="background: var(--input-bg); padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 1.25rem;">
@@ -631,7 +666,7 @@
                         <strong id="payAsset" style="color: #fff; display: block; margin-bottom: 0.75rem;">-</strong>
 
                         <span class="form-label">Official Wallet Address:</span>
-                        <code id="payAddress" style="color: var(--primary); font-size: 0.95rem; word-break: break-all; display: block;">[WALLET_ADDRESS_WILL_BE_PROVIDED_HERE]</code>
+                        <code id="payAddress" style="color: var(--primary); font-size: 0.95rem; word-break: break-all; display: block;">[OFFICIAL_WALLET_ADDRESS_WILL_BE_DISPLAYED]</code>
                     </div>
 
                     <div class="form-group">
@@ -646,20 +681,21 @@
             <!-- 3. WITHDRAWAL VIEW -->
             <section id="view-withdraw" class="view-section">
                 <div class="page-title">Request Withdrawal</div>
-                <div class="page-subtitle">Withdraw your earnings via Cryptocurrency Wallet or Bank Account Transfer.</div>
+                <div class="page-subtitle">Withdraw earnings via Crypto Wallet or Bank Wire Transfer (Min. $1,000 for Bank).</div>
 
                 <div class="form-card">
                     <div class="tab-group">
                         <button type="button" class="tab-btn active" id="tabCryptoBtn" onclick="toggleWithdrawTab('crypto')">Crypto Wallet</button>
-                        <button type="button" class="tab-btn" id="tabBankBtn" onclick="toggleWithdrawTab('bank')">Bank Wire / Account</button>
+                        <button type="button" class="tab-btn" id="tabBankBtn" onclick="toggleWithdrawTab('bank')">Bank Wire / Account (Min. $1,000)</button>
                     </div>
 
-                    <!-- CRYPTO WITHDRAWAL FORM -->
+                    <!-- CRYPTO WITHDRAWAL FORM (ALL 10 CURRENCIES & ADDRESS MATCH CONFIRMATION) -->
                     <form id="cryptoWithdrawForm" onsubmit="handleCryptoWithdrawal(event)">
                         <div class="form-group">
                             <label class="form-label">Amount ($)</label>
                             <input type="number" id="withCryptoAmount" class="form-input" placeholder="e.g. 200" required>
                         </div>
+
                         <div class="form-group">
                             <label class="form-label">Select Withdrawal Currency</label>
                             <select id="withCryptoCurrency" class="form-select" required>
@@ -670,20 +706,32 @@
                                 <option value="Cardano (ADA)">Cardano (ADA)</option>
                                 <option value="BNB Smart Chain (BSC)">BNB Smart Chain (BSC)</option>
                                 <option value="Tether USDT (BEP20)">Tether USDT (BEP20)</option>
+                                <option value="Shiba Inu (SHIB)">Shiba Inu (SHIB)</option>
+                                <option value="Dogecoin (DOGE)">Dogecoin (DOGE)</option>
+                                <option value="Stellar (XLM)">Stellar (XLM)</option>
+                                <option value="Avalanche (AVAX)">Avalanche (AVAX)</option>
                             </select>
                         </div>
+
                         <div class="form-group">
                             <label class="form-label">Destination Wallet Address</label>
-                            <input type="text" id="withCryptoAddress" class="form-input" placeholder="Paste your wallet address" required>
+                            <input type="text" id="withCryptoAddress1" class="form-input" placeholder="Paste your wallet address" required>
                         </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Confirm Wallet Address</label>
+                            <input type="text" id="withCryptoAddress2" class="form-input" placeholder="Re-paste wallet address to confirm" required>
+                            <span id="addressMismatchMsg" style="color: var(--danger); font-size: 0.8rem; display: none; margin-top: 5px;">⚠️ Wallet addresses do not match!</span>
+                        </div>
+
                         <button type="submit" class="btn-submit">Submit Crypto Withdrawal</button>
                     </form>
 
-                    <!-- BANK ACCOUNT WITHDRAWAL FORM -->
+                    <!-- BANK ACCOUNT WITHDRAWAL FORM (MINIMUM $1,000 ENFORCED) -->
                     <form id="bankWithdrawForm" onsubmit="handleBankWithdrawal(event)" style="display: none;">
                         <div class="form-group">
-                            <label class="form-label">Withdrawal Amount ($)</label>
-                            <input type="number" id="withBankAmount" class="form-input" placeholder="e.g. 500" required>
+                            <label class="form-label">Withdrawal Amount ($) - <strong style="color: var(--primary);">Min. $1,000</strong></label>
+                            <input type="number" id="withBankAmount" class="form-input" placeholder="e.g. 1000" min="1000" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Account Holder Name</label>
@@ -691,7 +739,7 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label">Bank Name</label>
-                            <input type="text" class="form-input" placeholder="e.g. Chase Bank, Barclays, Access Bank" required>
+                            <input type="text" class="form-input" placeholder="e.g. Chase Bank, Barclays" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Account Number / IBAN</label>
@@ -702,16 +750,12 @@
                             <input type="text" id="confirmBankAccNo" class="form-input" placeholder="Re-enter Account Number or IBAN" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Routing Number (For USA Accounts)</label>
-                            <input type="text" class="form-input" placeholder="9-digit Routing Number (Optional)">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">SWIFT / BIC Code (For European & International)</label>
-                            <input type="text" class="form-input" placeholder="8 or 11 character SWIFT/BIC code">
+                            <label class="form-label">SWIFT / BIC / Routing Code</label>
+                            <input type="text" class="form-input" placeholder="Bank SWIFT/BIC/Routing number" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Bank Country</label>
-                            <input type="text" class="form-input" placeholder="e.g. United States, United Kingdom" required>
+                            <input type="text" class="form-input" placeholder="Country where bank is located" required>
                         </div>
                         <button type="submit" class="btn-submit">Submit Bank Wire Withdrawal</button>
                     </form>
@@ -742,19 +786,19 @@
                             </tr>
                             <tr>
                                 <td>Aug 17, 2026</td>
-                                <td>Welcome Sign-up Bonus</td>
-                                <td>+$250.00</td>
+                                <td>Referral Commission Bonus (Ref ID: alex_trader)</td>
+                                <td>+$100.00</td>
                                 <td><span class="badge info">In Bonus Vault</span></td>
                             </tr>
                             <tr>
                                 <td>Aug 16, 2026</td>
-                                <td>AI Trade Allocation (Apex Hedge)</td>
-                                <td>-$2,000.00</td>
+                                <td>AI Trade Allocation (Micro Alpha Bot)</td>
+                                <td>-$200.00</td>
                                 <td><span class="badge info">Active Trade</span></td>
                             </tr>
                             <tr>
                                 <td>Aug 15, 2026</td>
-                                <td>Crypto Withdrawal - USDT</td>
+                                <td>Crypto Withdrawal - Solana (SOL)</td>
                                 <td>-$150.00</td>
                                 <td><span class="badge pending">Pending Approval</span></td>
                             </tr>
@@ -763,31 +807,31 @@
                 </div>
             </section>
 
-            <!-- 5. TRADE & INVESTMENTS VIEW (MINIMUM DURATION 5 DAYS) -->
+            <!-- 5. TRADE & INVESTMENTS VIEW (TIER 1 UP TO 50% DAILY, MIN $50-$399) -->
             <section id="view-trade" class="view-section">
                 <div class="page-title">AI Auto-Trader & Automated Investments</div>
-                <div class="page-subtitle">Select an algorithmic strategy tier and duration (Min. 5 Days) to generate yield.</div>
+                <div class="page-subtitle">Select strategy tier and duration (Min. 5 Days) to generate high-yield profits.</div>
 
                 <div class="form-card">
                     <form onsubmit="handleStartTrade(event)">
                         <div class="form-group">
-                            <label class="form-label">Select Trading Tier Strategy</label>
+                            <label class="form-label">Select Trading Strategy Tier</label>
                             <select class="form-select" id="tradePlan" onchange="updateTierInfo()">
-                                <option value="tier1">Tier 1: Micro Alpha Bot ($1 - $399) | Yield: 1.2%/day</option>
-                                <option value="tier2">Tier 2: Quantum Momentum Trader ($400 - $999) | Yield: 2.0%/day</option>
-                                <option value="tier3" selected>Tier 3: Apex Hedge Strategy ($1,000 - $4,999) | Yield: 3.5%/day</option>
-                                <option value="tier4">Tier 4: Institutional High-Yield Scalper ($5,000 - $9,999) | Yield: 5.0%/day</option>
-                                <option value="tier5">Tier 5: Sovereign Liquidity Vault ($10,000+) | Yield: 7.5%/day</option>
+                                <option value="tier1" selected>Tier 1: Micro Alpha Bot ($50 - $399) | Yield: 50.0%/day</option>
+                                <option value="tier2">Tier 2: Quantum Momentum ($400 - $999) | Yield: 75.0%/day</option>
+                                <option value="tier3">Tier 3: Apex Hedge Strategy ($1,000 - $4,999) | Yield: 100.0%/day</option>
+                                <option value="tier4">Tier 4: High-Yield Scalper ($5,000 - $9,999) | Yield: 150.0%/day</option>
+                                <option value="tier5">Tier 5: Sovereign Liquidity ($10,000+) | Yield: 200.0%/day</option>
                             </select>
                         </div>
 
                         <div id="tierCapDisplay" style="background: var(--input-bg); padding: 0.85rem; border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.85rem; margin-bottom: 1.25rem; color: var(--primary);">
-                            Selected Tier Limits: Minimum $1,000 — Maximum $4,999
+                            Selected Tier Limits: Minimum $50 — Maximum $399 | Daily ROI: 50%
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Investment Amount ($)</label>
-                            <input type="number" class="form-input" id="tradeAmount" placeholder="Enter amount within tier caps" required>
+                            <input type="number" class="form-input" id="tradeAmount" placeholder="Enter amount within tier limits" required>
                         </div>
 
                         <div class="form-group">
@@ -805,57 +849,97 @@
                 </div>
             </section>
 
-            <!-- 6. REFERRALS VIEW -->
+            <!-- 6. REFERRALS VIEW (ONLY USERNAME/REFERRAL ID & $100 INSTANT BONUS NOTICE) -->
             <section id="view-referrals" class="view-section">
                 <div class="page-title">Referral Program</div>
-                <div class="page-subtitle">Invite partners using your unique username link to earn direct commissions.</div>
+                <div class="page-subtitle">Share your unique Username / Referral ID to earn direct commissions.</div>
+
+                <div class="bonus-banner">
+                    🎁 <strong>Instant Referral Bonus:</strong> For every new user who registers using your <strong>Referral ID</strong> and starts an active trade, you automatically receive an <strong>instant $100 Bonus</strong> directly credited to your Bonus Vault!
+                </div>
 
                 <div class="form-card">
                     <div class="form-group">
-                        <label class="form-label">Your Custom Username Referral URL</label>
-                        <input type="text" id="refUrlDisplay" class="form-input" value="https://crestline.global/ref?user=courage_ukp" readonly>
+                        <label class="form-label">Your Unique Referral ID / Username</label>
+                        <input type="text" id="refIdDisplay" class="form-input" value="john_doe" readonly style="font-weight: 800; font-size: 1.1rem; color: var(--primary);">
                     </div>
-                    <button type="button" class="btn-submit" onclick="copyReferralLink()">Copy Referral Link</button>
+                    <button type="button" class="btn-submit" onclick="copyReferralId()">Copy Referral ID</button>
+                </div>
+
+                <!-- REFERRED USERS TABLE -->
+                <div class="card" style="max-width: 700px;">
+                    <div class="card-title" style="margin-bottom: 1rem;">Your Registered Referrals</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Referred User</th>
+                                <th>Date Joined</th>
+                                <th>Trade Status</th>
+                                <th>Bonus Earned</th>
+                            </tr>
+                        </thead>
+                        <tbody id="referralListTable">
+                            <tr>
+                                <td>alex_trader</td>
+                                <td>Aug 17, 2026</td>
+                                <td><span class="badge success">Active Trade</span></td>
+                                <td>+$100.00</td>
+                            </tr>
+                            <tr>
+                                <td>crypto_sam</td>
+                                <td>Aug 10, 2026</td>
+                                <td><span class="badge pending">No Trade Yet</span></td>
+                                <td>$0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </section>
 
-            <!-- 7. ENHANCED PROFILE & SETTINGS VIEW -->
+            <!-- 7. PROFILE & SETTINGS VIEW (EDITABLE USERNAME & PROFILE PICTURE UPLOAD) -->
             <section id="view-profile" class="view-section">
                 <div class="page-title">Profile & Settings</div>
-                <div class="page-subtitle">View and update your verified profile information.</div>
+                <div class="page-subtitle">Manage your profile image, personal info, and custom Username/Referral ID.</div>
 
                 <div class="form-card">
                     <form id="profileForm" onsubmit="handleSaveProfile(event)">
-                        <div class="form-group">
-                            <label class="form-label">Full Name</label>
-                            <input type="text" id="profFullName" class="form-input" value="Courage Ukpomwan" required>
+                        
+                        <!-- PROFILE PICTURE UPLOADER & PREVIEW -->
+                        <div class="profile-pic-container">
+                            <div class="profile-preview" id="profileImagePreview">J</div>
+                            <div>
+                                <label class="form-label" style="margin-bottom: 0.3rem;">Profile Picture</label>
+                                <input type="file" id="picInput" class="form-input" accept="image/*" onchange="previewProfilePic(event)">
+                                <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 4px;">PNG or JPG format supported.</span>
+                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Username (Used for Referral Link)</label>
-                            <input type="text" id="profUsername" class="form-input" value="courage_ukp" placeholder="Set a unique username" required>
+                            <label class="form-label">Full Name</label>
+                            <input type="text" id="profFullName" class="form-input" value="John Doe" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Username / Referral ID <span style="color: var(--primary); font-size: 0.8rem;">(Editable - Changes Referral ID)</span></label>
+                            <input type="text" id="profUsername" class="form-input" value="john_doe" placeholder="Choose a unique username" required>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Email Address</label>
-                            <input type="email" id="profEmail" class="form-input" value="user123@user.com" required>
+                            <input type="email" id="profEmail" class="form-input" value="johndoe@gmail.com" required>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Phone Number</label>
-                            <input type="tel" id="profPhone" class="form-input" value="+234 810 000 0000" placeholder="+1 (555) 000-0000" required>
+                            <input type="tel" id="profPhone" class="form-input" value="+1 (555) 019-2834" placeholder="+1 (555) 000-0000" required>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Country of Residence</label>
-                            <input type="text" id="profCountry" class="form-input" value="Nigeria" placeholder="Enter your country" required>
+                            <input type="text" id="profCountry" class="form-input" value="United States" placeholder="Enter your country" required>
                         </div>
 
-                        <p id="lockNotice" style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; display: none;">
-                            🔒 Profile details are locked for security. To modify details, please contact system admin via Messages.
-                        </p>
-
-                        <button type="submit" id="profSubmitBtn" class="btn-submit">Save & Complete Profile</button>
+                        <button type="submit" id="profSubmitBtn" class="btn-submit">Save Profile Changes</button>
                     </form>
                 </div>
             </section>
@@ -876,7 +960,7 @@
 
                     <div class="chat-box" id="chatBox">
                         <div class="chat-msg admin">
-                            Hello Courage! Welcome to Crestline Global support chat. How can we assist you with your trades, deposits, or account settings today?
+                            Hello John! Welcome to Crestline Global support chat. How can we assist you with your trades, deposits, or account settings today?
                             <span class="chat-time">10:00 AM</span>
                         </div>
                     </div>
@@ -892,19 +976,19 @@
     </div>
 
     <script>
-        // ACCOUNT STATE & PROFILE DATA
+        // DEFAULT ACCOUNT & PROFILE STATE
         let userProfile = {
-            fullName: "Courage Ukpomwan",
-            username: "courage_ukp",
-            email: "user123@user.com",
-            phone: "+234 810 000 0000",
-            country: "Nigeria",
-            isLocked: true // Controls read-only state after completion
+            fullName: "John Doe",
+            username: "john_doe",
+            email: "johndoe@gmail.com",
+            phone: "+1 (555) 019-2834",
+            country: "United States",
+            avatarUrl: null
         };
 
         let state = {
             availableBalance: 12450.00,
-            bonus: 250.00,
+            bonus: 350.00,
             totalDeposit: 10000.00,
             totalWithdrawal: 1500.00,
             ongoingTrade: 2000.00,
@@ -912,12 +996,13 @@
             currentProfit: 3950.00
         };
 
+        // AUTO-TRADER TIERS (TIER 1: $50-$399 UP TO 50% DAILY)
         const tierCaps = {
-            tier1: { min: 1, max: 399, name: "Micro Alpha Bot" },
-            tier2: { min: 400, max: 999, name: "Quantum Momentum Trader" },
-            tier3: { min: 1000, max: 4999, name: "Apex Hedge Strategy" },
-            tier4: { min: 5000, max: 9999, name: "Institutional High-Yield Scalper" },
-            tier5: { min: 10000, max: 1000000, name: "Sovereign Liquidity Vault" }
+            tier1: { min: 50, max: 399, yield: "50%", name: "Micro Alpha Bot" },
+            tier2: { min: 400, max: 999, yield: "75%", name: "Quantum Momentum Trader" },
+            tier3: { min: 1000, max: 4999, yield: "100%", name: "Apex Hedge Strategy" },
+            tier4: { min: 5000, max: 9999, yield: "150%", name: "High-Yield Scalper" },
+            tier5: { min: 10000, max: 1000000, yield: "200%", name: "Sovereign Liquidity Vault" }
         };
 
         // SIDEBAR TOGGLE
@@ -945,7 +1030,7 @@
             if (window.innerWidth <= 768) sidebar.classList.remove('open');
         }
 
-        // RENDER BALANCES & METRICS
+        // RENDER BALANCES
         function renderBalances() {
             document.getElementById('valAvailable').textContent = `$${state.availableBalance.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
             document.getElementById('valBonus').textContent = `$${state.bonus.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
@@ -956,11 +1041,37 @@
             document.getElementById('valProfit').textContent = `+$${state.currentProfit.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
         }
 
-        // RENDER USER PROFILE DATA AND APPLY LOCKING
+        // PROFILE PICTURE PREVIEW & SYNC
+        function previewProfilePic(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    userProfile.avatarUrl = e.target.result;
+                    renderAvatar();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function renderAvatar() {
+            const navAvatar = document.getElementById('navAvatar');
+            const previewBox = document.getElementById('profileImagePreview');
+
+            if (userProfile.avatarUrl) {
+                navAvatar.innerHTML = `<img src="${userProfile.avatarUrl}" alt="Profile">`;
+                previewBox.innerHTML = `<img src="${userProfile.avatarUrl}" alt="Profile">`;
+            } else {
+                const initial = userProfile.fullName ? userProfile.fullName.charAt(0).toUpperCase() : 'J';
+                navAvatar.innerHTML = initial;
+                previewBox.innerHTML = initial;
+            }
+        }
+
+        // SYNC PROFILE DATA IN UI
         function syncProfileUI() {
             document.getElementById('navFullName').textContent = userProfile.fullName;
             document.getElementById('navEmail').textContent = userProfile.email;
-            document.getElementById('navAvatar').textContent = userProfile.fullName.charAt(0).toUpperCase();
 
             document.getElementById('profFullName').value = userProfile.fullName;
             document.getElementById('profUsername').value = userProfile.username;
@@ -968,43 +1079,33 @@
             document.getElementById('profPhone').value = userProfile.phone;
             document.getElementById('profCountry').value = userProfile.country;
 
-            // Generate unique username referral link
-            document.getElementById('refUrlDisplay').value = `https://crestline.global/ref?user=${userProfile.username}`;
+            // Synchronize Referral ID display
+            document.getElementById('refIdDisplay').value = userProfile.username;
 
-            if (userProfile.isLocked) {
-                document.getElementById('profFullName').readOnly = true;
-                document.getElementById('profUsername').readOnly = true;
-                document.getElementById('profEmail').readOnly = true;
-                document.getElementById('profPhone').readOnly = true;
-                document.getElementById('profCountry').readOnly = true;
-                document.getElementById('profSubmitBtn').style.display = 'none';
-                document.getElementById('lockNotice').style.display = 'block';
-            }
+            renderAvatar();
         }
 
-        // PROFILE SUBMISSION & LOCKING
+        // SAVE PROFILE (USERNAME REMAINS EDITABLE ANYTIME)
         function handleSaveProfile(e) {
             e.preventDefault();
-            userProfile.fullName = document.getElementById('profFullName').value;
-            userProfile.username = document.getElementById('profUsername').value;
-            userProfile.email = document.getElementById('profEmail').value;
-            userProfile.phone = document.getElementById('profPhone').value;
-            userProfile.country = document.getElementById('profCountry').value;
-            userProfile.isLocked = true;
+            userProfile.fullName = document.getElementById('profFullName').value.trim();
+            userProfile.username = document.getElementById('profUsername').value.trim().toLowerCase().replace(/\s+/g, '_');
+            userProfile.email = document.getElementById('profEmail').value.trim();
+            userProfile.phone = document.getElementById('profPhone').value.trim();
+            userProfile.country = document.getElementById('profCountry').value.trim();
 
             syncProfileUI();
-            alert('Profile completed and saved successfully! Details are now locked for security.');
+            alert('Profile and Username / Referral ID updated successfully!');
         }
 
-        // COPY REFERRAL LINK
-        function copyReferralLink() {
-            const input = document.getElementById('refUrlDisplay');
-            input.select();
+        // COPY REFERRAL ID
+        function copyReferralId() {
+            const input = document.getElementById('refIdDisplay');
             navigator.clipboard.writeText(input.value);
-            alert('Referral link copied to clipboard!');
+            alert(`Referral ID "${input.value}" copied to clipboard!`);
         }
 
-        // DEPOSIT FLOW
+        // DEPOSIT HANDLER
         function handleDepositSubmit(e) {
             e.preventDefault();
             const currency = document.getElementById('depCurrency').value;
@@ -1035,7 +1136,7 @@
             document.getElementById('dashboardRecentTable').insertAdjacentHTML('afterbegin', newRow);
             document.getElementById('fullTransactionTable').insertAdjacentHTML('afterbegin', newRow);
 
-            alert('Your deposit request has been submitted successfully!\n\nPlease wait for the blockchain network to fully confirm the transaction and for the system admin to credit your account.');
+            alert('Your deposit request has been submitted successfully!\n\nPlease wait for the blockchain network to confirm the transaction and for the system admin to credit your account.');
 
             document.getElementById('paymentInstructions').style.display = 'none';
             document.getElementById('depositForm').reset();
@@ -1058,11 +1159,21 @@
             }
         }
 
-        // SUBMIT CRYPTO WITHDRAWAL
+        // CRYPTO WITHDRAWAL WITH ADDRESS MATCH CONFIRMATION
         function handleCryptoWithdrawal(e) {
             e.preventDefault();
             const amount = parseFloat(document.getElementById('withCryptoAmount').value);
             const currency = document.getElementById('withCryptoCurrency').value;
+            const addr1 = document.getElementById('withCryptoAddress1').value.trim();
+            const addr2 = document.getElementById('withCryptoAddress2').value.trim();
+
+            if (addr1 !== addr2) {
+                document.getElementById('addressMismatchMsg').style.display = 'block';
+                alert('Wallet addresses do not match! Please check and confirm your address.');
+                return;
+            } else {
+                document.getElementById('addressMismatchMsg').style.display = 'none';
+            }
 
             if (amount > state.availableBalance) {
                 alert('Insufficient available balance!');
@@ -1085,17 +1196,22 @@
             document.getElementById('dashboardRecentTable').insertAdjacentHTML('afterbegin', newRow);
             document.getElementById('fullTransactionTable').insertAdjacentHTML('afterbegin', newRow);
 
-            alert('Crypto withdrawal request received. Please wait for system/admin clearance.');
+            alert('Crypto withdrawal request submitted successfully.');
             document.getElementById('cryptoWithdrawForm').reset();
             switchView('dashboard');
         }
 
-        // SUBMIT BANK WITHDRAWAL
+        // BANK WITHDRAWAL ($1,000 MINIMUM ENFORCED)
         function handleBankWithdrawal(e) {
             e.preventDefault();
             const amount = parseFloat(document.getElementById('withBankAmount').value);
-            const acc1 = document.getElementById('bankAccNo').value;
-            const acc2 = document.getElementById('confirmBankAccNo').value;
+            const acc1 = document.getElementById('bankAccNo').value.trim();
+            const acc2 = document.getElementById('confirmBankAccNo').value.trim();
+
+            if (amount < 1000) {
+                alert('Minimum bank wire withdrawal amount is $1,000!');
+                return;
+            }
 
             if (acc1 !== acc2) {
                 alert('Bank account numbers/IBAN do not match!');
@@ -1123,17 +1239,17 @@
             document.getElementById('dashboardRecentTable').insertAdjacentHTML('afterbegin', newRow);
             document.getElementById('fullTransactionTable').insertAdjacentHTML('afterbegin', newRow);
 
-            alert('Bank withdrawal request submitted. Your bank wire transfer is pending admin processing.');
+            alert('Bank wire withdrawal request submitted successfully.');
             document.getElementById('bankWithdrawForm').reset();
             switchView('dashboard');
         }
 
-        // UPDATE TIER INFO
+        // UPDATE AUTO-TRADER TIER CAP INFO
         function updateTierInfo() {
             const key = document.getElementById('tradePlan').value;
             const info = tierCaps[key];
             const maxStr = info.max === 1000000 ? "Unlimited ($10,000+)" : `$${info.max.toLocaleString()}`;
-            document.getElementById('tierCapDisplay').textContent = `Selected Strategy: ${info.name} | Caps: Min $${info.min.toLocaleString()} — Max ${maxStr}`;
+            document.getElementById('tierCapDisplay').textContent = `Selected Tier: ${info.name} | Caps: Min $${info.min.toLocaleString()} — Max ${maxStr} | Daily ROI: ${info.yield}`;
         }
 
         // START TRADE
@@ -1145,7 +1261,7 @@
             const info = tierCaps[tierKey];
 
             if (amount < info.min || (info.max !== 1000000 && amount > info.max)) {
-                alert(`Amount must fall within the selected tier cap ($${info.min} - $${info.max})!`);
+                alert(`Amount must fall within the selected tier limits ($${info.min} - $${info.max})!`);
                 return;
             }
 
@@ -1172,7 +1288,7 @@
             document.getElementById('dashboardRecentTable').insertAdjacentHTML('afterbegin', newRow);
             document.getElementById('fullTransactionTable').insertAdjacentHTML('afterbegin', newRow);
 
-            alert(`Automated trade successfully started under ${info.name} for ${days} days!\nDaily ROI will accumulate to your profit balance.`);
+            alert(`Automated trade successfully started under ${info.name} for ${days} days!\nDaily ROI (${info.yield}/day) will accumulate to your profit balance.`);
             switchView('dashboard');
         }
 
@@ -1186,7 +1302,6 @@
             const chatBox = document.getElementById('chatBox');
             const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-            // Append User Message
             const userMsgHTML = `
                 <div class="chat-msg user">
                     ${text}
@@ -1197,11 +1312,10 @@
             input.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // Simulated Automated Admin Response
             setTimeout(() => {
                 const adminMsgHTML = `
                     <div class="chat-msg admin">
-                        Thank you for reaching out! Our admin team has received your message and will review your request shortly.
+                        Thank you for reaching out, John! Our admin team has received your message and will review your request shortly.
                         <span class="chat-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                     </div>
                 `;
