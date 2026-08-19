@@ -92,24 +92,6 @@
             letter-spacing: -0.02em;
         }
 
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-link {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: color 0.2s;
-        }
-
-        .nav-link:hover {
-            color: var(--primary);
-        }
-
         .header-actions {
             display: flex;
             align-items: center;
@@ -286,14 +268,6 @@
                 <span class="brand-name">Crestline Global</span>
             </a>
 
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="index.html#markets" class="nav-link">Markets</a></li>
-                    <li><a href="index.html#how-it-works" class="nav-link">How it Works</a></li>
-                    <li><a href="index.html#trade" class="nav-link">Trade</a></li>
-                </ul>
-            </nav>
-
             <div class="header-actions">
                 <a href="login.html" class="btn-secondary">Log In</a>
             </div>
@@ -322,6 +296,12 @@
                 <div class="form-group">
                     <label class="form-label" for="password">Password</label>
                     <input type="password" id="password" class="form-input" placeholder="Minimum 8 characters" required>
+                </div>
+
+                <!-- CONFIRM PASSWORD FIELD -->
+                <div class="form-group">
+                    <label class="form-label" for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" class="form-input" placeholder="Re-enter your password" required>
                 </div>
 
                 <!-- REFERRAL CODE (OPTIONAL) -->
