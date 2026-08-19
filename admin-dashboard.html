@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Crestline Global</title>
+    <style>
+        :root {
+            --bg-color: #0b0e14;
+            --card-bg: #151a23;
+            --primary: #f59e0b;
+            --primary-hover: #d97706;
+            --text-main: #f0f6fc;
+            --text-muted: #8b949e;
+            --border-color: #262d3a;
+            --input-bg: #0e121a;
+            --header-height: 70px;
+            --sidebar-width: 260px;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --info: #3b82f6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        .site-header {
+            height: var(--header-height);
+            background-color: rgba(21, 26, 35, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1600px;
+            height: 100%;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .brand-logo-container span { color: var(--primary); }
+
+        .admin-badge-header {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* LAYOUT */
+        .app-container {
+            display: flex;
+            margin-top: var(--header-height);
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        aside {
+            width: var(--sidebar-width);
+            background-color: var(--card-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            top: var(--header-height);
+            bottom: 0; left: 0;
+            z-index: 900;
+        }
+
+        .nav-menu { list-style: none; }
+        .nav-item { margin-bottom: 0.35rem; }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: var(--primary);
+        }
+
+        .nav-link.logout { color: var(--danger); }
+
+        main {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+            max-width: 1600px;
+        }
+
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+        }
+
+        .page-subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.75rem;
+        }
+
+        /* CARDS & TABLES */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .text-success { color: var(--success); }
+        .text-warning { color: var(--primary); }
+        .text-danger { color: var(--danger); }
+        .text-info { color: var(--info); }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.88rem;
+            vertical-align: middle;
+        }
+
+        th {
+            color: var(--text-muted);
+            font-weight: 600;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .badge.success { background: rgba(34, 197, 94, 0.15); color: var(--success); }
+        .badge.pending { background: rgba(245, 158, 11, 0.15); color: var(--primary); }
+        .badge.danger { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+
+        /* BUTTONS */
+        .btn {
+            padding: 0.4rem 0.75rem;
+            border-radius: 6px;
+            border: none;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            margin-right: 0.35rem;
+        }
+
+        .btn:hover { opacity: 0.85; }
+        .btn-success { background-color: var(--success); color: #000; }
+        .btn-danger { background-color: var(--danger); color: #fff; }
+        .btn-primary { background-color: var(--primary); color: #000; }
+        .btn-secondary { background-color: var(--input-bg); color: var(--text-main); border: 1px solid var(--border-color); }
+
+        /* FORMS */
+        .form-card {
+            max-width: 800px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group { margin-bottom: 1.25rem; }
+
+        .form-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.85rem 1rem;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .form-input:focus, .form-select:focus { border-color: var(--primary); }
+
+        /* CHAT SYSTEM */
+        .admin-chat-layout {
+            display: flex;
+            height: 600px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .chat-user-list {
+            width: 300px;
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-user-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .chat-user-item:hover, .chat-user-item.active {
+            background-color: rgba(245, 158, 11, 0.1);
+        }
+
+        .chat-user-name { font-weight: 700; font-size: 0.9rem; }
+        .chat-user-sub { font-size: 0.75rem; color: var(--text-muted); }
+
+        .chat-window {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1.25rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .msg {
+            max-width: 70%;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+
+        .msg.user {
+            align-self: flex-start;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+        }
+
+        .msg.admin {
+            align-self: flex-end;
+            background: var(--primary);
+            color: #000;
+            font-weight: 600;
+        }
+
+        .chat-input-row {
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            width: 90%;
+            max-width: 600px;
+            border-radius: 12px;
+            padding: 2rem;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @media (max-width: 768px) {
+            aside { transform: translateX(-100%); }
+            main { margin-left: 0; padding: 1rem; }
+            .admin-chat-layout { flex-direction: column; height: 750px; }
+            .chat-user-list { width: 100%; height: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SITE HEADER -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="#" class="brand-logo-container">
+                📈 Crestline <span>Global</span>
+            </a>
+            <span class="admin-badge-header">🔒 Master Admin Control</span>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <!-- NAVIGATION SIDEBAR -->
+        <aside>
+            <ul class="nav-menu">
+                <li class="nav-item"><a class="nav-link active" onclick="switchView('overview', this)">📊 Overview</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="switchView('users', this)">👥 Manage Users</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="switchView('deposits', this)">💳 Deposits Approval</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="switchView('withdrawals', this)">🏧 Withdrawals Approval</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="switchView('messages', this)">💬 User Live Messages</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="switchView('create-user', this)">➕ Create User Account</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="switchView('settings', this)">⚙️ Global Settings</a></li>
+            </ul>
+
+            <a href="login.html" class="nav-link logout">Sign Out Admin</a>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main>
+
+            <!-- 1. OVERVIEW VIEW -->
+            <section id="view-overview" class="view-section active">
+                <div class="page-title">Master Executive Overview</div>
+                <div class="page-subtitle">Real-time stats across all user accounts on Crestline Global.</div>
+
+                <div class="grid-cards">
+                    <div class="card">
+                        <div class="card-title">Total Platform Users</div>
+                        <div class="card-value text-info" id="statTotalUsers">248</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Total User Balances</div>
+                        <div class="card-value text-warning" id="statTotalBalances">$1,842,500.00</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Pending Deposits</div>
+                        <div class="card-value text-success" id="statPendingDeposits">3 Requests</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Pending Withdrawals</div>
+                        <div class="card-value text-danger" id="statPendingWithdrawals">2 Requests</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" style="margin-bottom: 1rem;">Recent System Activity</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>User</th>
+                                <th>Action Type</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Aug 19, 2026, 05:30</td>
+                                <td>john_doe (johndoe@gmail.com)</td>
+                                <td>Deposit - Bitcoin (BTC)</td>
+                                <td>$500.00</td>
+                                <td><span class="badge pending">Pending Approval</span></td>
+                            </tr>
+                            <tr>
+                                <td>Aug 18, 2026, 14:22</td>
+                                <td>alex_trader (alex@trader.com)</td>
+                                <td>Crypto Withdrawal - SOL</td>
+                                <td>$150.00</td>
+                                <td><span class="badge pending">Pending Approval</span></td>
+                            </tr>
+                            <tr>
+                                <td>Aug 17, 2026, 09:10</td>
+                                <td>courage_u (courage@crestline.com)</td>
+                                <td>Manual Balance Override</td>
+                                <td>+$10,000.00</td>
+                                <td><span class="badge success">Completed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 2. MANAGE USERS VIEW (UNRESTRICTED ACCESS) -->
+            <section id="view-users" class="view-section">
+                <div class="page-title">User Account Directory & Controls</div>
+                <div class="page-subtitle">Inspect, edit, adjust balances, impersonate, or delete any user account on the platform.</div>
+
+                <div class="card">
+                    <div style="margin-bottom: 1rem; display: flex; gap: 1rem;">
+                        <input type="text" id="userSearchInput" class="form-input" placeholder="Search user by name, email, or account ID..." onkeyup="filterUsers()">
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User Full Name</th>
+                                <th>Email Address</th>
+                                <th>Avail. Balance</th>
+                                <th>Bonus Vault</th>
+                                <th>Current Profit</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userTableBody">
+                            <tr id="user-row-1">
+                                <td><strong>John Doe</strong></td>
+                                <td>johndoe@gmail.com</td>
+                                <td>$12,450.00</td>
+                                <td>$350.00</td>
+                                <td>+$3,950.00</td>
+                                <td>
+                                    <button class="btn btn-primary" onclick="openEditUserModal('John Doe', 'johndoe@gmail.com', 12450, 350, 3950)">Edit / Override</button>
+                                    <button class="btn btn-secondary" onclick="impersonateUser('johndoe@gmail.com')">Impersonate Access</button>
+                                    <button class="btn btn-danger" onclick="deleteUser('user-row-1', 'John Doe')">Delete</button>
+                                </td>
+                            </tr>
+                            <tr id="user-row-2">
+                                <td><strong>Alex Trader</strong></td>
+                                <td>alex@trader.com</td>
+                                <td>$5,200.00</td>
+                                <td>$50.00</td>
+                                <td>+$1,200.00</td>
+                                <td>
+                                    <button class="btn btn-primary" onclick="openEditUserModal('Alex Trader', 'alex@trader.com', 5200, 50, 1200)">Edit / Override</button>
+                                    <button class="btn btn-secondary" onclick="impersonateUser('alex@trader.com')">Impersonate Access</button>
+                                    <button class="btn btn-danger" onclick="deleteUser('user-row-2', 'Alex Trader')">Delete</button>
+                                </td>
+                            </tr>
+                            <tr id="user-row-3">
+                                <td><strong>Courage Ukpomwan</strong></td>
+                                <td>courage@crestline.com</td>
+                                <td>$85,000.00</td>
+                                <td>$2,500.00</td>
+                                <td>+$24,000.00</td>
+                                <td>
+                                    <button class="btn btn-primary" onclick="openEditUserModal('Courage Ukpomwan', 'courage@crestline.com', 85000, 2500, 24000)">Edit / Override</button>
+                                    <button class="btn btn-secondary" onclick="impersonateUser('courage@crestline.com')">Impersonate Access</button>
+                                    <button class="btn btn-danger" onclick="deleteUser('user-row-3', 'Courage Ukpomwan')">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 3. DEPOSITS APPROVAL VIEW -->
+            <section id="view-deposits" class="view-section">
+                <div class="page-title">Deposit Request Approvals</div>
+                <div class="page-subtitle">Verify user deposit receipts and credit balances upon approval.</div>
+
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>User Email</th>
+                                <th>Selected Asset</th>
+                                <th>Amount</th>
+                                <th>Receipt Proof</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="depositsTableBody">
+                            <tr id="dep-row-1">
+                                <td>Aug 19, 2026</td>
+                                <td>johndoe@gmail.com</td>
+                                <td>Bitcoin (BTC)</td>
+                                <td>$500.00</td>
+                                <td><button class="btn btn-secondary" onclick="alert('Viewing receipt proof image attachment...')">🖼️ View Receipt</button></td>
+                                <td>
+                                    <button class="btn btn-success" onclick="approveDeposit('dep-row-1', 'johndoe@gmail.com', 500)">Approve & Credit</button>
+                                    <button class="btn btn-danger" onclick="rejectTransaction('dep-row-1')">Reject</button>
+                                </td>
+                            </tr>
+                            <tr id="dep-row-2">
+                                <td>Aug 18, 2026</td>
+                                <td>alex@trader.com</td>
+                                <td>Tether USDT (BEP20)</td>
+                                <td>$1,200.00</td>
+                                <td><button class="btn btn-secondary" onclick="alert('Viewing receipt proof image attachment...')">🖼️ View Receipt</button></td>
+                                <td>
+                                    <button class="btn btn-success" onclick="approveDeposit('dep-row-2', 'alex@trader.com', 1200)">Approve & Credit</button>
+                                    <button class="btn btn-danger" onclick="rejectTransaction('dep-row-2')">Reject</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 4. WITHDRAWALS APPROVAL VIEW -->
+            <section id="view-withdrawals" class="view-section">
+                <div class="page-title">Withdrawal Request Approvals</div>
+                <div class="page-subtitle">Review user withdrawal payouts and mark them as processed or rejected.</div>
+
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>User Email</th>
+                                <th>Method</th>
+                                <th>Destination / Wallet</th>
+                                <th>Amount</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="withdrawalsTableBody">
+                            <tr id="with-row-1">
+                                <td>Aug 18, 2026</td>
+                                <td>johndoe@gmail.com</td>
+                                <td>Crypto (Solana)</td>
+                                <td><code>7xKXtg...9PqW</code></td>
+                                <td>$150.00</td>
+                                <td>
+                                    <button class="btn btn-success" onclick="approveWithdrawal('with-row-1')">Approve Payout</button>
+                                    <button class="btn btn-danger" onclick="rejectTransaction('with-row-1')">Reject & Refund</button>
+                                </td>
+                            </tr>
+                            <tr id="with-row-2">
+                                <td>Aug 17, 2026</td>
+                                <td>courage@crestline.com</td>
+                                <td>Bank Wire</td>
+                                <td>Chase Bank - IBAN: US89...0021</td>
+                                <td>$5,000.00</td>
+                                <td>
+                                    <button class="btn btn-success" onclick="approveWithdrawal('with-row-2')">Approve Payout</button>
+                                    <button class="btn btn-danger" onclick="rejectTransaction('with-row-2')">Reject & Refund</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 5. USER MESSAGES VIEW (CHAT WITH ANYONE) -->
+            <section id="view-messages" class="view-section">
+                <div class="page-title">Live User Messaging & Support Center</div>
+                <div class="page-subtitle">Communicate directly with active users across Crestline Global in real-time.</div>
+
+                <div class="admin-chat-layout">
+                    <div class="chat-user-list">
+                        <div class="chat-user-item active" onclick="selectChatUser('John Doe', 'johndoe@gmail.com')">
+                            <div class="chat-user-name">John Doe</div>
+                            <div class="chat-user-sub">johndoe@gmail.com</div>
+                        </div>
+                        <div class="chat-user-item" onclick="selectChatUser('Alex Trader', 'alex@trader.com')">
+                            <div class="chat-user-name">Alex Trader</div>
+                            <div class="chat-user-sub">alex@trader.com</div>
+                        </div>
+                        <div class="chat-user-item" onclick="selectChatUser('Courage Ukpomwan', 'courage@crestline.com')">
+                            <div class="chat-user-name">Courage Ukpomwan</div>
+                            <div class="chat-user-sub">courage@crestline.com</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-window">
+                        <div class="chat-header" id="currentChatHeader">
+                            Chatting with: John Doe (johndoe@gmail.com)
+                        </div>
+                        <div class="chat-messages" id="chatBox">
+                            <div class="msg user">Hello Admin, I submitted a deposit proof of $500 for BTC. Please approve it.</div>
+                            <div class="msg admin">Hello John, our financial team is currently processing your payment. It will be credited shortly.</div>
+                        </div>
+                        <div class="chat-input-row">
+                            <input type="text" id="adminMsgInput" class="form-input" placeholder="Type your reply to user...">
+                            <button class="btn btn-primary" onclick="sendAdminMessage()">Send Message</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. CREATE USER VIEW -->
+            <section id="view-create-user" class="view-section">
+                <div class="page-title">Create New User Account</div>
+                <div class="page-subtitle">Manually register a user account with preset balances and custom credentials.</div>
+
+                <div class="form-card">
+                    <form onsubmit="handleCreateUser(event)">
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-input" placeholder="e.g. Sarah Jenkins" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-input" placeholder="e.g. sarah@gmail.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Account Password</label>
+                            <input type="password" class="form-input" placeholder="Set user password" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Initial Available Balance ($)</label>
+                            <input type="number" class="form-input" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Initial Bonus Credit ($)</label>
+                            <input type="number" class="form-input" value="0">
+                        </div>
+                        <button type="submit" class="btn-submit btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem;">Create Account Instantly</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- 7. GLOBAL SETTINGS VIEW -->
+            <section id="view-settings" class="view-section">
+                <div class="page-title">Global Platform System Settings</div>
+                <div class="page-subtitle">Update official receiving wallet addresses, bank details, and admin credentials.</div>
+
+                <div class="form-card">
+                    <h3 style="margin-bottom: 1rem; color: var(--primary);">Official Deposit Wallet Addresses</h3>
+                    <div class="form-group">
+                        <label class="form-label">Bitcoin (BTC) Wallet Address</label>
+                        <input type="text" class="form-input" value="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Solana (SOL) Wallet Address</label>
+                        <input type="text" class="form-input" value="7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJos9PqW">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tether USDT (BEP20) Address</label>
+                        <input type="text" class="form-input" value="0x71C7656EC7ab88b098defB751B7401B5f6d8976F">
+                    </div>
+
+                    <h3 style="margin-top: 1.5rem; margin-bottom: 1rem; color: var(--primary);">Update Master Admin Password</h3>
+                    <div class="form-group">
+                        <label class="form-label">New Master Admin Password</label>
+                        <input type="password" class="form-input" placeholder="Enter new password">
+                    </div>
+                    <button class="btn btn-primary" style="padding: 0.85rem 1.5rem;" onclick="alert('Global administrative settings saved successfully!')">Save System Settings</button>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- MODAL FOR EDITING USER BALANCES & DETAILS -->
+    <div class="modal-overlay" id="editUserModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 0.5rem; color: var(--primary);">Edit / Override User Account</h2>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.25rem;" id="modalUserSubtitle">Modifying account parameters...</p>
+
+            <form onsubmit="handleSaveUserOverride(event)">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="modalFullName" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" id="modalEmail" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Available Balance ($)</label>
+                    <input type="number" id="modalBalance" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Bonus Vault Balance ($)</label>
+                    <input type="number" id="modalBonus" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Total Profit Amount ($)</label>
+                    <input type="number" id="modalProfit" class="form-input" required>
+                </div>
+
+                <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem;">
+                    <button type="button" class="btn btn-secondary" onclick="closeEditUserModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT CONTROLLERS -->
+    <script>
+        // View Switching Controller
+        function switchView(viewId, element) {
+            const views = document.querySelectorAll('.view-section');
+            views.forEach(v => v.classList.remove('active'));
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+
+            const targetView = document.getElementById('view-' + viewId);
+            if (targetView) targetView.classList.add('active');
+
+            if (element) element.classList.add('active');
+        }
+
+        // Search Filter for Users
+        function filterUsers() {
+            const query = document.getElementById('userSearchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#userTableBody tr');
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
+
+        // Delete User Account
+        function deleteUser(rowId, userName) {
+            if (confirm(`Are you sure you want to permanently DELETE ${userName}'s account? This action is irreversible.`)) {
+                const row = document.getElementById(rowId);
+                if (row) row.remove();
+                alert(`Account for ${userName} has been purged from the system.`);
+            }
+        }
+
+        // Impersonate User Access
+        function impersonateUser(email) {
+            alert(`Opening user session for ${email} in unrestricted administrator mode...`);
+            window.location.href = 'user-dashboard.html'; // Directs admin into the user view
+        }
+
+        // Edit User Modal Handlers
+        function openEditUserModal(name, email, balance, bonus, profit) {
+            document.getElementById('modalFullName').value = name;
+            document.getElementById('modalEmail').value = email;
+            document.getElementById('modalBalance').value = balance;
+            document.getElementById('modalBonus').value = bonus;
+            document.getElementById('modalProfit').value = profit;
+            document.getElementById('modalUserSubtitle').innerText = `Modifying live parameters for ${email}`;
+            
+            document.getElementById('editUserModal').style.display = 'flex';
+        }
+
+        function closeEditUserModal() {
+            document.getElementById('editUserModal').style.display = 'none';
+        }
+
+        function handleSaveUserOverride(event) {
+            event.preventDefault();
+            alert("User account overrides successfully saved!");
+            closeEditUserModal();
+        }
+
+        // Approve/Reject Transactions
+        function approveDeposit(rowId, userEmail, amount) {
+            const row = document.getElementById(rowId);
+            if (row) row.remove();
+            alert(`Deposit of $${amount} approved and credited to ${userEmail}!`);
+        }
+
+        function approveWithdrawal(rowId) {
+            const row = document.getElementById(rowId);
+            if (row) row.remove();
+            alert(`Withdrawal payout request approved and marked as processed!`);
+        }
+
+        function rejectTransaction(rowId) {
+            if (confirm("Reject this transaction request?")) {
+                const row = document.getElementById(rowId);
+                if (row) row.remove();
+                alert("Transaction request rejected.");
+            }
+        }
+
+        // Live Chat Admin Handlers
+        function selectChatUser(name, email) {
+            document.getElementById('currentChatHeader').innerText = `Chatting with: ${name} (${email})`;
+            const chatBox = document.getElementById('chatBox');
+            chatBox.innerHTML = `
+                <div class="msg user">Hello Admin, I have a quick inquiry about my pending account balance updates.</div>
+                <div class="msg admin">Hello ${name}, I am currently reviewing your profile details. How can I assist you today?</div>
+            `;
+            
+            // Highlight selected chat user in sidebar
+            const items = document.querySelectorAll('.chat-user-item');
+            items.forEach(i => i.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+
+        function sendAdminMessage() {
+            const input = document.getElementById('adminMsgInput');
+            const text = input.value.trim();
+            if (text !== '') {
+                const chatBox = document.getElementById('chatBox');
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'msg admin';
+                msgDiv.innerText = text;
+                chatBox.appendChild(msgDiv);
+                input.value = '';
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }
+
+        // Create Account Handler
+        function handleCreateUser(event) {
+            event.preventDefault();
+            alert('New user account successfully created and registered on Crestline Global!');
+            switchView('users');
+        }
+    </script>
+</body>
+</html>
