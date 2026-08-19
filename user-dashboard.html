@@ -98,12 +98,7 @@
         }
 
         .brand-logo-container span {
-            color: #ffffff; /* WHITE COLOR FOR GLOBAL */
-        }
-
-        .user-pill-link {
-            text-decoration: none;
-            color: inherit;
+            color: #ffffff;
         }
 
         .user-pill {
@@ -114,13 +109,6 @@
             border: 1px solid var(--border-color);
             padding: 0.35rem 0.85rem;
             border-radius: 30px;
-            cursor: pointer;
-            transition: border-color 0.2s, background-color 0.2s;
-        }
-
-        .user-pill:hover {
-            border-color: var(--primary);
-            background-color: rgba(245, 158, 11, 0.05);
         }
 
         .avatar-container {
@@ -491,89 +479,16 @@
             background: rgba(0, 0, 0, 0.2);
         }
 
-        .bonus-banner {
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            border-radius: 10px;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            color: var(--success);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        /* FLOATING QUICK CHAT WIDGET STYLES */
-        .floating-chat-btn {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 60px;
-            height: 60px;
-            background-color: var(--primary);
-            color: #000;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
-            z-index: 2000;
-            transition: transform 0.2s;
-        }
-
-        .floating-chat-btn:hover {
-            transform: scale(1.08);
-        }
-
-        .floating-chat-window {
-            display: none;
-            position: fixed;
-            bottom: 95px;
-            right: 25px;
-            width: 350px;
-            height: 450px;
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            z-index: 2000;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .floating-chat-window.open {
-            display: flex;
-        }
-
-        .floating-chat-header {
-            background: rgba(0, 0, 0, 0.4);
-            padding: 0.85rem 1rem;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .close-chat-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-
         @media (max-width: 768px) {
             aside { transform: translateX(-100%); }
             aside.open { transform: translateX(0); }
             main { margin-left: 0; padding: 1rem; }
-            .floating-chat-window { width: calc(100% - 40px); right: 20px; bottom: 90px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- HOMEPAGE-MATCHED HEADER (WITHOUT LOGIN/GET STARTED BUTTONS) -->
+    <!-- HOMEPAGE-MATCHED HEADER -->
     <header class="site-header">
         <div class="header-container">
             <div class="header-left">
@@ -587,16 +502,14 @@
                 </a>
             </div>
 
-            <!-- USER PROFILE PILL (CLICKABLE TO OPEN PROFILE TAB) -->
-            <a href="javascript:void(0)" class="user-pill-link" onclick="openProfileTab()">
-                <div class="user-pill">
-                    <div class="avatar-container" id="navAvatar">J</div>
-                    <div class="user-details">
-                        <span class="user-fullname" id="navFullName">John Doe</span>
-                        <span class="user-email-text" id="navEmail">johndoe@gmail.com</span>
-                    </div>
+            <!-- USER PROFILE PILL -->
+            <div class="user-pill">
+                <div class="avatar-container" id="navAvatar">J</div>
+                <div class="user-details">
+                    <span class="user-fullname" id="navFullName">John Doe</span>
+                    <span class="user-email-text" id="navEmail">johndoe@gmail.com</span>
                 </div>
-            </a>
+            </div>
         </div>
     </header>
 
@@ -610,7 +523,7 @@
                 <li class="nav-item"><a class="nav-link" onclick="switchView('transactions', this)">📑 Transactions</a></li>
                 <li class="nav-item"><a class="nav-link" onclick="switchView('trade', this)">📈 Trade & Investments</a></li>
                 <li class="nav-item"><a class="nav-link" onclick="switchView('referrals', this)">🤝 Referrals</a></li>
-                <li class="nav-item"><a class="nav-link" id="profileNavLink" onclick="switchView('profile', this)">⚙️ Profile & Settings</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="switchView('profile', this)">⚙️ Profile & Settings</a></li>
                 <li class="nav-item"><a class="nav-link" onclick="switchView('messages', this)">💬 Messages / Support</a></li>
             </ul>
 
@@ -676,7 +589,7 @@
                             </tr>
                             <tr>
                                 <td>Aug 17, 2026</td>
-                                <td>Referral Commission Bonus (Ref ID: alex_trader)</td>
+                                <td>Referral Commission Bonus</td>
                                 <td>+$100.00</td>
                                 <td><span class="badge info">In Bonus Vault</span></td>
                             </tr>
@@ -741,7 +654,7 @@
                         <strong id="payAsset" style="color: #fff; display: block; margin-bottom: 0.75rem;">-</strong>
 
                         <span class="form-label">Official Wallet Address:</span>
-                        <code id="payAddress" style="color: var(--primary); font-size: 0.95rem; word-break: break-all; display: block;">[OFFICIAL_WALLET_ADDRESS_WILL_BE_DISPLAYED]</code>
+                        <code id="payAddress" style="color: var(--primary); font-size: 0.95rem; word-break: break-all; display: block;">0x71C7656EC7ab88b098defB751B7401B5f6d8976F</code>
                     </div>
 
                     <div class="form-group">
@@ -852,7 +765,7 @@
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="fullTransactionTable">
                             <tr>
                                 <td>Aug 18, 2026</td>
                                 <td>Deposit - Bitcoin (BTC)</td>
@@ -861,19 +774,19 @@
                             </tr>
                             <tr>
                                 <td>Aug 17, 2026</td>
-                                <td>Referral Commission Bonus (Ref ID: alex_trader)</td>
+                                <td>Referral Bonus</td>
                                 <td>+$100.00</td>
                                 <td><span class="badge info">In Bonus Vault</span></td>
                             </tr>
                             <tr>
                                 <td>Aug 16, 2026</td>
-                                <td>AI Trade Allocation (Micro Alpha Bot)</td>
+                                <td>AI Trade Allocation</td>
                                 <td>-$200.00</td>
                                 <td><span class="badge info">Active Trade</span></td>
                             </tr>
                             <tr>
                                 <td>Aug 15, 2026</td>
-                                <td>Crypto Withdrawal - Solana (SOL)</td>
+                                <td>Crypto Withdrawal - Solana</td>
                                 <td>-$150.00</td>
                                 <td><span class="badge pending">Pending Approval</span></td>
                             </tr>
@@ -882,82 +795,171 @@
                 </div>
             </section>
 
-            <!-- 5. PROFILE & SETTINGS VIEW -->
-            <section id="view-profile" class="view-section">
-                <div class="page-title">Profile & Settings</div>
-                <div class="page-subtitle">Manage your account details and security settings.</div>
+            <!-- 5. TRADE & INVESTMENTS VIEW -->
+            <section id="view-trade" class="view-section">
+                <div class="page-title">Trade & Investment Plans</div>
+                <div class="page-subtitle">Manage AI-driven trading strategies and active automated bots.</div>
+
+                <div class="grid-cards">
+                    <div class="card">
+                        <div class="card-title">Starter Bot</div>
+                        <div class="card-value text-warning">2.5% Daily</div>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0.5rem 0 1rem;">Min Deposit: $100 | Duration: 7 Days</p>
+                        <button class="btn-submit">Activate Strategy</button>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Alpha AI Bot</div>
+                        <div class="card-value text-success">4.0% Daily</div>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0.5rem 0 1rem;">Min Deposit: $1,000 | Duration: 14 Days</p>
+                        <button class="btn-submit">Activate Strategy</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. REFERRALS VIEW -->
+            <section id="view-referrals" class="view-section">
+                <div class="page-title">Referral Program</div>
+                <div class="page-subtitle">Invite new users and earn a commission on every deposit made.</div>
 
                 <div class="form-card">
-                    <form id="profileForm">
-                        <div class="profile-pic-container">
-                            <div class="profile-preview" id="profileAvatar">J</div>
-                            <div>
-                                <label class="form-label" style="margin-bottom: 0.25rem;">Profile Picture</label>
-                                <input type="file" accept="image/*" class="form-input" style="font-size: 0.8rem; padding: 0.4rem;" onchange="previewProfilePic(event)">
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label class="form-label">Your Unique Referral Link</label>
+                        <input type="text" class="form-input" value="https://crestlineglobal.com/ref?user=johndoe" readonly>
+                    </div>
+                    <button class="btn-submit" onclick="alert('Referral link copied to clipboard!')">Copy Link</button>
+                </div>
+            </section>
 
+            <!-- 7. PROFILE VIEW -->
+            <section id="view-profile" class="view-section">
+                <div class="page-title">Profile & Settings</div>
+                <div class="page-subtitle">Manage personal details, avatar, and security options.</div>
+
+                <div class="form-card">
+                    <div class="profile-pic-container">
+                        <div class="profile-preview">J</div>
+                        <div>
+                            <label class="form-label">Change Profile Picture</label>
+                            <input type="file" class="form-input" accept="image/*">
+                        </div>
+                    </div>
+
+                    <form onsubmit="event.preventDefault(); alert('Profile updated successfully!');">
                         <div class="form-group">
                             <label class="form-label">Full Name</label>
-                            <input type="text" class="form-input" value="John Doe" id="profileFullName">
+                            <input type="text" class="form-input" value="John Doe">
                         </div>
                         <div class="form-group">
                             <label class="form-label">Email Address</label>
                             <input type="email" class="form-input" value="johndoe@gmail.com" readonly>
                         </div>
-                        <button type="submit" class="btn-submit">Save Profile Changes</button>
+                        <button type="submit" class="btn-submit">Save Changes</button>
                     </form>
+                </div>
+            </section>
+
+            <!-- 8. MESSAGES / SUPPORT VIEW -->
+            <section id="view-messages" class="view-section">
+                <div class="page-title">Messages & Support</div>
+                <div class="page-subtitle">Get directly in touch with our live support team.</div>
+
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <div class="chat-status-dot"></div>
+                        <strong style="font-size: 0.9rem;">Crestline Support Agent</strong>
+                    </div>
+                    <div class="chat-box">
+                        <div class="chat-msg admin">
+                            Hello John! How can we assist with your investments today?
+                            <span class="chat-time">10:14 AM</span>
+                        </div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" class="form-input" placeholder="Write a message...">
+                        <button class="btn-submit" style="width: auto; padding: 0 1.5rem;">Send</button>
+                    </div>
                 </div>
             </section>
 
         </main>
     </div>
 
-    <!-- HELPER SCRIPT FOR TAB SWITCHING -->
+    <!-- JAVASCRIPT NAVIGATION LOGIC -->
     <script>
-        function switchView(viewId, element) {
-            // Hide all views
-            const views = document.querySelectorAll('.view-section');
-            views.forEach(v => v.classList.remove('active'));
-
-            // Deactivate all nav links
-            const navLinks = document.querySelectorAll('.nav-link');
-            navLinks.forEach(link => link.classList.remove('active'));
-
-            // Show selected view
-            const targetView = document.getElementById('view-' + viewId);
+        function switchView(viewName, element) {
+            // Hide all view sections
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            
+            // Show selected view section
+            const targetView = document.getElementById('view-' + viewName);
             if (targetView) targetView.classList.add('active');
 
-            // Highlight nav link if triggered via sidebar
+            // Update active menu link
             if (element) {
+                document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
                 element.classList.add('active');
+            }
+
+            // Close sidebar on mobile after selecting a page
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
             }
         }
 
-        // Dedicated helper function for clicking the user username header pill
-        function openProfileTab() {
-            const profileLink = document.getElementById('profileNavLink');
-            switchView('profile', profileLink);
-        }
-
-        function toggleWithdrawTab(tabType) {
+        function toggleWithdrawTab(tab) {
             const cryptoForm = document.getElementById('cryptoWithdrawForm');
             const bankForm = document.getElementById('bankWithdrawForm');
-            const tabCryptoBtn = document.getElementById('tabCryptoBtn');
-            const tabBankBtn = document.getElementById('tabBankBtn');
+            const cryptoBtn = document.getElementById('tabCryptoBtn');
+            const bankBtn = document.getElementById('tabBankBtn');
 
-            if (tabType === 'crypto') {
+            if (tab === 'crypto') {
                 cryptoForm.style.display = 'block';
                 bankForm.style.display = 'none';
-                tabCryptoBtn.classList.add('active');
-                tabBankBtn.classList.remove('active');
+                cryptoBtn.classList.add('active');
+                bankBtn.classList.remove('active');
             } else {
                 cryptoForm.style.display = 'none';
                 bankForm.style.display = 'block';
-                tabBankBtn.classList.add('active');
-                tabCryptoBtn.classList.remove('active');
+                bankBtn.classList.add('active');
+                cryptoBtn.classList.remove('active');
             }
         }
+
+        function handleDepositSubmit(e) {
+            e.preventDefault();
+            const curr = document.getElementById('depCurrency').value;
+            document.getElementById('payAsset').innerText = curr;
+            document.getElementById('paymentInstructions').style.display = 'block';
+        }
+
+        function confirmDeposit() {
+            alert('Deposit proof submitted successfully. Pending verification!');
+            document.getElementById('paymentInstructions').style.display = 'none';
+        }
+
+        function handleCryptoWithdrawal(e) {
+            e.preventDefault();
+            const addr1 = document.getElementById('withCryptoAddress1').value;
+            const addr2 = document.getElementById('withCryptoAddress2').value;
+            const errorMsg = document.getElementById('addressMismatchMsg');
+
+            if (addr1 !== addr2) {
+                errorMsg.style.display = 'block';
+                return;
+            }
+            errorMsg.style.display = 'none';
+            alert('Crypto withdrawal request submitted successfully!');
+        }
+
+        function handleBankWithdrawal(e) {
+            e.preventDefault();
+            alert('Bank withdrawal request submitted successfully!');
+        }
+
+        // Sidebar Toggle Handler
+        document.getElementById('menuToggle').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
     </script>
 </body>
 </html>
