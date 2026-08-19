@@ -18,6 +18,7 @@
             --sidebar-width: 260px;
             --success: #22c55e;
             --danger: #ef4444;
+            --info: #3b82f6;
         }
 
         * {
@@ -35,7 +36,7 @@
             flex-direction: column;
         }
 
-        /* TOP NAVIGATION HEADER */
+        /* TOP NAVIGATION HEADER WITH TRADING CHART ICON */
         .site-header {
             height: var(--header-height);
             background-color: rgba(21, 26, 35, 0.95);
@@ -76,7 +77,6 @@
             gap: 5px;
             width: 30px;
             height: 30px;
-            padding: 2px;
         }
 
         .menu-toggle span {
@@ -85,14 +85,29 @@
             width: 100%;
             background-color: var(--text-main);
             border-radius: 2px;
-            transition: all 0.3s;
+        }
+
+        .brand-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
         }
 
         .brand-name {
             font-size: 1.3rem;
             font-weight: 800;
             color: var(--text-main);
-            text-decoration: none;
+        }
+
+        .header-chart-icon {
+            display: flex;
+            align-items: center;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 6px;
+            padding: 4px 8px;
+            gap: 6px;
         }
 
         .user-pill {
@@ -118,17 +133,28 @@
             font-size: 0.8rem;
         }
 
-        .user-email-text {
-            font-size: 0.85rem;
-            font-weight: 600;
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
         }
 
-        /* COLLAPSIBLE SIDEBAR MENU */
+        .user-fullname {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .user-email-text {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        /* APP LAYOUT & SIDEBAR */
         .app-container {
             display: flex;
             margin-top: var(--header-height);
             min-height: calc(100vh - var(--header-height));
-            position: relative;
         }
 
         aside {
@@ -147,17 +173,10 @@
             transition: transform 0.3s ease;
         }
 
-        aside.collapsed {
-            transform: translateX(-100%);
-        }
+        aside.collapsed { transform: translateX(-100%); }
 
-        .nav-menu {
-            list-style: none;
-        }
-
-        .nav-item {
-            margin-bottom: 0.35rem;
-        }
+        .nav-menu { list-style: none; }
+        .nav-item { margin-bottom: 0.35rem; }
 
         .nav-link {
             display: flex;
@@ -178,15 +197,8 @@
             color: var(--primary);
         }
 
-        .nav-link.logout {
-            color: var(--danger);
-        }
+        .nav-link.logout { color: var(--danger); }
 
-        .nav-link.logout:hover {
-            background-color: rgba(239, 68, 68, 0.15);
-        }
-
-        /* MAIN CONTENT AREA */
         main {
             flex: 1;
             margin-left: var(--sidebar-width);
@@ -195,17 +207,10 @@
             transition: margin-left 0.3s ease;
         }
 
-        main.full-width {
-            margin-left: 0;
-        }
+        main.full-width { margin-left: 0; }
 
-        .view-section {
-            display: none;
-        }
-
-        .view-section.active {
-            display: block;
-        }
+        .view-section { display: none; }
+        .view-section.active { display: block; }
 
         .page-title {
             font-size: 1.5rem;
@@ -219,10 +224,10 @@
             margin-bottom: 1.75rem;
         }
 
-        /* GRID CARDS FOR DASHBOARD METRICS */
+        /* METRIC CARDS */
         .grid-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 1.25rem;
             margin-bottom: 2rem;
         }
@@ -244,25 +249,25 @@
         }
 
         .card-value {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 800;
         }
 
         .text-success { color: var(--success); }
         .text-warning { color: var(--primary); }
+        .text-info { color: var(--info); }
 
-        /* FORM ELEMENTS */
+        /* FORM CONTROLS */
         .form-card {
-            max-width: 600px;
+            max-width: 650px;
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 2rem;
+            margin-bottom: 1.5rem;
         }
 
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
+        .form-group { margin-bottom: 1.25rem; }
 
         .form-label {
             display: block;
@@ -283,9 +288,8 @@
             outline: none;
         }
 
-        .form-input:focus, .form-select:focus {
-            border-color: var(--primary);
-        }
+        .form-input:focus, .form-select:focus { border-color: var(--primary); }
+        .form-input[readonly] { background-color: rgba(255, 255, 255, 0.03); color: #8b949e; cursor: not-allowed; }
 
         .btn-submit {
             width: 100%;
@@ -300,8 +304,30 @@
             transition: background-color 0.2s;
         }
 
-        .btn-submit:hover {
-            background-color: var(--primary-hover);
+        .btn-submit:hover { background-color: var(--primary-hover); }
+
+        /* TAB CONTROLS FOR WITHDRAWAL */
+        .tab-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.75rem;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .tab-btn.active {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: var(--primary);
+            color: var(--primary);
         }
 
         /* TABLES */
@@ -314,7 +340,7 @@
         th, td {
             padding: 0.85rem 1rem;
             border-bottom: 1px solid var(--border-color);
-            font-size: 0.9rem;
+            font-size: 0.88rem;
         }
 
         th {
@@ -333,6 +359,7 @@
 
         .badge.success { background: rgba(34, 197, 94, 0.15); color: var(--success); }
         .badge.pending { background: rgba(245, 158, 11, 0.15); color: var(--primary); }
+        .badge.info { background: rgba(59, 130, 246, 0.15); color: var(--info); }
 
         .payment-modal {
             display: none;
@@ -340,18 +367,83 @@
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 2rem;
-            max-width: 600px;
+            max-width: 650px;
             margin-top: 1.5rem;
         }
 
-        .notice-box {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            border-radius: 8px;
-            padding: 0.85rem;
-            font-size: 0.85rem;
-            color: var(--primary);
-            margin-bottom: 1.25rem;
+        /* CHAT MESSAGES MODULE STYLES */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 520px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            max-width: 800px;
+        }
+
+        .chat-header {
+            padding: 1rem 1.25rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-status-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--success);
+            border-radius: 50%;
+        }
+
+        .chat-box {
+            flex: 1;
+            padding: 1.25rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .chat-msg {
+            max-width: 75%;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .chat-msg.admin {
+            align-self: flex-start;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+        }
+
+        .chat-msg.user {
+            align-self: flex-end;
+            background-color: var(--primary);
+            color: #000000;
+            font-weight: 600;
+        }
+
+        .chat-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 4px;
+            display: block;
+            text-align: right;
+        }
+
+        .chat-input-area {
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
         }
 
         @media (max-width: 768px) {
@@ -363,6 +455,7 @@
 </head>
 <body>
 
+    <!-- SITE HEADER WITH EMBEDDED MINI TRADING CHART -->
     <header class="site-header">
         <div class="header-container">
             <div class="header-left">
@@ -371,16 +464,33 @@
                     <span></span>
                     <span></span>
                 </button>
-                <a href="#" class="brand-name">Crestline Global</a>
+                <a href="#" class="brand-logo-container">
+                    <span class="brand-name">Crestline Global</span>
+                    <div class="header-chart-icon" title="Live Market Index">
+                        <svg width="22" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 3v18h18"/>
+                            <path d="M18 17V9"/>
+                            <path d="M13 17V5"/>
+                            <path d="M8 17v-3"/>
+                        </svg>
+                        <span style="color: #22c55e; font-weight: 800; font-size: 0.75rem;">+2.45%</span>
+                    </div>
+                </a>
             </div>
+
+            <!-- USER PROFILE PILL -->
             <div class="user-pill">
-                <div class="avatar">U</div>
-                <span class="user-email-text">user123@user.com</span>
+                <div class="avatar" id="navAvatar">C</div>
+                <div class="user-details">
+                    <span class="user-fullname" id="navFullName">Courage Ukpomwan</span>
+                    <span class="user-email-text" id="navEmail">user123@user.com</span>
+                </div>
             </div>
         </div>
     </header>
 
     <div class="app-container">
+        <!-- SIDEBAR NAVIGATION MENU -->
         <aside id="sidebar">
             <ul class="nav-menu">
                 <li class="nav-item"><a class="nav-link active" onclick="switchView('dashboard', this)">📊 Dashboard</a></li>
@@ -390,23 +500,28 @@
                 <li class="nav-item"><a class="nav-link" onclick="switchView('trade', this)">📈 Trade & Investments</a></li>
                 <li class="nav-item"><a class="nav-link" onclick="switchView('referrals', this)">🤝 Referrals</a></li>
                 <li class="nav-item"><a class="nav-link" onclick="switchView('profile', this)">⚙️ Profile & Settings</a></li>
-                <li class="nav-item"><a class="nav-link" onclick="switchView('support', this)">💬 Support & Help</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="switchView('messages', this)">💬 Messages / Support</a></li>
             </ul>
 
             <a href="login.html" class="nav-link logout">Sign Out</a>
         </aside>
 
+        <!-- MAIN DASHBOARD CONTENT -->
         <main id="mainContent">
 
-            <!-- 1. DASHBOARD VIEW -->
+            <!-- 1. MAIN DASHBOARD VIEW -->
             <section id="view-dashboard" class="view-section active">
                 <div class="page-title">Overview</div>
-                <div class="page-subtitle">Real-time account balance, trading performance, and totals.</div>
+                <div class="page-subtitle">Real-time account balances, bonus reserves, and active trade metrics.</div>
 
                 <div class="grid-cards">
                     <div class="card">
                         <div class="card-title">Available Balance</div>
                         <div class="card-value text-warning" id="valAvailable">$12,450.00</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Total Bonus</div>
+                        <div class="card-value text-info" id="valBonus">$250.00</div>
                     </div>
                     <div class="card">
                         <div class="card-title">Total Deposit</div>
@@ -430,13 +545,14 @@
                     </div>
                 </div>
 
+                <!-- ALL RECENT ACTIVITIES -->
                 <div class="card">
-                    <div class="card-title" style="margin-bottom: 1rem;">Recent Activity</div>
+                    <div class="card-title" style="margin-bottom: 1rem;">Recent Account Movements & Trades</div>
                     <table>
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>Type</th>
+                                <th>Type / Description</th>
                                 <th>Amount</th>
                                 <th>Status</th>
                             </tr>
@@ -444,15 +560,27 @@
                         <tbody id="dashboardRecentTable">
                             <tr>
                                 <td>Aug 18, 2026</td>
-                                <td>Deposit</td>
+                                <td>Deposit - Bitcoin (BTC)</td>
                                 <td>+$500.00</td>
                                 <td><span class="badge success">Completed</span></td>
                             </tr>
                             <tr>
+                                <td>Aug 17, 2026</td>
+                                <td>Welcome Sign-up Bonus</td>
+                                <td>+$250.00</td>
+                                <td><span class="badge info">In Bonus Vault</span></td>
+                            </tr>
+                            <tr>
+                                <td>Aug 16, 2026</td>
+                                <td>AI Trade Allocation (Apex Hedge)</td>
+                                <td>-$2,000.00</td>
+                                <td><span class="badge info">Active Trade</span></td>
+                            </tr>
+                            <tr>
                                 <td>Aug 15, 2026</td>
-                                <td>Withdrawal</td>
+                                <td>Crypto Withdrawal - USDT</td>
                                 <td>-$150.00</td>
-                                <td><span class="badge pending">Pending</span></td>
+                                <td><span class="badge pending">Pending Approval</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -462,7 +590,7 @@
             <!-- 2. DEPOSIT VIEW -->
             <section id="view-deposit" class="view-section">
                 <div class="page-title">Deposit Funds</div>
-                <div class="page-subtitle">Select your payment cryptocurrency and enter the amount.</div>
+                <div class="page-subtitle">Select your payment currency with full names and submit receipt proof.</div>
 
                 <div class="form-card">
                     <form id="depositForm" onsubmit="handleDepositSubmit(event)">
@@ -477,15 +605,14 @@
                                 <option value="" disabled selected>Choose Currency</option>
                                 <option value="Bitcoin (BTC)">Bitcoin (BTC)</option>
                                 <option value="Solana (SOL)">Solana (SOL)</option>
-                                <option value="XRP (XRP)">XRP (XRP)</option>
+                                <option value="Ripple (XRP)">Ripple (XRP)</option>
                                 <option value="Cardano (ADA)">Cardano (ADA)</option>
-                                <option value="BNB (BNB)">BNB (BNB)</option>
+                                <option value="BNB Smart Chain (BSC)">BNB Smart Chain (BSC)</option>
                                 <option value="Tether USDT (BEP20)">Tether USDT (BEP20)</option>
                                 <option value="Shiba Inu (SHIB)">Shiba Inu (SHIB)</option>
                                 <option value="Dogecoin (DOGE)">Dogecoin (DOGE)</option>
                                 <option value="Stellar (XLM)">Stellar (XLM)</option>
                                 <option value="Avalanche (AVAX)">Avalanche (AVAX)</option>
-                                <option value="BNB Smart Chain (BSC)">BNB Smart Chain (BSC)</option>
                             </select>
                         </div>
 
@@ -493,29 +620,23 @@
                     </form>
                 </div>
 
-                <!-- PAYMENT STEP DISPLAY -->
                 <div id="paymentInstructions" class="payment-modal">
-                    <h3 style="margin-bottom: 0.5rem; color: var(--primary);">Payment Details</h3>
+                    <h3 style="margin-bottom: 0.5rem; color: var(--primary);">Payment Instructions</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
-                        Send your payment to the official wallet address below, upload proof of payment, then submit for admin verification.
+                        Copy the exact wallet address below, make payment from your wallet, and upload receipt proof.
                     </p>
 
                     <div style="background: var(--input-bg); padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 1.25rem;">
-                        <span class="form-label">Selected Asset:</span>
+                        <span class="form-label">Selected Currency:</span>
                         <strong id="payAsset" style="color: #fff; display: block; margin-bottom: 0.75rem;">-</strong>
 
-                        <span class="form-label">Deposit Wallet Address:</span>
-                        <code id="payAddress" style="color: var(--primary); font-size: 0.95rem; word-break: break-all; display: block; margin-bottom: 0.75rem;">[WALLET_ADDRESS_WILL_BE_LOADED_HERE]</code>
+                        <span class="form-label">Official Wallet Address:</span>
+                        <code id="payAddress" style="color: var(--primary); font-size: 0.95rem; word-break: break-all; display: block;">[WALLET_ADDRESS_WILL_BE_PROVIDED_HERE]</code>
                     </div>
 
-                    <!-- PROOF OF PAYMENT UPLOAD -->
                     <div class="form-group">
                         <label class="form-label" for="receiptFile">Upload Payment Screenshot / Receipt</label>
                         <input type="file" id="receiptFile" class="form-input" accept="image/*,.pdf" required>
-                    </div>
-
-                    <div class="notice-box">
-                        ⏳ <strong>Note:</strong> Deposits are pending until verified and manually credited by the admin system.
                     </div>
 
                     <button type="button" class="btn-submit" onclick="confirmDeposit()">I HAVE SENT THE FUNDS</button>
@@ -525,19 +646,74 @@
             <!-- 3. WITHDRAWAL VIEW -->
             <section id="view-withdraw" class="view-section">
                 <div class="page-title">Request Withdrawal</div>
-                <div class="page-subtitle">Withdraw funds directly to your wallet address.</div>
+                <div class="page-subtitle">Withdraw your earnings via Cryptocurrency Wallet or Bank Account Transfer.</div>
 
                 <div class="form-card">
-                    <form onsubmit="handleWithdrawalSubmit(event)">
+                    <div class="tab-group">
+                        <button type="button" class="tab-btn active" id="tabCryptoBtn" onclick="toggleWithdrawTab('crypto')">Crypto Wallet</button>
+                        <button type="button" class="tab-btn" id="tabBankBtn" onclick="toggleWithdrawTab('bank')">Bank Wire / Account</button>
+                    </div>
+
+                    <!-- CRYPTO WITHDRAWAL FORM -->
+                    <form id="cryptoWithdrawForm" onsubmit="handleCryptoWithdrawal(event)">
                         <div class="form-group">
-                            <label class="form-label" for="withAmount">Amount ($)</label>
-                            <input type="number" id="withAmount" class="form-input" placeholder="e.g. 200" required>
+                            <label class="form-label">Amount ($)</label>
+                            <input type="number" id="withCryptoAmount" class="form-input" placeholder="e.g. 200" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="withAddress">Destination Wallet Address</label>
-                            <input type="text" id="withAddress" class="form-input" placeholder="Paste your wallet address" required>
+                            <label class="form-label">Select Withdrawal Currency</label>
+                            <select id="withCryptoCurrency" class="form-select" required>
+                                <option value="" disabled selected>Choose Currency</option>
+                                <option value="Bitcoin (BTC)">Bitcoin (BTC)</option>
+                                <option value="Solana (SOL)">Solana (SOL)</option>
+                                <option value="Ripple (XRP)">Ripple (XRP)</option>
+                                <option value="Cardano (ADA)">Cardano (ADA)</option>
+                                <option value="BNB Smart Chain (BSC)">BNB Smart Chain (BSC)</option>
+                                <option value="Tether USDT (BEP20)">Tether USDT (BEP20)</option>
+                            </select>
                         </div>
-                        <button type="submit" class="btn-submit">Submit Withdrawal</button>
+                        <div class="form-group">
+                            <label class="form-label">Destination Wallet Address</label>
+                            <input type="text" id="withCryptoAddress" class="form-input" placeholder="Paste your wallet address" required>
+                        </div>
+                        <button type="submit" class="btn-submit">Submit Crypto Withdrawal</button>
+                    </form>
+
+                    <!-- BANK ACCOUNT WITHDRAWAL FORM -->
+                    <form id="bankWithdrawForm" onsubmit="handleBankWithdrawal(event)" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label">Withdrawal Amount ($)</label>
+                            <input type="number" id="withBankAmount" class="form-input" placeholder="e.g. 500" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Account Holder Name</label>
+                            <input type="text" class="form-input" placeholder="Full name on bank account" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Bank Name</label>
+                            <input type="text" class="form-input" placeholder="e.g. Chase Bank, Barclays, Access Bank" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Account Number / IBAN</label>
+                            <input type="text" id="bankAccNo" class="form-input" placeholder="Enter Account Number or IBAN" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Confirm Account Number / IBAN</label>
+                            <input type="text" id="confirmBankAccNo" class="form-input" placeholder="Re-enter Account Number or IBAN" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Routing Number (For USA Accounts)</label>
+                            <input type="text" class="form-input" placeholder="9-digit Routing Number (Optional)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">SWIFT / BIC Code (For European & International)</label>
+                            <input type="text" class="form-input" placeholder="8 or 11 character SWIFT/BIC code">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Bank Country</label>
+                            <input type="text" class="form-input" placeholder="e.g. United States, United Kingdom" required>
+                        </div>
+                        <button type="submit" class="btn-submit">Submit Bank Wire Withdrawal</button>
                     </form>
                 </div>
             </section>
@@ -545,14 +721,14 @@
             <!-- 4. TRANSACTIONS VIEW -->
             <section id="view-transactions" class="view-section">
                 <div class="page-title">Transaction History</div>
-                <div class="page-subtitle">Review all past deposits, withdrawals, and trade credits.</div>
+                <div class="page-subtitle">Complete ledger of all account movements, trades, withdrawals, and deposits.</div>
 
                 <div class="card">
                     <table>
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>Type</th>
+                                <th>Type / Description</th>
                                 <th>Amount</th>
                                 <th>Status</th>
                             </tr>
@@ -560,40 +736,71 @@
                         <tbody id="fullTransactionTable">
                             <tr>
                                 <td>Aug 18, 2026</td>
-                                <td>Deposit</td>
+                                <td>Deposit - Bitcoin (BTC)</td>
                                 <td>+$500.00</td>
                                 <td><span class="badge success">Completed</span></td>
                             </tr>
                             <tr>
+                                <td>Aug 17, 2026</td>
+                                <td>Welcome Sign-up Bonus</td>
+                                <td>+$250.00</td>
+                                <td><span class="badge info">In Bonus Vault</span></td>
+                            </tr>
+                            <tr>
+                                <td>Aug 16, 2026</td>
+                                <td>AI Trade Allocation (Apex Hedge)</td>
+                                <td>-$2,000.00</td>
+                                <td><span class="badge info">Active Trade</span></td>
+                            </tr>
+                            <tr>
                                 <td>Aug 15, 2026</td>
-                                <td>Withdrawal</td>
+                                <td>Crypto Withdrawal - USDT</td>
                                 <td>-$150.00</td>
-                                <td><span class="badge pending">Pending</span></td>
+                                <td><span class="badge pending">Pending Approval</span></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </section>
 
-            <!-- 5. TRADE & INVESTMENTS VIEW -->
+            <!-- 5. TRADE & INVESTMENTS VIEW (MINIMUM DURATION 5 DAYS) -->
             <section id="view-trade" class="view-section">
-                <div class="page-title">Trade & Automatic Investments</div>
-                <div class="page-subtitle">Set up automated algorithmic trades and active investment strategies.</div>
+                <div class="page-title">AI Auto-Trader & Automated Investments</div>
+                <div class="page-subtitle">Select an algorithmic strategy tier and duration (Min. 5 Days) to generate yield.</div>
 
                 <div class="form-card">
                     <form onsubmit="handleStartTrade(event)">
                         <div class="form-group">
-                            <label class="form-label">Select Trading Strategy</label>
-                            <select class="form-select" id="tradePlan">
-                                <option value="AI Auto-Trader (Conservative - 1.5%/day)">AI Auto-Trader (Conservative - 1.5%/day)</option>
-                                <option value="High-Yield Scalping (Aggressive - 3.2%/day)">High-Yield Scalping (Aggressive - 3.2%/day)</option>
+                            <label class="form-label">Select Trading Tier Strategy</label>
+                            <select class="form-select" id="tradePlan" onchange="updateTierInfo()">
+                                <option value="tier1">Tier 1: Micro Alpha Bot ($1 - $399) | Yield: 1.2%/day</option>
+                                <option value="tier2">Tier 2: Quantum Momentum Trader ($400 - $999) | Yield: 2.0%/day</option>
+                                <option value="tier3" selected>Tier 3: Apex Hedge Strategy ($1,000 - $4,999) | Yield: 3.5%/day</option>
+                                <option value="tier4">Tier 4: Institutional High-Yield Scalper ($5,000 - $9,999) | Yield: 5.0%/day</option>
+                                <option value="tier5">Tier 5: Sovereign Liquidity Vault ($10,000+) | Yield: 7.5%/day</option>
                             </select>
                         </div>
+
+                        <div id="tierCapDisplay" style="background: var(--input-bg); padding: 0.85rem; border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.85rem; margin-bottom: 1.25rem; color: var(--primary);">
+                            Selected Tier Limits: Minimum $1,000 — Maximum $4,999
+                        </div>
+
                         <div class="form-group">
                             <label class="form-label">Investment Amount ($)</label>
-                            <input type="number" class="form-input" id="tradeAmount" placeholder="e.g. 1000" required>
+                            <input type="number" class="form-input" id="tradeAmount" placeholder="Enter amount within tier caps" required>
                         </div>
-                        <button type="submit" class="btn-submit">Activate Automatic Trade</button>
+
+                        <div class="form-group">
+                            <label class="form-label">Trading Duration (Minimum 5 Days)</label>
+                            <select class="form-select" id="tradeDuration" required>
+                                <option value="5">5 Days (Daily ROI credited to profit balance)</option>
+                                <option value="7">7 Days (Daily ROI credited to profit balance)</option>
+                                <option value="14">14 Days (Daily ROI credited to profit balance)</option>
+                                <option value="30">30 Days (Daily ROI credited to profit balance)</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn-submit">Activate Algorithmic Trade</button>
                     </form>
                 </div>
             </section>
@@ -601,44 +808,83 @@
             <!-- 6. REFERRALS VIEW -->
             <section id="view-referrals" class="view-section">
                 <div class="page-title">Referral Program</div>
-                <div class="page-subtitle">Share your unique link and earn commissions on automated trades.</div>
+                <div class="page-subtitle">Invite partners using your unique username link to earn direct commissions.</div>
 
                 <div class="form-card">
                     <div class="form-group">
-                        <label class="form-label">Your Unique Referral Link</label>
-                        <input type="text" class="form-input" value="https://crestline.global/ref?id=user123" readonly>
+                        <label class="form-label">Your Custom Username Referral URL</label>
+                        <input type="text" id="refUrlDisplay" class="form-input" value="https://crestline.global/ref?user=courage_ukp" readonly>
                     </div>
+                    <button type="button" class="btn-submit" onclick="copyReferralLink()">Copy Referral Link</button>
                 </div>
             </section>
 
-            <!-- 7. PROFILE & SETTINGS VIEW -->
+            <!-- 7. ENHANCED PROFILE & SETTINGS VIEW -->
             <section id="view-profile" class="view-section">
-                <div class="page-title">Profile & Security Settings</div>
-                <div class="page-subtitle">Update your personal password and security options.</div>
+                <div class="page-title">Profile & Settings</div>
+                <div class="page-subtitle">View and update your verified profile information.</div>
 
                 <div class="form-card">
-                    <form onsubmit="handlePasswordChange(event)">
-                        <h3 style="margin-bottom: 1rem;">Change Password</h3>
+                    <form id="profileForm" onsubmit="handleSaveProfile(event)">
                         <div class="form-group">
-                            <label class="form-label">Current Password</label>
-                            <input type="password" class="form-input" required>
+                            <label class="form-label">Full Name</label>
+                            <input type="text" id="profFullName" class="form-input" value="Courage Ukpomwan" required>
                         </div>
+
                         <div class="form-group">
-                            <label class="form-label">New Password</label>
-                            <input type="password" class="form-input" required>
+                            <label class="form-label">Username (Used for Referral Link)</label>
+                            <input type="text" id="profUsername" class="form-input" value="courage_ukp" placeholder="Set a unique username" required>
                         </div>
-                        <button type="submit" class="btn-submit">Update Password</button>
+
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" id="profEmail" class="form-input" value="user123@user.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" id="profPhone" class="form-input" value="+234 810 000 0000" placeholder="+1 (555) 000-0000" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Country of Residence</label>
+                            <input type="text" id="profCountry" class="form-input" value="Nigeria" placeholder="Enter your country" required>
+                        </div>
+
+                        <p id="lockNotice" style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; display: none;">
+                            🔒 Profile details are locked for security. To modify details, please contact system admin via Messages.
+                        </p>
+
+                        <button type="submit" id="profSubmitBtn" class="btn-submit">Save & Complete Profile</button>
                     </form>
                 </div>
             </section>
 
-            <!-- 8. SUPPORT & HELP VIEW -->
-            <section id="view-support" class="view-section">
-                <div class="page-title">Support & Assistance</div>
-                <div class="page-subtitle">Need help? Contact support directly.</div>
+            <!-- 8. MESSAGES / LIVE CHAT WITH ADMIN -->
+            <section id="view-messages" class="view-section">
+                <div class="page-title">Messages & Support</div>
+                <div class="page-subtitle">Chat directly with Crestline Global admin and support team in real time.</div>
 
-                <div class="form-card">
-                    <p style="color: var(--text-muted); margin-bottom: 1rem;">Email Support: <strong>support@crestline.com</strong></p>
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <div class="chat-status-dot"></div>
+                        <div>
+                            <strong style="font-size: 0.95rem; display: block;">Crestline Admin Support</strong>
+                            <span style="font-size: 0.75rem; color: var(--text-muted);">Online - 24/7 Automated Desk</span>
+                        </div>
+                    </div>
+
+                    <div class="chat-box" id="chatBox">
+                        <div class="chat-msg admin">
+                            Hello Courage! Welcome to Crestline Global support chat. How can we assist you with your trades, deposits, or account settings today?
+                            <span class="chat-time">10:00 AM</span>
+                        </div>
+                    </div>
+
+                    <form class="chat-input-area" onsubmit="handleSendChatMessage(event)">
+                        <input type="text" id="chatInput" class="form-input" placeholder="Type your message here..." required>
+                        <button type="submit" class="btn-submit" style="width: auto; padding: 0 1.5rem;">Send</button>
+                    </form>
                 </div>
             </section>
 
@@ -646,9 +892,19 @@
     </div>
 
     <script>
-        // ACCOUNT STATE DATA
+        // ACCOUNT STATE & PROFILE DATA
+        let userProfile = {
+            fullName: "Courage Ukpomwan",
+            username: "courage_ukp",
+            email: "user123@user.com",
+            phone: "+234 810 000 0000",
+            country: "Nigeria",
+            isLocked: true // Controls read-only state after completion
+        };
+
         let state = {
             availableBalance: 12450.00,
+            bonus: 250.00,
             totalDeposit: 10000.00,
             totalWithdrawal: 1500.00,
             ongoingTrade: 2000.00,
@@ -656,7 +912,15 @@
             currentProfit: 3950.00
         };
 
-        // SIDEBAR TOGGLE LOGIC
+        const tierCaps = {
+            tier1: { min: 1, max: 399, name: "Micro Alpha Bot" },
+            tier2: { min: 400, max: 999, name: "Quantum Momentum Trader" },
+            tier3: { min: 1000, max: 4999, name: "Apex Hedge Strategy" },
+            tier4: { min: 5000, max: 9999, name: "Institutional High-Yield Scalper" },
+            tier5: { min: 10000, max: 1000000, name: "Sovereign Liquidity Vault" }
+        };
+
+        // SIDEBAR TOGGLE
         const menuToggle = document.getElementById('menuToggle');
         const sidebar = document.getElementById('sidebar');
         const mainContent = document.getElementById('mainContent');
@@ -678,14 +942,13 @@
             document.getElementById(`view-${viewName}`).classList.add('active');
             if (element) element.classList.add('active');
 
-            if (window.innerWidth <= 768) {
-                sidebar.classList.remove('open');
-            }
+            if (window.innerWidth <= 768) sidebar.classList.remove('open');
         }
 
-        // DYNAMIC BALANCE RENDERER
+        // RENDER BALANCES & METRICS
         function renderBalances() {
             document.getElementById('valAvailable').textContent = `$${state.availableBalance.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+            document.getElementById('valBonus').textContent = `$${state.bonus.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
             document.getElementById('valDeposit').textContent = `$${state.totalDeposit.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
             document.getElementById('valWithdrawal').textContent = `$${state.totalWithdrawal.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
             document.getElementById('valOngoingTrade').textContent = `$${state.ongoingTrade.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
@@ -693,11 +956,58 @@
             document.getElementById('valProfit').textContent = `+$${state.currentProfit.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
         }
 
-        // DEPOSIT FORM SUBMISSION
+        // RENDER USER PROFILE DATA AND APPLY LOCKING
+        function syncProfileUI() {
+            document.getElementById('navFullName').textContent = userProfile.fullName;
+            document.getElementById('navEmail').textContent = userProfile.email;
+            document.getElementById('navAvatar').textContent = userProfile.fullName.charAt(0).toUpperCase();
+
+            document.getElementById('profFullName').value = userProfile.fullName;
+            document.getElementById('profUsername').value = userProfile.username;
+            document.getElementById('profEmail').value = userProfile.email;
+            document.getElementById('profPhone').value = userProfile.phone;
+            document.getElementById('profCountry').value = userProfile.country;
+
+            // Generate unique username referral link
+            document.getElementById('refUrlDisplay').value = `https://crestline.global/ref?user=${userProfile.username}`;
+
+            if (userProfile.isLocked) {
+                document.getElementById('profFullName').readOnly = true;
+                document.getElementById('profUsername').readOnly = true;
+                document.getElementById('profEmail').readOnly = true;
+                document.getElementById('profPhone').readOnly = true;
+                document.getElementById('profCountry').readOnly = true;
+                document.getElementById('profSubmitBtn').style.display = 'none';
+                document.getElementById('lockNotice').style.display = 'block';
+            }
+        }
+
+        // PROFILE SUBMISSION & LOCKING
+        function handleSaveProfile(e) {
+            e.preventDefault();
+            userProfile.fullName = document.getElementById('profFullName').value;
+            userProfile.username = document.getElementById('profUsername').value;
+            userProfile.email = document.getElementById('profEmail').value;
+            userProfile.phone = document.getElementById('profPhone').value;
+            userProfile.country = document.getElementById('profCountry').value;
+            userProfile.isLocked = true;
+
+            syncProfileUI();
+            alert('Profile completed and saved successfully! Details are now locked for security.');
+        }
+
+        // COPY REFERRAL LINK
+        function copyReferralLink() {
+            const input = document.getElementById('refUrlDisplay');
+            input.select();
+            navigator.clipboard.writeText(input.value);
+            alert('Referral link copied to clipboard!');
+        }
+
+        // DEPOSIT FLOW
         function handleDepositSubmit(e) {
             e.preventDefault();
             const currency = document.getElementById('depCurrency').value;
-
             document.getElementById('payAsset').textContent = currency;
             document.getElementById('paymentInstructions').style.display = 'block';
         }
@@ -705,18 +1015,18 @@
         function confirmDeposit() {
             const receiptInput = document.getElementById('receiptFile');
             const amount = parseFloat(document.getElementById('depAmount').value);
+            const currency = document.getElementById('depCurrency').value;
 
             if (!receiptInput.files || receiptInput.files.length === 0) {
-                alert('Please upload a screenshot or receipt of your payment before proceeding.');
+                alert('Please attach a receipt or screenshot of your transaction.');
                 return;
             }
 
-            // Add pending deposit transaction to history tables
             const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
             const newRow = `
                 <tr>
                     <td>${today}</td>
-                    <td>Deposit</td>
+                    <td>Deposit - ${currency}</td>
                     <td>+$${amount.toFixed(2)}</td>
                     <td><span class="badge pending">Pending Approval</span></td>
                 </tr>
@@ -725,18 +1035,34 @@
             document.getElementById('dashboardRecentTable').insertAdjacentHTML('afterbegin', newRow);
             document.getElementById('fullTransactionTable').insertAdjacentHTML('afterbegin', newRow);
 
-            alert('Your deposit request has been submitted successfully!\n\nPlease wait for the system and admin to verify your transaction before funds reflect in your available balance.');
-            
+            alert('Your deposit request has been submitted successfully!\n\nPlease wait for the blockchain network to fully confirm the transaction and for the system admin to credit your account.');
+
             document.getElementById('paymentInstructions').style.display = 'none';
             document.getElementById('depositForm').reset();
             document.getElementById('receiptFile').value = '';
             switchView('dashboard');
         }
 
-        // WITHDRAWAL FORM SUBMISSION
-        function handleWithdrawalSubmit(e) {
+        // TOGGLE WITHDRAWAL TABS
+        function toggleWithdrawTab(mode) {
+            if (mode === 'crypto') {
+                document.getElementById('cryptoWithdrawForm').style.display = 'block';
+                document.getElementById('bankWithdrawForm').style.display = 'none';
+                document.getElementById('tabCryptoBtn').classList.add('active');
+                document.getElementById('tabBankBtn').classList.remove('active');
+            } else {
+                document.getElementById('cryptoWithdrawForm').style.display = 'none';
+                document.getElementById('bankWithdrawForm').style.display = 'block';
+                document.getElementById('tabBankBtn').classList.add('active');
+                document.getElementById('tabCryptoBtn').classList.remove('active');
+            }
+        }
+
+        // SUBMIT CRYPTO WITHDRAWAL
+        function handleCryptoWithdrawal(e) {
             e.preventDefault();
-            const amount = parseFloat(document.getElementById('withAmount').value);
+            const amount = parseFloat(document.getElementById('withCryptoAmount').value);
+            const currency = document.getElementById('withCryptoCurrency').value;
 
             if (amount > state.availableBalance) {
                 alert('Insufficient available balance!');
@@ -744,19 +1070,87 @@
             }
 
             state.availableBalance -= amount;
-            state.totalWithdrawal += amount;
             renderBalances();
-            alert('Withdrawal request submitted successfully.');
+
+            const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            const newRow = `
+                <tr>
+                    <td>${today}</td>
+                    <td>Crypto Withdrawal - ${currency}</td>
+                    <td>-$${amount.toFixed(2)}</td>
+                    <td><span class="badge pending">Pending Approval</span></td>
+                </tr>
+            `;
+
+            document.getElementById('dashboardRecentTable').insertAdjacentHTML('afterbegin', newRow);
+            document.getElementById('fullTransactionTable').insertAdjacentHTML('afterbegin', newRow);
+
+            alert('Crypto withdrawal request received. Please wait for system/admin clearance.');
+            document.getElementById('cryptoWithdrawForm').reset();
             switchView('dashboard');
         }
 
-        // START AUTOMATED TRADE
-        function handleStartTrade(e) {
+        // SUBMIT BANK WITHDRAWAL
+        function handleBankWithdrawal(e) {
             e.preventDefault();
-            const amount = parseFloat(document.getElementById('tradeAmount').value);
+            const amount = parseFloat(document.getElementById('withBankAmount').value);
+            const acc1 = document.getElementById('bankAccNo').value;
+            const acc2 = document.getElementById('confirmBankAccNo').value;
+
+            if (acc1 !== acc2) {
+                alert('Bank account numbers/IBAN do not match!');
+                return;
+            }
 
             if (amount > state.availableBalance) {
-                alert('Insufficient available balance to allocate to automatic trading.');
+                alert('Insufficient available balance!');
+                return;
+            }
+
+            state.availableBalance -= amount;
+            renderBalances();
+
+            const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            const newRow = `
+                <tr>
+                    <td>${today}</td>
+                    <td>Bank Wire Withdrawal</td>
+                    <td>-$${amount.toFixed(2)}</td>
+                    <td><span class="badge pending">Pending Approval</span></td>
+                </tr>
+            `;
+
+            document.getElementById('dashboardRecentTable').insertAdjacentHTML('afterbegin', newRow);
+            document.getElementById('fullTransactionTable').insertAdjacentHTML('afterbegin', newRow);
+
+            alert('Bank withdrawal request submitted. Your bank wire transfer is pending admin processing.');
+            document.getElementById('bankWithdrawForm').reset();
+            switchView('dashboard');
+        }
+
+        // UPDATE TIER INFO
+        function updateTierInfo() {
+            const key = document.getElementById('tradePlan').value;
+            const info = tierCaps[key];
+            const maxStr = info.max === 1000000 ? "Unlimited ($10,000+)" : `$${info.max.toLocaleString()}`;
+            document.getElementById('tierCapDisplay').textContent = `Selected Strategy: ${info.name} | Caps: Min $${info.min.toLocaleString()} — Max ${maxStr}`;
+        }
+
+        // START TRADE
+        function handleStartTrade(e) {
+            e.preventDefault();
+            const tierKey = document.getElementById('tradePlan').value;
+            const amount = parseFloat(document.getElementById('tradeAmount').value);
+            const days = parseInt(document.getElementById('tradeDuration').value);
+            const info = tierCaps[tierKey];
+
+            if (amount < info.min || (info.max !== 1000000 && amount > info.max)) {
+                alert(`Amount must fall within the selected tier cap ($${info.min} - $${info.max})!`);
+                return;
+            }
+
+            if (amount > state.availableBalance) {
+                alert('Insufficient available balance to allocate to auto-trade!');
                 return;
             }
 
@@ -764,18 +1158,62 @@
             state.ongoingTrade += amount;
             state.activeTrade += amount;
             renderBalances();
-            alert('Automatic trading strategy initiated successfully.');
+
+            const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            const newRow = `
+                <tr>
+                    <td>${today}</td>
+                    <td>AI Trade Stake - ${info.name} (${days} Days)</td>
+                    <td>-$${amount.toFixed(2)}</td>
+                    <td><span class="badge info">Active Trade</span></td>
+                </tr>
+            `;
+
+            document.getElementById('dashboardRecentTable').insertAdjacentHTML('afterbegin', newRow);
+            document.getElementById('fullTransactionTable').insertAdjacentHTML('afterbegin', newRow);
+
+            alert(`Automated trade successfully started under ${info.name} for ${days} days!\nDaily ROI will accumulate to your profit balance.`);
             switchView('dashboard');
         }
 
-        // PASSWORD CHANGE
-        function handlePasswordChange(e) {
+        // LIVE MESSAGES & SUPPORT CHAT HANDLER
+        function handleSendChatMessage(e) {
             e.preventDefault();
-            alert('Password updated successfully!');
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const chatBox = document.getElementById('chatBox');
+            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            // Append User Message
+            const userMsgHTML = `
+                <div class="chat-msg user">
+                    ${text}
+                    <span class="chat-time">${timeStr}</span>
+                </div>
+            `;
+            chatBox.insertAdjacentHTML('beforeend', userMsgHTML);
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Simulated Automated Admin Response
+            setTimeout(() => {
+                const adminMsgHTML = `
+                    <div class="chat-msg admin">
+                        Thank you for reaching out! Our admin team has received your message and will review your request shortly.
+                        <span class="chat-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                    </div>
+                `;
+                chatBox.insertAdjacentHTML('beforeend', adminMsgHTML);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1000);
         }
 
-        // INITIALIZE DISPLAY
+        // INITIALIZE
         renderBalances();
+        syncProfileUI();
+        updateTierInfo();
     </script>
 </body>
 </html>
