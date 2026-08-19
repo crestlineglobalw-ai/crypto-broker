@@ -15,6 +15,7 @@
             --border-color: #262d3a;
             --input-bg: #0e121a;
             --danger: #ef4444;
+            --success: #22c55e;
             --header-height: 70px;
         }
 
@@ -143,11 +144,8 @@
             font-size: 0.9rem;
         }
 
-        .error-message {
+        .alert-message {
             display: none;
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid var(--danger);
-            color: #f87171;
             padding: 0.75rem 1rem;
             border-radius: 8px;
             font-size: 0.85rem;
@@ -155,8 +153,27 @@
             text-align: center;
         }
 
+        .alert-error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--danger);
+            color: #f87171;
+        }
+
+        .alert-success {
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid var(--success);
+            color: #4ade80;
+        }
+
         .form-group {
             margin-bottom: 1.25rem;
+        }
+
+        .label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
         }
 
         .form-label {
@@ -164,7 +181,18 @@
             font-size: 0.85rem;
             font-weight: 600;
             color: var(--text-muted);
-            margin-bottom: 0.5rem;
+        }
+
+        .forgot-link {
+            font-size: 0.8rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
         }
 
         .form-input {
@@ -193,10 +221,33 @@
             font-weight: 800;
             cursor: pointer;
             margin-top: 0.5rem;
+            transition: background 0.2s;
         }
 
         .btn-submit:hover {
             background-color: var(--primary-hover);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .auth-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* TOGGLE VIEWS */
+        #forgotSection {
+            display: none;
         }
 
         footer {
@@ -225,20 +276,25 @@
             </a>
 
             <div class="header-actions">
-                <a href="login.html" class="btn-secondary">Log In</a>
+                <a href="register.html" class="btn-secondary">Get Started</a>
             </div>
         </div>
     </header>
 
     <div class="auth-container">
-        <div class="auth-card">
+        <!-- LOGIN SECTION -->
+        <div class="auth-card" id="loginSection">
             <div class="auth-header">
                 <h1>Sign In</h1>
                 <p>Enter your credentials to access your portal</p>
             </div>
 
-            <div id="errorMessage" class="error-message">
+            <div id="errorMessage" class="alert-message alert-error">
                 Invalid email or password. Please try again.
+            </div>
+
+            <div id="successMessage" class="alert-message alert-success">
+                Password updated successfully! You can now log in.
             </div>
 
             <form id="loginForm" onsubmit="handleLogin(event)">
@@ -248,12 +304,62 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="loginPassword">Password</label>
+                    <div class="label-row">
+                        <label class="form-label" for="loginPassword">Password</label>
+                        <span class="forgot-link" onclick="showForgotPassword()">Forgot Password?</span>
+                    </div>
                     <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password" required>
                 </div>
 
                 <button type="submit" class="btn-submit">Sign In</button>
             </form>
+
+            <div class="auth-footer">
+                Don't have an account? <a href="register.html">Register</a>
+            </div>
+        </div>
+
+        <!-- FORGOT / RESET PASSWORD SECTION -->
+        <div class="auth-card" id="forgotSection">
+            <div class="auth-header">
+                <h1 id="forgotTitle">Reset Password</h1>
+                <p id="forgotSubtitle">Enter your email to receive a verification code</p>
+            </div>
+
+            <div id="forgotError" class="alert-message alert-error"></div>
+
+            <!-- STEP 1: REQUEST CODE -->
+            <form id="requestCodeForm" onsubmit="handleRequestCode(event)">
+                <div class="form-group">
+                    <label class="form-label" for="resetEmail">Email Address</label>
+                    <input type="email" id="resetEmail" class="form-input" placeholder="Enter your email" required>
+                </div>
+                <button type="submit" class="btn-submit">Send Reset Code</button>
+            </form>
+
+            <!-- STEP 2: VERIFY CODE & SET NEW USERNAME/PASSWORD -->
+            <form id="resetPasswordForm" style="display: none;" onsubmit="handleResetPassword(event)">
+                <div class="form-group">
+                    <label class="form-label" for="verificationCode">Verification Code</label>
+                    <input type="text" id="verificationCode" class="form-input" placeholder="Enter 6-digit code" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="newUsername">Username / Full Name</label>
+                    <input type="text" id="newUsername" class="form-input" placeholder="Enter new or existing name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="newPassword">New Password</label>
+                    <input type="password" id="newPassword" class="form-input" placeholder="Minimum 8 characters" required>
+                </div>
+
+                <button type="submit" class="btn-submit">Update Password</button>
+            </form>
+
+            <div class="auth-footer">
+                Remembered your password? <a href="#" onclick="showLogin(event)">Log In</a>
+            </div>
         </div>
     </div>
 
@@ -263,11 +369,14 @@
 
     <script>
         // Credentials configuration
-        const USER_EMAIL = "user123@user.com";
-        const USER_PASSWORD = "user123@";
+        let USER_EMAIL = "user123@user.com";
+        let USER_PASSWORD = "user123@";
 
-        const ADMIN_EMAIL = "admin123@admin.com";
-        const ADMIN_PASSWORD = "admin123@";
+        let ADMIN_EMAIL = "admin123@admin.com";
+        let ADMIN_PASSWORD = "admin123@";
+
+        // Simulated verification code state
+        let generatedCode = null;
 
         function handleLogin(e) {
             e.preventDefault();
@@ -275,6 +384,9 @@
             const emailInput = document.getElementById('loginEmail').value.trim();
             const passwordInput = document.getElementById('loginPassword').value.trim();
             const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+
+            successDiv.style.display = "none";
 
             // Route to User Dashboard
             if (emailInput === USER_EMAIL && passwordInput === USER_PASSWORD) {
@@ -290,6 +402,79 @@
             else {
                 errorDiv.style.display = "block";
             }
+        }
+
+        // Toggle Views
+        function showForgotPassword() {
+            document.getElementById('loginSection').style.display = "none";
+            document.getElementById('forgotSection').style.display = "block";
+            resetForgotForms();
+        }
+
+        function showLogin(e) {
+            if (e) e.preventDefault();
+            document.getElementById('forgotSection').style.display = "none";
+            document.getElementById('loginSection').style.display = "block";
+        }
+
+        function resetForgotForms() {
+            document.getElementById('requestCodeForm').style.display = "block";
+            document.getElementById('resetPasswordForm').style.display = "none";
+            document.getElementById('forgotError').style.display = "none";
+            document.getElementById('forgotTitle').innerText = "Reset Password";
+            document.getElementById('forgotSubtitle').innerText = "Enter your email to receive a verification code";
+        }
+
+        // Step 1: Request Verification Code
+        function handleRequestCode(e) {
+            e.preventDefault();
+            const email = document.getElementById('resetEmail').value.trim();
+            const errorDiv = document.getElementById('forgotError');
+
+            if (email !== USER_EMAIL && email !== ADMIN_EMAIL) {
+                errorDiv.innerText = "Email address not found.";
+                errorDiv.style.display = "block";
+                return;
+            }
+
+            errorDiv.style.display = "none";
+            
+            // Generate mock 6-digit code (simulated email send)
+            generatedCode = "123456";
+            alert("A verification code has been sent to " + email + ".\n\n(For testing, use code: 123456)");
+
+            // Move to Step 2
+            document.getElementById('requestCodeForm').style.display = "none";
+            document.getElementById('resetPasswordForm').style.display = "block";
+            document.getElementById('forgotTitle').innerText = "Enter Verification Code";
+            document.getElementById('forgotSubtitle').innerText = "We sent a 6-digit code to " + email;
+        }
+
+        // Step 2: Verify Code and Update Password
+        function handleResetPassword(e) {
+            e.preventDefault();
+            const codeInput = document.getElementById('verificationCode').value.trim();
+            const newPass = document.getElementById('newPassword').value.trim();
+            const email = document.getElementById('resetEmail').value.trim();
+            const errorDiv = document.getElementById('forgotError');
+
+            if (codeInput !== generatedCode) {
+                errorDiv.innerText = "Invalid verification code. Please check and try again.";
+                errorDiv.style.display = "block";
+                return;
+            }
+
+            // Update user or admin password
+            if (email === USER_EMAIL) {
+                USER_PASSWORD = newPass;
+            } else if (email === ADMIN_EMAIL) {
+                ADMIN_PASSWORD = newPass;
+            }
+
+            // Show login screen with success alert
+            showLogin();
+            document.getElementById('errorMessage').style.display = "none";
+            document.getElementById('successMessage').style.display = "block";
         }
     </script>
 </body>
