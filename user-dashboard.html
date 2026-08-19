@@ -98,7 +98,7 @@
         }
 
         .brand-logo-container span {
-            color: #ffffff;
+            color: #ffffff; /* WHITE COLOR FOR GLOBAL */
         }
 
         .user-pill {
@@ -479,16 +479,89 @@
             background: rgba(0, 0, 0, 0.2);
         }
 
+        .bonus-banner {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            color: var(--success);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* FLOATING QUICK CHAT WIDGET STYLES */
+        .floating-chat-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+            z-index: 2000;
+            transition: transform 0.2s;
+        }
+
+        .floating-chat-btn:hover {
+            transform: scale(1.08);
+        }
+
+        .floating-chat-window {
+            display: none;
+            position: fixed;
+            bottom: 95px;
+            right: 25px;
+            width: 350px;
+            height: 450px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .floating-chat-window.open {
+            display: flex;
+        }
+
+        .floating-chat-header {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-chat-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
         @media (max-width: 768px) {
             aside { transform: translateX(-100%); }
             aside.open { transform: translateX(0); }
             main { margin-left: 0; padding: 1rem; }
+            .floating-chat-window { width: calc(100% - 40px); right: 20px; bottom: 90px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- HOMEPAGE-MATCHED HEADER -->
+    <!-- HOMEPAGE-MATCHED HEADER (WHITE 'GLOBAL' LOGO TEXT) -->
     <header class="site-header">
         <div class="header-container">
             <div class="header-left">
@@ -589,7 +662,7 @@
                             </tr>
                             <tr>
                                 <td>Aug 17, 2026</td>
-                                <td>Referral Commission Bonus</td>
+                                <td>Referral Commission Bonus (Ref ID: alex_trader)</td>
                                 <td>+$100.00</td>
                                 <td><span class="badge info">In Bonus Vault</span></td>
                             </tr>
@@ -654,7 +727,7 @@
                         <strong id="payAsset" style="color: #fff; display: block; margin-bottom: 0.75rem;">-</strong>
 
                         <span class="form-label">Official Wallet Address:</span>
-                        <code id="payAddress" style="color: var(--primary); font-size: 0.95rem; word-break: break-all; display: block;">0x71C7656EC7ab88b098defB751B7401B5f6d8976F</code>
+                        <code id="payAddress" style="color: var(--primary); font-size: 0.95rem; word-break: break-all; display: block;">[OFFICIAL_WALLET_ADDRESS_WILL_BE_DISPLAYED]</code>
                     </div>
 
                     <div class="form-group">
@@ -666,7 +739,7 @@
                 </div>
             </section>
 
-            <!-- 3. WITHDRAWAL VIEW -->
+            <!-- 3. WITHDRAWAL VIEW (INPUT WALLET ADDRESS PLACEHOLDERS) -->
             <section id="view-withdraw" class="view-section">
                 <div class="page-title">Request Withdrawal</div>
                 <div class="page-subtitle">Withdraw earnings via Crypto Wallet or Bank Wire Transfer (Min. $1,000 for Bank).</div>
@@ -774,19 +847,19 @@
                             </tr>
                             <tr>
                                 <td>Aug 17, 2026</td>
-                                <td>Referral Bonus</td>
+                                <td>Referral Commission Bonus (Ref ID: alex_trader)</td>
                                 <td>+$100.00</td>
                                 <td><span class="badge info">In Bonus Vault</span></td>
                             </tr>
                             <tr>
                                 <td>Aug 16, 2026</td>
-                                <td>AI Trade Allocation</td>
+                                <td>AI Trade Allocation (Micro Alpha Bot)</td>
                                 <td>-$200.00</td>
                                 <td><span class="badge info">Active Trade</span></td>
                             </tr>
                             <tr>
                                 <td>Aug 15, 2026</td>
-                                <td>Crypto Withdrawal - Solana</td>
+                                <td>Crypto Withdrawal - Solana (SOL)</td>
                                 <td>-$150.00</td>
                                 <td><span class="badge pending">Pending Approval</span></td>
                             </tr>
@@ -797,169 +870,559 @@
 
             <!-- 5. TRADE & INVESTMENTS VIEW -->
             <section id="view-trade" class="view-section">
-                <div class="page-title">Trade & Investment Plans</div>
-                <div class="page-subtitle">Manage AI-driven trading strategies and active automated bots.</div>
+                <div class="page-title">AI Auto-Trader & Automated Investments</div>
+                <div class="page-subtitle">Select strategy tier and duration (Min. 5 Days) to generate high-yield profits.</div>
 
-                <div class="grid-cards">
-                    <div class="card">
-                        <div class="card-title">Starter Bot</div>
-                        <div class="card-value text-warning">2.5% Daily</div>
-                        <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0.5rem 0 1rem;">Min Deposit: $100 | Duration: 7 Days</p>
-                        <button class="btn-submit">Activate Strategy</button>
-                    </div>
-                    <div class="card">
-                        <div class="card-title">Alpha AI Bot</div>
-                        <div class="card-value text-success">4.0% Daily</div>
-                        <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0.5rem 0 1rem;">Min Deposit: $1,000 | Duration: 14 Days</p>
-                        <button class="btn-submit">Activate Strategy</button>
-                    </div>
+                <div class="form-card">
+                    <form onsubmit="handleStartTrade(event)">
+                        <div class="form-group">
+                            <label class="form-label">Select Trading Strategy Tier</label>
+                            <select class="form-select" id="tradePlan" onchange="updateTierInfo()">
+                                <option value="tier1" selected>Tier 1: Micro Alpha Bot ($50 - $399) | Yield: 50.0%/day</option>
+                                <option value="tier2">Tier 2: Quantum Momentum ($400 - $999) | Yield: 75.0%/day</option>
+                                <option value="tier3">Tier 3: Apex Hedge Strategy ($1,000 - $4,999) | Yield: 100.0%/day</option>
+                                <option value="tier4">Tier 4: High-Yield Scalper ($5,000 - $9,999) | Yield: 150.0%/day</option>
+                                <option value="tier5">Tier 5: Sovereign Liquidity ($10,000+) | Yield: 200.0%/day</option>
+                            </select>
+                        </div>
+
+                        <div id="tierCapDisplay" style="background: var(--input-bg); padding: 0.85rem; border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.85rem; margin-bottom: 1.25rem; color: var(--primary);">
+                            Selected Tier Limits: Minimum $50 — Maximum $399 | Daily ROI: 50%
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Investment Amount ($)</label>
+                            <input type="number" class="form-input" id="tradeAmount" placeholder="Enter amount within tier limits" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Trading Duration (Minimum 5 Days)</label>
+                            <select class="form-select" id="tradeDuration" required>
+                                <option value="5">5 Days (Daily ROI credited to profit balance)</option>
+                                <option value="7">7 Days (Daily ROI credited to profit balance)</option>
+                                <option value="14">14 Days (Daily ROI credited to profit balance)</option>
+                                <option value="30">30 Days (Daily ROI credited to profit balance)</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn-submit">Activate Algorithmic Trade</button>
+                    </form>
                 </div>
             </section>
 
             <!-- 6. REFERRALS VIEW -->
             <section id="view-referrals" class="view-section">
                 <div class="page-title">Referral Program</div>
-                <div class="page-subtitle">Invite new users and earn a commission on every deposit made.</div>
+                <div class="page-subtitle">Share your unique Username / Referral ID to earn direct commissions.</div>
+
+                <div class="bonus-banner">
+                    🎁 <strong>Instant Referral Bonus:</strong> For every new user who registers using your <strong>Referral ID</strong> and starts an active trade, you automatically receive an <strong>instant $100 Bonus</strong> directly credited to your Bonus Vault!
+                </div>
 
                 <div class="form-card">
                     <div class="form-group">
-                        <label class="form-label">Your Unique Referral Link</label>
-                        <input type="text" class="form-input" value="https://crestlineglobal.com/ref?user=johndoe" readonly>
+                        <label class="form-label">Your Unique Referral ID / Username</label>
+                        <input type="text" id="refIdDisplay" class="form-input" value="john_doe" readonly style="font-weight: 800; font-size: 1.1rem; color: var(--primary);">
                     </div>
-                    <button class="btn-submit" onclick="alert('Referral link copied to clipboard!')">Copy Link</button>
+                    <button type="button" class="btn-submit" onclick="copyReferralId()">Copy Referral ID</button>
+                </div>
+
+                <div class="card" style="max-width: 700px;">
+                    <div class="card-title" style="margin-bottom: 1rem;">Your Registered Referrals</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Referred User</th>
+                                <th>Date Joined</th>
+                                <th>Trade Status</th>
+                                <th>Bonus Earned</th>
+                            </tr>
+                        </thead>
+                        <tbody id="referralListTable">
+                            <tr>
+                                <td>alex_trader</td>
+                                <td>Aug 17, 2026</td>
+                                <td><span class="badge success">Active Trade</span></td>
+                                <td>+$100.00</td>
+                            </tr>
+                            <tr>
+                                <td>crypto_sam</td>
+                                <td>Aug 10, 2026</td>
+                                <td><span class="badge pending">No Trade Yet</span></td>
+                                <td>$0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </section>
 
-            <!-- 7. PROFILE VIEW -->
+            <!-- 7. PROFILE & SETTINGS VIEW (CLEANED LABEL) -->
             <section id="view-profile" class="view-section">
                 <div class="page-title">Profile & Settings</div>
-                <div class="page-subtitle">Manage personal details, avatar, and security options.</div>
+                <div class="page-subtitle">Manage your profile image, personal info, and custom Username/Referral ID.</div>
 
                 <div class="form-card">
-                    <div class="profile-pic-container">
-                        <div class="profile-preview">J</div>
-                        <div>
-                            <label class="form-label">Change Profile Picture</label>
-                            <input type="file" class="form-input" accept="image/*">
+                    <form id="profileForm" onsubmit="handleSaveProfile(event)">
+                        
+                        <div class="profile-pic-container">
+                            <div class="profile-preview" id="profileImagePreview">J</div>
+                            <div>
+                                <label class="form-label" style="margin-bottom: 0.3rem;">Profile Picture</label>
+                                <input type="file" id="picInput" class="form-input" accept="image/*" onchange="previewProfilePic(event)">
+                                <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 4px;">PNG or JPG format supported.</span>
+                            </div>
                         </div>
-                    </div>
 
-                    <form onsubmit="event.preventDefault(); alert('Profile updated successfully!');">
                         <div class="form-group">
                             <label class="form-label">Full Name</label>
-                            <input type="text" class="form-input" value="John Doe">
+                            <input type="text" id="profFullName" class="form-input" value="John Doe" required>
                         </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Username / Referral ID</label>
+                            <input type="text" id="profUsername" class="form-input" value="john_doe" placeholder="Choose a unique username" required>
+                        </div>
+
                         <div class="form-group">
                             <label class="form-label">Email Address</label>
-                            <input type="email" class="form-input" value="johndoe@gmail.com" readonly>
+                            <input type="email" id="profEmail" class="form-input" value="johndoe@gmail.com" required>
                         </div>
-                        <button type="submit" class="btn-submit">Save Changes</button>
+
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" id="profPhone" class="form-input" value="+1 (555) 019-2834" placeholder="+1 (555) 000-0000" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Country of Residence</label>
+                            <input type="text" id="profCountry" class="form-input" value="United States" placeholder="Enter your country" required>
+                        </div>
+
+                        <button type="submit" id="profSubmitBtn" class="btn-submit">Save Profile Changes</button>
                     </form>
                 </div>
             </section>
 
-            <!-- 8. MESSAGES / SUPPORT VIEW -->
+            <!-- 8. MESSAGES / LIVE CHAT WITH ADMIN -->
             <section id="view-messages" class="view-section">
                 <div class="page-title">Messages & Support</div>
-                <div class="page-subtitle">Get directly in touch with our live support team.</div>
+                <div class="page-subtitle">Chat directly with Crestline Global admin and support team in real time.</div>
 
                 <div class="chat-container">
                     <div class="chat-header">
                         <div class="chat-status-dot"></div>
-                        <strong style="font-size: 0.9rem;">Crestline Support Agent</strong>
-                    </div>
-                    <div class="chat-box">
-                        <div class="chat-msg admin">
-                            Hello John! How can we assist with your investments today?
-                            <span class="chat-time">10:14 AM</span>
+                        <div>
+                            <strong style="font-size: 0.95rem; display: block;">Crestline Admin Support</strong>
+                            <span style="font-size: 0.75rem; color: var(--text-muted);">Online - 24/7 Automated Desk</span>
                         </div>
                     </div>
-                    <div class="chat-input-area">
-                        <input type="text" class="form-input" placeholder="Write a message...">
-                        <button class="btn-submit" style="width: auto; padding: 0 1.5rem;">Send</button>
+
+                    <div class="chat-box" id="chatBoxMain">
+                        <div class="chat-msg admin">
+                            Hello John! Welcome to Crestline Global support chat. How can we assist you with your trades, deposits, or account settings today?
+                            <span class="chat-time">10:00 AM</span>
+                        </div>
                     </div>
+
+                    <form class="chat-input-area" onsubmit="handleMainChatMessage(event)">
+                        <input type="text" id="chatInputMain" class="form-input" placeholder="Type your message here..." required>
+                        <button type="submit" class="btn-submit" style="width: auto; padding: 0 1.5rem;">Send</button>
+                    </form>
                 </div>
             </section>
 
         </main>
     </div>
 
-    <!-- JAVASCRIPT NAVIGATION LOGIC -->
+    <!-- FLOATING QUICK CHAT BUTTON & WINDOW -->
+    <div class="floating-chat-btn" onclick="toggleFloatingChat()" title="Quick Chat with Admin">💬</div>
+
+    <div class="floating-chat-window" id="quickChatWindow">
+        <div class="floating-chat-header">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <div class="chat-status-dot"></div>
+                <strong style="font-size: 0.85rem; color: #fff;">Live Admin Desk</strong>
+            </div>
+            <button class="close-chat-btn" onclick="toggleFloatingChat()">✕</button>
+        </div>
+
+        <div class="chat-box" id="quickChatBox" style="padding: 0.85rem;">
+            <div class="chat-msg admin">
+                Hi John! Need quick help? Type your question here anytime.
+                <span class="chat-time">Just now</span>
+            </div>
+        </div>
+
+        <form class="chat-input-area" onsubmit="handleQuickChatMessage(event)" style="padding: 0.65rem;">
+            <input type="text" id="quickChatInput" class="form-input" placeholder="Quick message..." style="padding: 0.6rem; font-size: 0.85rem;" required>
+            <button type="submit" class="btn-submit" style="width: auto; padding: 0 0.85rem; font-size: 0.85rem;">Send</button>
+        </form>
+    </div>
+
     <script>
-        function switchView(viewName, element) {
-            // Hide all view sections
-            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            
-            // Show selected view section
-            const targetView = document.getElementById('view-' + viewName);
-            if (targetView) targetView.classList.add('active');
+        // DEFAULT ACCOUNT & PROFILE STATE
+        let userProfile = {
+            fullName: "John Doe",
+            username: "john_doe",
+            email: "johndoe@gmail.com",
+            phone: "+1 (555) 019-2834",
+            country: "United States",
+            avatarUrl: null
+        };
 
-            // Update active menu link
-            if (element) {
-                document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-                element.classList.add('active');
-            }
+        let state = {
+            availableBalance: 12450.00,
+            bonus: 350.00,
+            totalDeposit: 10000.00,
+            totalWithdrawal: 1500.00,
+            ongoingTrade: 2000.00,
+            activeTrade: 2000.00,
+            currentProfit: 3950.00
+        };
 
-            // Close sidebar on mobile after selecting a page
+        // AUTO-TRADER TIERS
+        const tierCaps = {
+            tier1: { min: 50, max: 399, yield: "50%", name: "Micro Alpha Bot" },
+            tier2: { min: 400, max: 999, yield: "75%", name: "Quantum Momentum Trader" },
+            tier3: { min: 1000, max: 4999, yield: "100%", name: "Apex Hedge Strategy" },
+            tier4: { min: 5000, max: 9999, yield: "150%", name: "High-Yield Scalper" },
+            tier5: { min: 10000, max: 1000000, yield: "200%", name: "Sovereign Liquidity Vault" }
+        };
+
+        // SIDEBAR TOGGLE
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+
+        menuToggle.addEventListener('click', () => {
             if (window.innerWidth <= 768) {
-                document.getElementById('sidebar').classList.remove('open');
-            }
-        }
-
-        function toggleWithdrawTab(tab) {
-            const cryptoForm = document.getElementById('cryptoWithdrawForm');
-            const bankForm = document.getElementById('bankWithdrawForm');
-            const cryptoBtn = document.getElementById('tabCryptoBtn');
-            const bankBtn = document.getElementById('tabBankBtn');
-
-            if (tab === 'crypto') {
-                cryptoForm.style.display = 'block';
-                bankForm.style.display = 'none';
-                cryptoBtn.classList.add('active');
-                bankBtn.classList.remove('active');
+                sidebar.classList.toggle('open');
             } else {
-                cryptoForm.style.display = 'none';
-                bankForm.style.display = 'block';
-                bankBtn.classList.add('active');
-                cryptoBtn.classList.remove('active');
+                sidebar.classList.toggle('collapsed');
+                mainContent.classList.toggle('full-width');
+            }
+        });
+
+        // VIEW NAVIGATION
+        function switchView(viewName, element) {
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+
+            document.getElementById(`view-${viewName}`).classList.add('active');
+            if (element) element.classList.add('active');
+
+            if (window.innerWidth <= 768) sidebar.classList.remove('open');
+        }
+
+        // RENDER BALANCES
+        function renderBalances() {
+            document.getElementById('valAvailable').textContent = `$${state.availableBalance.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+            document.getElementById('valBonus').textContent = `$${state.bonus.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+            document.getElementById('valDeposit').textContent = `$${state.totalDeposit.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+            document.getElementById('valWithdrawal').textContent = `$${state.totalWithdrawal.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+            document.getElementById('valOngoingTrade').textContent = `$${state.ongoingTrade.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+            document.getElementById('valActiveTrade').textContent = `$${state.activeTrade.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+            document.getElementById('valProfit').textContent = `+$${state.currentProfit.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+        }
+
+        // PROFILE PICTURE PREVIEW
+        function previewProfilePic(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    userProfile.avatarUrl = e.target.result;
+                    renderAvatar();
+                };
+                reader.readAsDataURL(file);
             }
         }
 
+        function renderAvatar() {
+            const navAvatar = document.getElementById('navAvatar');
+            const previewBox = document.getElementById('profileImagePreview');
+
+            if (userProfile.avatarUrl) {
+                navAvatar.innerHTML = `<img src="${userProfile.avatarUrl}" alt="Profile">`;
+                previewBox.innerHTML = `<img src="${userProfile.avatarUrl}" alt="Profile">`;
+            } else {
+                const initial = userProfile.fullName ? userProfile.fullName.charAt(0).toUpperCase() : 'J';
+                navAvatar.innerHTML = initial;
+                previewBox.innerHTML = initial;
+            }
+        }
+
+        // SYNC PROFILE DATA
+        function syncProfileUI() {
+            document.getElementById('navFullName').textContent = userProfile.fullName;
+            document.getElementById('navEmail').textContent = userProfile.email;
+
+            document.getElementById('profFullName').value = userProfile.fullName;
+            document.getElementById('profUsername').value = userProfile.username;
+            document.getElementById('profEmail').value = userProfile.email;
+            document.getElementById('profPhone').value = userProfile.phone;
+            document.getElementById('profCountry').value = userProfile.country;
+
+            document.getElementById('refIdDisplay').value = userProfile.username;
+
+            renderAvatar();
+        }
+
+        // SAVE PROFILE
+        function handleSaveProfile(e) {
+            e.preventDefault();
+            userProfile.fullName = document.getElementById('profFullName').value.trim();
+            userProfile.username = document.getElementById('profUsername').value.trim().toLowerCase().replace(/\s+/g, '_');
+            userProfile.email = document.getElementById('profEmail').value.trim();
+            userProfile.phone = document.getElementById('profPhone').value.trim();
+            userProfile.country = document.getElementById('profCountry').value.trim();
+
+            syncProfileUI();
+            alert('Profile and Username / Referral ID updated successfully!');
+        }
+
+        // COPY REFERRAL ID
+        function copyReferralId() {
+            const input = document.getElementById('refIdDisplay');
+            navigator.clipboard.writeText(input.value);
+            alert(`Referral ID "${input.value}" copied to clipboard!`);
+        }
+
+        // DEPOSIT HANDLER
         function handleDepositSubmit(e) {
             e.preventDefault();
-            const curr = document.getElementById('depCurrency').value;
-            document.getElementById('payAsset').innerText = curr;
+            const currency = document.getElementById('depCurrency').value;
+            document.getElementById('payAsset').textContent = currency;
             document.getElementById('paymentInstructions').style.display = 'block';
         }
 
         function confirmDeposit() {
-            alert('Deposit proof submitted successfully. Pending verification!');
-            document.getElementById('paymentInstructions').style.display = 'none';
-        }
+            const receiptInput = document.getElementById('receiptFile');
+            const amount = parseFloat(document.getElementById('depAmount').value);
+            const currency = document.getElementById('depCurrency').value;
 
-        function handleCryptoWithdrawal(e) {
-            e.preventDefault();
-            const addr1 = document.getElementById('withCryptoAddress1').value;
-            const addr2 = document.getElementById('withCryptoAddress2').value;
-            const errorMsg = document.getElementById('addressMismatchMsg');
-
-            if (addr1 !== addr2) {
-                errorMsg.style.display = 'block';
+            if (!receiptInput.files || receiptInput.files.length === 0) {
+                alert('Please attach a receipt or screenshot of your transaction.');
                 return;
             }
-            errorMsg.style.display = 'none';
-            alert('Crypto withdrawal request submitted successfully!');
+
+            const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            const newRow = `
+                <tr>
+                    <td>${today}</td>
+                    <td>Deposit - ${currency}</td>
+                    <td>+$${amount.toFixed(2)}</td>
+                    <td><span class="badge pending">Pending Approval</span></td>
+                </tr>
+            `;
+
+            document.getElementById('dashboardRecentTable').insertAdjacentHTML('afterbegin', newRow);
+            document.getElementById('fullTransactionTable').insertAdjacentHTML('afterbegin', newRow);
+
+            alert('Your deposit request has been submitted successfully!\n\nPlease wait for the blockchain network to confirm the transaction and for the system admin to credit your account.');
+
+            document.getElementById('paymentInstructions').style.display = 'none';
+            document.getElementById('depositForm').reset();
+            document.getElementById('receiptFile').value = '';
+            switchView('dashboard');
         }
 
+        // TOGGLE WITHDRAWAL TABS
+        function toggleWithdrawTab(mode) {
+            if (mode === 'crypto') {
+                document.getElementById('cryptoWithdrawForm').style.display = 'block';
+                document.getElementById('bankWithdrawForm').style.display = 'none';
+                document.getElementById('tabCryptoBtn').classList.add('active');
+                document.getElementById('tabBankBtn').classList.remove('active');
+            } else {
+                document.getElementById('cryptoWithdrawForm').style.display = 'none';
+                document.getElementById('bankWithdrawForm').style.display = 'block';
+                document.getElementById('tabBankBtn').classList.add('active');
+                document.getElementById('tabCryptoBtn').classList.remove('active');
+            }
+        }
+
+        // CRYPTO WITHDRAWAL HANDLER
+        function handleCryptoWithdrawal(e) {
+            e.preventDefault();
+            const amount = parseFloat(document.getElementById('withCryptoAmount').value);
+            const currency = document.getElementById('withCryptoCurrency').value;
+            const addr1 = document.getElementById('withCryptoAddress1').value.trim();
+            const addr2 = document.getElementById('withCryptoAddress2').value.trim();
+
+            if (addr1 !== addr2) {
+                document.getElementById('addressMismatchMsg').style.display = 'block';
+                alert('Wallet addresses do not match! Please check and confirm your address.');
+                return;
+            } else {
+                document.getElementById('addressMismatchMsg').style.display = 'none';
+            }
+
+            if (amount > state.availableBalance) {
+                alert('Insufficient available balance!');
+                return;
+            }
+
+            state.availableBalance -= amount;
+            renderBalances();
+
+            const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            const newRow = `
+                <tr>
+                    <td>${today}</td>
+                    <td>Crypto Withdrawal - ${currency}</td>
+                    <td>-$${amount.toFixed(2)}</td>
+                    <td><span class="badge pending">Pending Approval</span></td>
+                </tr>
+            `;
+
+            document.getElementById('dashboardRecentTable').insertAdjacentHTML('afterbegin', newRow);
+            document.getElementById('fullTransactionTable').insertAdjacentHTML('afterbegin', newRow);
+
+            alert('Crypto withdrawal request submitted successfully.');
+            document.getElementById('cryptoWithdrawForm').reset();
+            switchView('dashboard');
+        }
+
+        // BANK WITHDRAWAL HANDLER
         function handleBankWithdrawal(e) {
             e.preventDefault();
-            alert('Bank withdrawal request submitted successfully!');
+            const amount = parseFloat(document.getElementById('withBankAmount').value);
+            const acc1 = document.getElementById('bankAccNo').value.trim();
+            const acc2 = document.getElementById('confirmBankAccNo').value.trim();
+
+            if (amount < 1000) {
+                alert('Minimum bank wire withdrawal amount is $1,000!');
+                return;
+            }
+
+            if (acc1 !== acc2) {
+                alert('Bank account numbers/IBAN do not match!');
+                return;
+            }
+
+            if (amount > state.availableBalance) {
+                alert('Insufficient available balance!');
+                return;
+            }
+
+            state.availableBalance -= amount;
+            renderBalances();
+
+            const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            const newRow = `
+                <tr>
+                    <td>${today}</td>
+                    <td>Bank Wire Withdrawal</td>
+                    <td>-$${amount.toFixed(2)}</td>
+                    <td><span class="badge pending">Pending Approval</span></td>
+                </tr>
+            `;
+
+            document.getElementById('dashboardRecentTable').insertAdjacentHTML('afterbegin', newRow);
+            document.getElementById('fullTransactionTable').insertAdjacentHTML('afterbegin', newRow);
+
+            alert('Bank wire withdrawal request submitted successfully.');
+            document.getElementById('bankWithdrawForm').reset();
+            switchView('dashboard');
         }
 
-        // Sidebar Toggle Handler
-        document.getElementById('menuToggle').addEventListener('click', () => {
-            document.getElementById('sidebar').classList.toggle('open');
-        });
+        // UPDATE TIER CAP INFO
+        function updateTierInfo() {
+            const key = document.getElementById('tradePlan').value;
+            const info = tierCaps[key];
+            const maxStr = info.max === 1000000 ? "Unlimited ($10,000+)" : `$${info.max.toLocaleString()}`;
+            document.getElementById('tierCapDisplay').textContent = `Selected Tier: ${info.name} | Caps: Min $${info.min.toLocaleString()} — Max ${maxStr} | Daily ROI: ${info.yield}`;
+        }
+
+        // START TRADE
+        function handleStartTrade(e) {
+            e.preventDefault();
+            const tierKey = document.getElementById('tradePlan').value;
+            const amount = parseFloat(document.getElementById('tradeAmount').value);
+            const days = parseInt(document.getElementById('tradeDuration').value);
+            const info = tierCaps[tierKey];
+
+            if (amount < info.min || (info.max !== 1000000 && amount > info.max)) {
+                alert(`Amount must fall within the selected tier limits ($${info.min} - $${info.max})!`);
+                return;
+            }
+
+            if (amount > state.availableBalance) {
+                alert('Insufficient available balance to allocate to auto-trade!');
+                return;
+            }
+
+            state.availableBalance -= amount;
+            state.ongoingTrade += amount;
+            state.activeTrade += amount;
+            renderBalances();
+
+            const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            const newRow = `
+                <tr>
+                    <td>${today}</td>
+                    <td>AI Trade Stake - ${info.name} (${days} Days)</td>
+                    <td>-$${amount.toFixed(2)}</td>
+                    <td><span class="badge info">Active Trade</span></td>
+                </tr>
+            `;
+
+            document.getElementById('dashboardRecentTable').insertAdjacentHTML('afterbegin', newRow);
+            document.getElementById('fullTransactionTable').insertAdjacentHTML('afterbegin', newRow);
+
+            alert(`Automated trade successfully started under ${info.name} for ${days} days!\nDaily ROI (${info.yield}/day) will accumulate to your profit balance.`);
+            switchView('dashboard');
+        }
+
+        // MAIN CHAT PAGE HANDLER
+        function handleMainChatMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('chatInputMain');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const chatBox = document.getElementById('chatBoxMain');
+            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            chatBox.insertAdjacentHTML('beforeend', `<div class="chat-msg user">${text}<span class="chat-time">${timeStr}</span></div>`);
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            setTimeout(() => {
+                chatBox.insertAdjacentHTML('beforeend', `<div class="chat-msg admin">Thank you for contacting support! An admin agent will reply shortly.<span class="chat-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span></div>`);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1000);
+        }
+
+        // FLOATING CHAT WIDGET TOGGLE & MESSAGING
+        function toggleFloatingChat() {
+            document.getElementById('quickChatWindow').classList.toggle('open');
+        }
+
+        function handleQuickChatMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('quickChatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const chatBox = document.getElementById('quickChatBox');
+            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            chatBox.insertAdjacentHTML('beforeend', `<div class="chat-msg user">${text}<span class="chat-time">${timeStr}</span></div>`);
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            setTimeout(() => {
+                chatBox.insertAdjacentHTML('beforeend', `<div class="chat-msg admin">Received! Our support desk will assist you shortly.<span class="chat-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span></div>`);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1000);
+        }
+
+        // INITIALIZE
+        renderBalances();
+        syncProfileUI();
+        updateTierInfo();
     </script>
 </body>
 </html>
