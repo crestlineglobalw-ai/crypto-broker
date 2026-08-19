@@ -34,11 +34,15 @@
             justify-content: space-between;
         }
 
+        /* HEADER & NAV */
         .site-header {
             height: var(--header-height);
             background-color: rgba(21, 26, 35, 0.85);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         .header-container {
@@ -51,9 +55,61 @@
             justify-content: space-between;
         }
 
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .logo-chart-box {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .logo-chart-box svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: #000000;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
         .brand-name {
             font-size: 1.3rem;
             font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-secondary {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
         }
 
         .auth-container {
@@ -155,9 +211,22 @@
 </head>
 <body>
 
+    <!-- SITE HEADER -->
     <header class="site-header">
         <div class="header-container">
-            <span class="brand-name">Crestline Global</span>
+            <a href="index.html" class="brand-logo">
+                <div class="logo-chart-box">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+                        <polyline points="16 7 22 7 22 13"></polyline>
+                    </svg>
+                </div>
+                <span class="brand-name">Crestline Global</span>
+            </a>
+
+            <div class="header-actions">
+                <a href="login.html" class="btn-secondary">Log In</a>
+            </div>
         </div>
     </header>
 
