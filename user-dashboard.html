@@ -36,7 +36,7 @@
             flex-direction: column;
         }
 
-        /* HOMEPAGE STYLE HEADER (NO LOGIN/GET STARTED BUTTONS) */
+        /* HOMEPAGE STYLE HEADER */
         .site-header {
             height: var(--header-height);
             background-color: rgba(21, 26, 35, 0.95);
@@ -98,7 +98,7 @@
         }
 
         .brand-logo-container span {
-            color: var(--primary);
+            color: #ffffff; /* WHITE COLOR FOR GLOBAL */
         }
 
         .user-pill {
@@ -490,16 +490,78 @@
             line-height: 1.5;
         }
 
+        /* FLOATING QUICK CHAT WIDGET STYLES */
+        .floating-chat-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+            z-index: 2000;
+            transition: transform 0.2s;
+        }
+
+        .floating-chat-btn:hover {
+            transform: scale(1.08);
+        }
+
+        .floating-chat-window {
+            display: none;
+            position: fixed;
+            bottom: 95px;
+            right: 25px;
+            width: 350px;
+            height: 450px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .floating-chat-window.open {
+            display: flex;
+        }
+
+        .floating-chat-header {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-chat-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
         @media (max-width: 768px) {
             aside { transform: translateX(-100%); }
             aside.open { transform: translateX(0); }
             main { margin-left: 0; padding: 1rem; }
+            .floating-chat-window { width: calc(100% - 40px); right: 20px; bottom: 90px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- HOMEPAGE-MATCHED HEADER (NO LOGIN/GET STARTED BUTTONS) -->
+    <!-- HOMEPAGE-MATCHED HEADER (WHITE 'GLOBAL' LOGO TEXT) -->
     <header class="site-header">
         <div class="header-container">
             <div class="header-left">
@@ -513,7 +575,7 @@
                 </a>
             </div>
 
-            <!-- USER PROFILE PILL WITH DYNAMIC PICTURE/INITIAL -->
+            <!-- USER PROFILE PILL -->
             <div class="user-pill">
                 <div class="avatar-container" id="navAvatar">J</div>
                 <div class="user-details">
@@ -580,7 +642,6 @@
                     </div>
                 </div>
 
-                <!-- ALL RECENT ACTIVITIES -->
                 <div class="card">
                     <div class="card-title" style="margin-bottom: 1rem;">Recent Account Movements & Trades</div>
                     <table>
@@ -678,7 +739,7 @@
                 </div>
             </section>
 
-            <!-- 3. WITHDRAWAL VIEW -->
+            <!-- 3. WITHDRAWAL VIEW (INPUT WALLET ADDRESS PLACEHOLDERS) -->
             <section id="view-withdraw" class="view-section">
                 <div class="page-title">Request Withdrawal</div>
                 <div class="page-subtitle">Withdraw earnings via Crypto Wallet or Bank Wire Transfer (Min. $1,000 for Bank).</div>
@@ -689,7 +750,7 @@
                         <button type="button" class="tab-btn" id="tabBankBtn" onclick="toggleWithdrawTab('bank')">Bank Wire / Account (Min. $1,000)</button>
                     </div>
 
-                    <!-- CRYPTO WITHDRAWAL FORM (ALL 10 CURRENCIES & ADDRESS MATCH CONFIRMATION) -->
+                    <!-- CRYPTO WITHDRAWAL FORM -->
                     <form id="cryptoWithdrawForm" onsubmit="handleCryptoWithdrawal(event)">
                         <div class="form-group">
                             <label class="form-label">Amount ($)</label>
@@ -715,19 +776,19 @@
 
                         <div class="form-group">
                             <label class="form-label">Destination Wallet Address</label>
-                            <input type="text" id="withCryptoAddress1" class="form-input" placeholder="Paste your wallet address" required>
+                            <input type="text" id="withCryptoAddress1" class="form-input" placeholder="Input the wallet address" required>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Confirm Wallet Address</label>
-                            <input type="text" id="withCryptoAddress2" class="form-input" placeholder="Re-paste wallet address to confirm" required>
+                            <input type="text" id="withCryptoAddress2" class="form-input" placeholder="Confirm the wallet address" required>
                             <span id="addressMismatchMsg" style="color: var(--danger); font-size: 0.8rem; display: none; margin-top: 5px;">⚠️ Wallet addresses do not match!</span>
                         </div>
 
                         <button type="submit" class="btn-submit">Submit Crypto Withdrawal</button>
                     </form>
 
-                    <!-- BANK ACCOUNT WITHDRAWAL FORM (MINIMUM $1,000 ENFORCED) -->
+                    <!-- BANK ACCOUNT WITHDRAWAL FORM -->
                     <form id="bankWithdrawForm" onsubmit="handleBankWithdrawal(event)" style="display: none;">
                         <div class="form-group">
                             <label class="form-label">Withdrawal Amount ($) - <strong style="color: var(--primary);">Min. $1,000</strong></label>
@@ -807,7 +868,7 @@
                 </div>
             </section>
 
-            <!-- 5. TRADE & INVESTMENTS VIEW (TIER 1 UP TO 50% DAILY, MIN $50-$399) -->
+            <!-- 5. TRADE & INVESTMENTS VIEW -->
             <section id="view-trade" class="view-section">
                 <div class="page-title">AI Auto-Trader & Automated Investments</div>
                 <div class="page-subtitle">Select strategy tier and duration (Min. 5 Days) to generate high-yield profits.</div>
@@ -849,7 +910,7 @@
                 </div>
             </section>
 
-            <!-- 6. REFERRALS VIEW (ONLY USERNAME/REFERRAL ID & $100 INSTANT BONUS NOTICE) -->
+            <!-- 6. REFERRALS VIEW -->
             <section id="view-referrals" class="view-section">
                 <div class="page-title">Referral Program</div>
                 <div class="page-subtitle">Share your unique Username / Referral ID to earn direct commissions.</div>
@@ -866,7 +927,6 @@
                     <button type="button" class="btn-submit" onclick="copyReferralId()">Copy Referral ID</button>
                 </div>
 
-                <!-- REFERRED USERS TABLE -->
                 <div class="card" style="max-width: 700px;">
                     <div class="card-title" style="margin-bottom: 1rem;">Your Registered Referrals</div>
                     <table>
@@ -896,7 +956,7 @@
                 </div>
             </section>
 
-            <!-- 7. PROFILE & SETTINGS VIEW (EDITABLE USERNAME & PROFILE PICTURE UPLOAD) -->
+            <!-- 7. PROFILE & SETTINGS VIEW (CLEANED LABEL) -->
             <section id="view-profile" class="view-section">
                 <div class="page-title">Profile & Settings</div>
                 <div class="page-subtitle">Manage your profile image, personal info, and custom Username/Referral ID.</div>
@@ -904,7 +964,6 @@
                 <div class="form-card">
                     <form id="profileForm" onsubmit="handleSaveProfile(event)">
                         
-                        <!-- PROFILE PICTURE UPLOADER & PREVIEW -->
                         <div class="profile-pic-container">
                             <div class="profile-preview" id="profileImagePreview">J</div>
                             <div>
@@ -920,7 +979,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Username / Referral ID <span style="color: var(--primary); font-size: 0.8rem;">(Editable - Changes Referral ID)</span></label>
+                            <label class="form-label">Username / Referral ID</label>
                             <input type="text" id="profUsername" class="form-input" value="john_doe" placeholder="Choose a unique username" required>
                         </div>
 
@@ -958,21 +1017,46 @@
                         </div>
                     </div>
 
-                    <div class="chat-box" id="chatBox">
+                    <div class="chat-box" id="chatBoxMain">
                         <div class="chat-msg admin">
                             Hello John! Welcome to Crestline Global support chat. How can we assist you with your trades, deposits, or account settings today?
                             <span class="chat-time">10:00 AM</span>
                         </div>
                     </div>
 
-                    <form class="chat-input-area" onsubmit="handleSendChatMessage(event)">
-                        <input type="text" id="chatInput" class="form-input" placeholder="Type your message here..." required>
+                    <form class="chat-input-area" onsubmit="handleMainChatMessage(event)">
+                        <input type="text" id="chatInputMain" class="form-input" placeholder="Type your message here..." required>
                         <button type="submit" class="btn-submit" style="width: auto; padding: 0 1.5rem;">Send</button>
                     </form>
                 </div>
             </section>
 
         </main>
+    </div>
+
+    <!-- FLOATING QUICK CHAT BUTTON & WINDOW -->
+    <div class="floating-chat-btn" onclick="toggleFloatingChat()" title="Quick Chat with Admin">💬</div>
+
+    <div class="floating-chat-window" id="quickChatWindow">
+        <div class="floating-chat-header">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <div class="chat-status-dot"></div>
+                <strong style="font-size: 0.85rem; color: #fff;">Live Admin Desk</strong>
+            </div>
+            <button class="close-chat-btn" onclick="toggleFloatingChat()">✕</button>
+        </div>
+
+        <div class="chat-box" id="quickChatBox" style="padding: 0.85rem;">
+            <div class="chat-msg admin">
+                Hi John! Need quick help? Type your question here anytime.
+                <span class="chat-time">Just now</span>
+            </div>
+        </div>
+
+        <form class="chat-input-area" onsubmit="handleQuickChatMessage(event)" style="padding: 0.65rem;">
+            <input type="text" id="quickChatInput" class="form-input" placeholder="Quick message..." style="padding: 0.6rem; font-size: 0.85rem;" required>
+            <button type="submit" class="btn-submit" style="width: auto; padding: 0 0.85rem; font-size: 0.85rem;">Send</button>
+        </form>
     </div>
 
     <script>
@@ -996,7 +1080,7 @@
             currentProfit: 3950.00
         };
 
-        // AUTO-TRADER TIERS (TIER 1: $50-$399 UP TO 50% DAILY)
+        // AUTO-TRADER TIERS
         const tierCaps = {
             tier1: { min: 50, max: 399, yield: "50%", name: "Micro Alpha Bot" },
             tier2: { min: 400, max: 999, yield: "75%", name: "Quantum Momentum Trader" },
@@ -1041,7 +1125,7 @@
             document.getElementById('valProfit').textContent = `+$${state.currentProfit.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
         }
 
-        // PROFILE PICTURE PREVIEW & SYNC
+        // PROFILE PICTURE PREVIEW
         function previewProfilePic(event) {
             const file = event.target.files[0];
             if (file) {
@@ -1068,7 +1152,7 @@
             }
         }
 
-        // SYNC PROFILE DATA IN UI
+        // SYNC PROFILE DATA
         function syncProfileUI() {
             document.getElementById('navFullName').textContent = userProfile.fullName;
             document.getElementById('navEmail').textContent = userProfile.email;
@@ -1079,13 +1163,12 @@
             document.getElementById('profPhone').value = userProfile.phone;
             document.getElementById('profCountry').value = userProfile.country;
 
-            // Synchronize Referral ID display
             document.getElementById('refIdDisplay').value = userProfile.username;
 
             renderAvatar();
         }
 
-        // SAVE PROFILE (USERNAME REMAINS EDITABLE ANYTIME)
+        // SAVE PROFILE
         function handleSaveProfile(e) {
             e.preventDefault();
             userProfile.fullName = document.getElementById('profFullName').value.trim();
@@ -1159,7 +1242,7 @@
             }
         }
 
-        // CRYPTO WITHDRAWAL WITH ADDRESS MATCH CONFIRMATION
+        // CRYPTO WITHDRAWAL HANDLER
         function handleCryptoWithdrawal(e) {
             e.preventDefault();
             const amount = parseFloat(document.getElementById('withCryptoAmount').value);
@@ -1201,7 +1284,7 @@
             switchView('dashboard');
         }
 
-        // BANK WITHDRAWAL ($1,000 MINIMUM ENFORCED)
+        // BANK WITHDRAWAL HANDLER
         function handleBankWithdrawal(e) {
             e.preventDefault();
             const amount = parseFloat(document.getElementById('withBankAmount').value);
@@ -1244,7 +1327,7 @@
             switchView('dashboard');
         }
 
-        // UPDATE AUTO-TRADER TIER CAP INFO
+        // UPDATE TIER CAP INFO
         function updateTierInfo() {
             const key = document.getElementById('tradePlan').value;
             const info = tierCaps[key];
@@ -1292,34 +1375,46 @@
             switchView('dashboard');
         }
 
-        // LIVE MESSAGES & SUPPORT CHAT HANDLER
-        function handleSendChatMessage(e) {
+        // MAIN CHAT PAGE HANDLER
+        function handleMainChatMessage(e) {
             e.preventDefault();
-            const input = document.getElementById('chatInput');
+            const input = document.getElementById('chatInputMain');
             const text = input.value.trim();
             if (!text) return;
 
-            const chatBox = document.getElementById('chatBox');
+            const chatBox = document.getElementById('chatBoxMain');
             const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-            const userMsgHTML = `
-                <div class="chat-msg user">
-                    ${text}
-                    <span class="chat-time">${timeStr}</span>
-                </div>
-            `;
-            chatBox.insertAdjacentHTML('beforeend', userMsgHTML);
+            chatBox.insertAdjacentHTML('beforeend', `<div class="chat-msg user">${text}<span class="chat-time">${timeStr}</span></div>`);
             input.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
 
             setTimeout(() => {
-                const adminMsgHTML = `
-                    <div class="chat-msg admin">
-                        Thank you for reaching out, John! Our admin team has received your message and will review your request shortly.
-                        <span class="chat-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                    </div>
-                `;
-                chatBox.insertAdjacentHTML('beforeend', adminMsgHTML);
+                chatBox.insertAdjacentHTML('beforeend', `<div class="chat-msg admin">Thank you for contacting support! An admin agent will reply shortly.<span class="chat-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span></div>`);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1000);
+        }
+
+        // FLOATING CHAT WIDGET TOGGLE & MESSAGING
+        function toggleFloatingChat() {
+            document.getElementById('quickChatWindow').classList.toggle('open');
+        }
+
+        function handleQuickChatMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('quickChatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const chatBox = document.getElementById('quickChatBox');
+            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            chatBox.insertAdjacentHTML('beforeend', `<div class="chat-msg user">${text}<span class="chat-time">${timeStr}</span></div>`);
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            setTimeout(() => {
+                chatBox.insertAdjacentHTML('beforeend', `<div class="chat-msg admin">Received! Our support desk will assist you shortly.<span class="chat-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span></div>`);
                 chatBox.scrollTop = chatBox.scrollHeight;
             }, 1000);
         }
