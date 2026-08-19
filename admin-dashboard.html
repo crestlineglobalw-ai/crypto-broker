@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Crestline Global</title>
+    <title>Master Admin Dashboard - Crestline Global</title>
     <style>
         :root {
             --bg-color: #0b0e14;
@@ -124,7 +124,7 @@
             color: var(--primary);
         }
 
-        .nav-link.logout { color: var(--danger); }
+        .nav-link.logout { color: var(--danger); margin-top: auto; }
 
         main {
             flex: 1;
@@ -216,17 +216,21 @@
 
         /* BUTTONS */
         .btn {
-            padding: 0.4rem 0.75rem;
+            padding: 0.45rem 0.85rem;
             border-radius: 6px;
             border: none;
             font-size: 0.8rem;
             font-weight: 700;
             cursor: pointer;
-            transition: opacity 0.2s;
-            margin-right: 0.35rem;
+            transition: opacity 0.2s, transform 0.1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-right: 0.25rem;
         }
 
         .btn:hover { opacity: 0.85; }
+        .btn:active { transform: scale(0.97); }
         .btn-success { background-color: var(--success); color: #000; }
         .btn-danger { background-color: var(--danger); color: #fff; }
         .btn-primary { background-color: var(--primary); color: #000; }
@@ -276,7 +280,7 @@
         }
 
         .chat-user-list {
-            width: 300px;
+            width: 320px;
             border-right: 1px solid var(--border-color);
             overflow-y: auto;
             background: rgba(0, 0, 0, 0.2);
@@ -290,7 +294,7 @@
         }
 
         .chat-user-item:hover, .chat-user-item.active {
-            background-color: rgba(245, 158, 11, 0.1);
+            background-color: rgba(245, 158, 11, 0.12);
         }
 
         .chat-user-name { font-weight: 700; font-size: 0.9rem; }
@@ -303,10 +307,13 @@
         }
 
         .chat-header {
-            padding: 1rem;
+            padding: 1rem 1.25rem;
             border-bottom: 1px solid var(--border-color);
             background: rgba(0, 0, 0, 0.3);
             font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .chat-messages {
@@ -323,12 +330,14 @@
             padding: 0.75rem 1rem;
             border-radius: 10px;
             font-size: 0.9rem;
+            line-height: 1.4;
         }
 
         .msg.user {
             align-self: flex-start;
             background: var(--input-bg);
             border: 1px solid var(--border-color);
+            color: var(--text-main);
         }
 
         .msg.admin {
@@ -338,23 +347,35 @@
             font-weight: 600;
         }
 
+        .msg-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 4px;
+            display: block;
+            text-align: right;
+        }
+
         .chat-input-row {
             padding: 1rem;
             border-top: 1px solid var(--border-color);
             display: flex;
             gap: 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
         }
 
-        /* MODAL */
+        /* MODALS */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(4px);
             z-index: 2000;
             align-items: center;
             justify-content: center;
         }
+
+        .modal-overlay.active { display: flex; }
 
         .modal-content {
             background: var(--card-bg);
@@ -365,6 +386,7 @@
             padding: 2rem;
             max-height: 90vh;
             overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         @media (max-width: 768px) {
@@ -377,18 +399,18 @@
 </head>
 <body>
 
-    <!-- SITE HEADER -->
+    <!-- HEADER -->
     <header class="site-header">
         <div class="header-container">
             <a href="#" class="brand-logo-container">
                 📈 Crestline <span>Global</span>
             </a>
-            <span class="admin-badge-header">🔒 Master Admin Control</span>
+            <span class="admin-badge-header">🔒 Master Executive Access</span>
         </div>
     </header>
 
     <div class="app-container">
-        <!-- NAVIGATION SIDEBAR -->
+        <!-- SIDEBAR -->
         <aside>
             <ul class="nav-menu">
                 <li class="nav-item"><a class="nav-link active" onclick="switchView('overview', this)">📊 Overview</a></li>
@@ -403,139 +425,84 @@
             <a href="login.html" class="nav-link logout">Sign Out Admin</a>
         </aside>
 
-        <!-- MAIN CONTENT AREA -->
+        <!-- MAIN VIEW CONTAINER -->
         <main>
 
             <!-- 1. OVERVIEW VIEW -->
             <section id="view-overview" class="view-section active">
-                <div class="page-title">Master Executive Overview</div>
-                <div class="page-subtitle">Real-time stats across all user accounts on Crestline Global.</div>
+                <div class="page-title">Executive Overview</div>
+                <div class="page-subtitle">Real-time aggregate data and system activities.</div>
 
                 <div class="grid-cards">
                     <div class="card">
-                        <div class="card-title">Total Platform Users</div>
-                        <div class="card-value text-info" id="statTotalUsers">248</div>
+                        <div class="card-title">Total Active Accounts</div>
+                        <div class="card-value text-info" id="statTotalUsers">0</div>
                     </div>
                     <div class="card">
-                        <div class="card-title">Total User Balances</div>
-                        <div class="card-value text-warning" id="statTotalBalances">$1,842,500.00</div>
+                        <div class="card-title">Cumulative User Balances</div>
+                        <div class="card-value text-warning" id="statTotalBalances">$0.00</div>
                     </div>
                     <div class="card">
                         <div class="card-title">Pending Deposits</div>
-                        <div class="card-value text-success" id="statPendingDeposits">3 Requests</div>
+                        <div class="card-value text-success" id="statPendingDeposits">0</div>
                     </div>
                     <div class="card">
                         <div class="card-title">Pending Withdrawals</div>
-                        <div class="card-value text-danger" id="statPendingWithdrawals">2 Requests</div>
+                        <div class="card-value text-danger" id="statPendingWithdrawals">0</div>
                     </div>
                 </div>
 
                 <div class="card">
-                    <div class="card-title" style="margin-bottom: 1rem;">Recent System Activity</div>
+                    <div class="card-title" style="margin-bottom: 1rem;">Recent System Logs</div>
                     <table>
                         <thead>
                             <tr>
                                 <th>Timestamp</th>
-                                <th>User</th>
-                                <th>Action Type</th>
+                                <th>Account</th>
+                                <th>Action / Description</th>
                                 <th>Amount</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>Aug 19, 2026, 05:30</td>
-                                <td>john_doe (johndoe@gmail.com)</td>
-                                <td>Deposit - Bitcoin (BTC)</td>
-                                <td>$500.00</td>
-                                <td><span class="badge pending">Pending Approval</span></td>
-                            </tr>
-                            <tr>
-                                <td>Aug 18, 2026, 14:22</td>
-                                <td>alex_trader (alex@trader.com)</td>
-                                <td>Crypto Withdrawal - SOL</td>
-                                <td>$150.00</td>
-                                <td><span class="badge pending">Pending Approval</span></td>
-                            </tr>
-                            <tr>
-                                <td>Aug 17, 2026, 09:10</td>
-                                <td>courage_u (courage@crestline.com)</td>
-                                <td>Manual Balance Override</td>
-                                <td>+$10,000.00</td>
-                                <td><span class="badge success">Completed</span></td>
-                            </tr>
+                        <tbody id="logsTableBody">
+                            <!-- Populated dynamically via JS -->
                         </tbody>
                     </table>
                 </div>
             </section>
 
-            <!-- 2. MANAGE USERS VIEW (UNRESTRICTED ACCESS) -->
+            <!-- 2. MANAGE USERS VIEW -->
             <section id="view-users" class="view-section">
-                <div class="page-title">User Account Directory & Controls</div>
-                <div class="page-subtitle">Inspect, edit, adjust balances, impersonate, or delete any user account on the platform.</div>
+                <div class="page-title">User Account Directory</div>
+                <div class="page-subtitle">Inspect, override balances, impersonate, or delete user accounts.</div>
 
                 <div class="card">
-                    <div style="margin-bottom: 1rem; display: flex; gap: 1rem;">
-                        <input type="text" id="userSearchInput" class="form-input" placeholder="Search user by name, email, or account ID..." onkeyup="filterUsers()">
+                    <div style="margin-bottom: 1.25rem;">
+                        <input type="text" id="userSearchInput" class="form-input" placeholder="🔍 Search user by full name or email address..." onkeyup="filterUsers()">
                     </div>
 
                     <table>
                         <thead>
                             <tr>
-                                <th>User Full Name</th>
-                                <th>Email Address</th>
-                                <th>Avail. Balance</th>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Available Balance</th>
                                 <th>Bonus Vault</th>
-                                <th>Current Profit</th>
-                                <th>Actions</th>
+                                <th>Total Profit</th>
+                                <th>Administrative Actions</th>
                             </tr>
                         </thead>
                         <tbody id="userTableBody">
-                            <tr id="user-row-1">
-                                <td><strong>John Doe</strong></td>
-                                <td>johndoe@gmail.com</td>
-                                <td>$12,450.00</td>
-                                <td>$350.00</td>
-                                <td>+$3,950.00</td>
-                                <td>
-                                    <button class="btn btn-primary" onclick="openEditUserModal('John Doe', 'johndoe@gmail.com', 12450, 350, 3950)">Edit / Override</button>
-                                    <button class="btn btn-secondary" onclick="impersonateUser('johndoe@gmail.com')">Impersonate Access</button>
-                                    <button class="btn btn-danger" onclick="deleteUser('user-row-1', 'John Doe')">Delete</button>
-                                </td>
-                            </tr>
-                            <tr id="user-row-2">
-                                <td><strong>Alex Trader</strong></td>
-                                <td>alex@trader.com</td>
-                                <td>$5,200.00</td>
-                                <td>$50.00</td>
-                                <td>+$1,200.00</td>
-                                <td>
-                                    <button class="btn btn-primary" onclick="openEditUserModal('Alex Trader', 'alex@trader.com', 5200, 50, 1200)">Edit / Override</button>
-                                    <button class="btn btn-secondary" onclick="impersonateUser('alex@trader.com')">Impersonate Access</button>
-                                    <button class="btn btn-danger" onclick="deleteUser('user-row-2', 'Alex Trader')">Delete</button>
-                                </td>
-                            </tr>
-                            <tr id="user-row-3">
-                                <td><strong>Courage Ukpomwan</strong></td>
-                                <td>courage@crestline.com</td>
-                                <td>$85,000.00</td>
-                                <td>$2,500.00</td>
-                                <td>+$24,000.00</td>
-                                <td>
-                                    <button class="btn btn-primary" onclick="openEditUserModal('Courage Ukpomwan', 'courage@crestline.com', 85000, 2500, 24000)">Edit / Override</button>
-                                    <button class="btn btn-secondary" onclick="impersonateUser('courage@crestline.com')">Impersonate Access</button>
-                                    <button class="btn btn-danger" onclick="deleteUser('user-row-3', 'Courage Ukpomwan')">Delete</button>
-                                </td>
-                            </tr>
+                            <!-- Populated dynamically via JS -->
                         </tbody>
                     </table>
                 </div>
             </section>
 
-            <!-- 3. DEPOSITS APPROVAL VIEW -->
+            <!-- 3. DEPOSITS VIEW -->
             <section id="view-deposits" class="view-section">
-                <div class="page-title">Deposit Request Approvals</div>
-                <div class="page-subtitle">Verify user deposit receipts and credit balances upon approval.</div>
+                <div class="page-title">Pending Deposit Requests</div>
+                <div class="page-subtitle">Verify submitted payment receipts and credit user accounts instantly.</div>
 
                 <div class="card">
                     <table>
@@ -543,44 +510,23 @@
                             <tr>
                                 <th>Date</th>
                                 <th>User Email</th>
-                                <th>Selected Asset</th>
+                                <th>Asset Currency</th>
                                 <th>Amount</th>
-                                <th>Receipt Proof</th>
+                                <th>Proof Receipt</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="depositsTableBody">
-                            <tr id="dep-row-1">
-                                <td>Aug 19, 2026</td>
-                                <td>johndoe@gmail.com</td>
-                                <td>Bitcoin (BTC)</td>
-                                <td>$500.00</td>
-                                <td><button class="btn btn-secondary" onclick="alert('Viewing receipt proof image attachment...')">🖼️ View Receipt</button></td>
-                                <td>
-                                    <button class="btn btn-success" onclick="approveDeposit('dep-row-1', 'johndoe@gmail.com', 500)">Approve & Credit</button>
-                                    <button class="btn btn-danger" onclick="rejectTransaction('dep-row-1')">Reject</button>
-                                </td>
-                            </tr>
-                            <tr id="dep-row-2">
-                                <td>Aug 18, 2026</td>
-                                <td>alex@trader.com</td>
-                                <td>Tether USDT (BEP20)</td>
-                                <td>$1,200.00</td>
-                                <td><button class="btn btn-secondary" onclick="alert('Viewing receipt proof image attachment...')">🖼️ View Receipt</button></td>
-                                <td>
-                                    <button class="btn btn-success" onclick="approveDeposit('dep-row-2', 'alex@trader.com', 1200)">Approve & Credit</button>
-                                    <button class="btn btn-danger" onclick="rejectTransaction('dep-row-2')">Reject</button>
-                                </td>
-                            </tr>
+                            <!-- Populated dynamically via JS -->
                         </tbody>
                     </table>
                 </div>
             </section>
 
-            <!-- 4. WITHDRAWALS APPROVAL VIEW -->
+            <!-- 4. WITHDRAWALS VIEW -->
             <section id="view-withdrawals" class="view-section">
-                <div class="page-title">Withdrawal Request Approvals</div>
-                <div class="page-subtitle">Review user withdrawal payouts and mark them as processed or rejected.</div>
+                <div class="page-title">Pending Withdrawal Requests</div>
+                <div class="page-subtitle">Review payout destinations and complete or refund payout requests.</div>
 
                 <div class="card">
                     <table>
@@ -590,70 +536,39 @@
                                 <th>User Email</th>
                                 <th>Method</th>
                                 <th>Destination / Wallet</th>
-                                <th>Amount</th>
+                                <th>Requested Amount</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="withdrawalsTableBody">
-                            <tr id="with-row-1">
-                                <td>Aug 18, 2026</td>
-                                <td>johndoe@gmail.com</td>
-                                <td>Crypto (Solana)</td>
-                                <td><code>7xKXtg...9PqW</code></td>
-                                <td>$150.00</td>
-                                <td>
-                                    <button class="btn btn-success" onclick="approveWithdrawal('with-row-1')">Approve Payout</button>
-                                    <button class="btn btn-danger" onclick="rejectTransaction('with-row-1')">Reject & Refund</button>
-                                </td>
-                            </tr>
-                            <tr id="with-row-2">
-                                <td>Aug 17, 2026</td>
-                                <td>courage@crestline.com</td>
-                                <td>Bank Wire</td>
-                                <td>Chase Bank - IBAN: US89...0021</td>
-                                <td>$5,000.00</td>
-                                <td>
-                                    <button class="btn btn-success" onclick="approveWithdrawal('with-row-2')">Approve Payout</button>
-                                    <button class="btn btn-danger" onclick="rejectTransaction('with-row-2')">Reject & Refund</button>
-                                </td>
-                            </tr>
+                            <!-- Populated dynamically via JS -->
                         </tbody>
                     </table>
                 </div>
             </section>
 
-            <!-- 5. USER MESSAGES VIEW (CHAT WITH ANYONE) -->
+            <!-- 5. MESSAGES VIEW -->
             <section id="view-messages" class="view-section">
-                <div class="page-title">Live User Messaging & Support Center</div>
-                <div class="page-subtitle">Communicate directly with active users across Crestline Global in real-time.</div>
+                <div class="page-title">Live Support & Direct User Chat</div>
+                <div class="page-subtitle">Select any user to view messages or send real-time replies.</div>
 
                 <div class="admin-chat-layout">
-                    <div class="chat-user-list">
-                        <div class="chat-user-item active" onclick="selectChatUser('John Doe', 'johndoe@gmail.com')">
-                            <div class="chat-user-name">John Doe</div>
-                            <div class="chat-user-sub">johndoe@gmail.com</div>
-                        </div>
-                        <div class="chat-user-item" onclick="selectChatUser('Alex Trader', 'alex@trader.com')">
-                            <div class="chat-user-name">Alex Trader</div>
-                            <div class="chat-user-sub">alex@trader.com</div>
-                        </div>
-                        <div class="chat-user-item" onclick="selectChatUser('Courage Ukpomwan', 'courage@crestline.com')">
-                            <div class="chat-user-name">Courage Ukpomwan</div>
-                            <div class="chat-user-sub">courage@crestline.com</div>
-                        </div>
+                    <div class="chat-user-list" id="chatUserList">
+                        <!-- Populated dynamically via JS -->
                     </div>
 
                     <div class="chat-window">
                         <div class="chat-header" id="currentChatHeader">
-                            Chatting with: John Doe (johndoe@gmail.com)
+                            Select a user to begin chatting
                         </div>
                         <div class="chat-messages" id="chatBox">
-                            <div class="msg user">Hello Admin, I submitted a deposit proof of $500 for BTC. Please approve it.</div>
-                            <div class="msg admin">Hello John, our financial team is currently processing your payment. It will be credited shortly.</div>
+                            <div style="text-align: center; color: var(--text-muted); margin-top: 2rem;">
+                                Select an active user thread from the left sidebar to inspect communications.
+                            </div>
                         </div>
                         <div class="chat-input-row">
-                            <input type="text" id="adminMsgInput" class="form-input" placeholder="Type your reply to user...">
-                            <button class="btn btn-primary" onclick="sendAdminMessage()">Send Message</button>
+                            <input type="text" id="adminMsgInput" class="form-input" placeholder="Type a message..." disabled>
+                            <button class="btn btn-primary" id="adminSendBtn" onclick="sendAdminMessage()" disabled>Send</button>
                         </div>
                     </div>
                 </div>
@@ -662,74 +577,75 @@
             <!-- 6. CREATE USER VIEW -->
             <section id="view-create-user" class="view-section">
                 <div class="page-title">Create New User Account</div>
-                <div class="page-subtitle">Manually register a user account with preset balances and custom credentials.</div>
+                <div class="page-subtitle">Manually register new users with preset initial funds.</div>
 
                 <div class="form-card">
                     <form onsubmit="handleCreateUser(event)">
                         <div class="form-group">
                             <label class="form-label">Full Name</label>
-                            <input type="text" class="form-input" placeholder="e.g. Sarah Jenkins" required>
+                            <input type="text" id="newFullName" class="form-input" placeholder="e.g. Courage Ukpomwan" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Email Address</label>
-                            <input type="email" class="form-input" placeholder="e.g. sarah@gmail.com" required>
+                            <input type="email" id="newEmail" class="form-input" placeholder="e.g. courage@crestline.com" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Account Password</label>
-                            <input type="password" class="form-input" placeholder="Set user password" required>
+                            <input type="password" id="newPassword" class="form-input" placeholder="Set user password" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Initial Available Balance ($)</label>
-                            <input type="number" class="form-input" value="0">
+                            <input type="number" id="newBalance" class="form-input" value="1000" min="0" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Initial Bonus Credit ($)</label>
-                            <input type="number" class="form-input" value="0">
+                            <input type="number" id="newBonus" class="form-input" value="100" min="0" required>
                         </div>
-                        <button type="submit" class="btn-submit btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem;">Create Account Instantly</button>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem; justify-content: center;">Create Account</button>
                     </form>
                 </div>
             </section>
 
-            <!-- 7. GLOBAL SETTINGS VIEW -->
+            <!-- 7. SETTINGS VIEW -->
             <section id="view-settings" class="view-section">
-                <div class="page-title">Global Platform System Settings</div>
-                <div class="page-subtitle">Update official receiving wallet addresses, bank details, and admin credentials.</div>
+                <div class="page-title">Global Platform Settings</div>
+                <div class="page-subtitle">Update receiving deposit wallet addresses and administrative credentials.</div>
 
                 <div class="form-card">
-                    <h3 style="margin-bottom: 1rem; color: var(--primary);">Official Deposit Wallet Addresses</h3>
+                    <h3 style="margin-bottom: 1rem; color: var(--primary);">Receiving Wallet Addresses</h3>
                     <div class="form-group">
                         <label class="form-label">Bitcoin (BTC) Wallet Address</label>
-                        <input type="text" class="form-input" value="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa">
+                        <input type="text" id="cfgBtc" class="form-input" value="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Solana (SOL) Wallet Address</label>
-                        <input type="text" class="form-input" value="7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJos9PqW">
+                        <input type="text" id="cfgSol" class="form-input" value="7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJos9PqW">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Tether USDT (BEP20) Address</label>
-                        <input type="text" class="form-input" value="0x71C7656EC7ab88b098defB751B7401B5f6d8976F">
+                        <input type="text" id="cfgUsdt" class="form-input" value="0x71C7656EC7ab88b098defB751B7401B5f6d8976F">
                     </div>
 
-                    <h3 style="margin-top: 1.5rem; margin-bottom: 1rem; color: var(--primary);">Update Master Admin Password</h3>
+                    <h3 style="margin-top: 1.5rem; margin-bottom: 1rem; color: var(--primary);">Master Admin Password</h3>
                     <div class="form-group">
-                        <label class="form-label">New Master Admin Password</label>
-                        <input type="password" class="form-input" placeholder="Enter new password">
+                        <label class="form-label">Update Password</label>
+                        <input type="password" id="cfgPass" class="form-input" placeholder="Enter new master password">
                     </div>
-                    <button class="btn btn-primary" style="padding: 0.85rem 1.5rem;" onclick="alert('Global administrative settings saved successfully!')">Save System Settings</button>
+                    <button type="button" class="btn btn-primary" style="padding: 0.85rem 1.5rem;" onclick="saveSettings()">Save Global Configurations</button>
                 </div>
             </section>
 
         </main>
     </div>
 
-    <!-- MODAL FOR EDITING USER BALANCES & DETAILS -->
+    <!-- MODAL FOR EDITING USER ACCOUNTS -->
     <div class="modal-overlay" id="editUserModal">
         <div class="modal-content">
             <h2 style="margin-bottom: 0.5rem; color: var(--primary);">Edit / Override User Account</h2>
             <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.25rem;" id="modalUserSubtitle">Modifying account parameters...</p>
 
             <form onsubmit="handleSaveUserOverride(event)">
+                <input type="hidden" id="modalUserId">
                 <div class="form-group">
                     <label class="form-label">Full Name</label>
                     <input type="text" id="modalFullName" class="form-input" required>
@@ -740,15 +656,15 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Available Balance ($)</label>
-                    <input type="number" id="modalBalance" class="form-input" required>
+                    <input type="number" id="modalBalance" class="form-input" step="0.01" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Bonus Vault Balance ($)</label>
-                    <input type="number" id="modalBonus" class="form-input" required>
+                    <input type="number" id="modalBonus" class="form-input" step="0.01" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Total Profit Amount ($)</label>
-                    <input type="number" id="modalProfit" class="form-input" required>
+                    <input type="number" id="modalProfit" class="form-input" step="0.01" required>
                 </div>
 
                 <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem;">
@@ -759,15 +675,73 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT CONTROLLERS -->
-    <script>
-        // View Switching Controller
-        function switchView(viewId, element) {
-            const views = document.querySelectorAll('.view-section');
-            views.forEach(v => v.classList.remove('active'));
+    <!-- MODAL FOR VIEWING PROOF RECEIPTS -->
+    <div class="modal-overlay" id="receiptModal">
+        <div class="modal-content" style="max-width: 450px; text-align: center;">
+            <h3 style="margin-bottom: 1rem; color: var(--primary);">Submitted Proof Receipt</h3>
+            <div style="background: var(--input-bg); padding: 2rem; border-radius: 8px; border: 1px border-color; margin-bottom: 1.5rem;">
+                <p style="color: var(--text-muted); font-size: 0.9rem;">📄 Deposit Payment Screenshot Attachment</p>
+                <div style="margin-top: 1rem; font-weight: 700; color: var(--success);" id="receiptModalDetails">Asset: BTC | Amount: $500</div>
+            </div>
+            <button class="btn btn-secondary" style="width: 100%; justify-content: center; padding: 0.75rem;" onclick="closeReceiptModal()">Close Receipt</button>
+        </div>
+    </div>
 
-            const navLinks = document.querySelectorAll('.nav-link');
-            navLinks.forEach(link => link.classList.remove('active'));
+    <!-- CENTRAL STATE & JAVASCRIPT CONTROLLER -->
+    <script>
+        // CENTRAL DATABASE (State Management)
+        let state = {
+            users: [
+                { id: "usr_1", name: "John Doe", email: "johndoe@gmail.com", balance: 12450.00, bonus: 350.00, profit: 3950.00 },
+                { id: "usr_2", name: "Alex Trader", email: "alex@trader.com", balance: 5200.00, bonus: 50.00, profit: 1200.00 },
+                { id: "usr_3", name: "Courage Ukpomwan", email: "courage@crestline.com", balance: 85000.00, bonus: 2500.00, profit: 24000.00 }
+            ],
+            deposits: [
+                { id: "dep_1", email: "johndoe@gmail.com", currency: "Bitcoin (BTC)", amount: 500.00, date: "Aug 19, 2026" },
+                { id: "dep_2", email: "alex@trader.com", currency: "Tether USDT (BEP20)", amount: 1200.00, date: "Aug 18, 2026" }
+            ],
+            withdrawals: [
+                { id: "with_1", email: "johndoe@gmail.com", method: "Crypto (Solana)", dest: "7xKXtg...9PqW", amount: 150.00, date: "Aug 18, 2026" },
+                { id: "with_2", email: "courage@crestline.com", method: "Bank Wire", dest: "Chase Bank - IBAN: US89...0021", amount: 5000.00, date: "Aug 17, 2026" }
+            ],
+            messages: {
+                "johndoe@gmail.com": [
+                    { sender: "user", text: "Hello Admin, I submitted a deposit proof of $500 for BTC. Please approve it.", time: "10:14 AM" },
+                    { sender: "admin", text: "Hello John, our financial team is currently processing your payment. It will be credited shortly.", time: "10:16 AM" }
+                ],
+                "alex@trader.com": [
+                    { sender: "user", text: "Hi, how long do Solana withdrawals take to arrive?", time: "09:05 AM" }
+                ],
+                "courage@crestline.com": [
+                    { sender: "user", text: "System tests look good. Keep me updated on new deposits.", time: "Yesterday" }
+                ]
+            },
+            logs: [
+                { date: "Aug 19, 2026, 05:30", account: "johndoe@gmail.com", action: "Deposit - Bitcoin (BTC)", amount: "$500.00", status: "Pending Approval" },
+                { date: "Aug 18, 2026, 14:22", account: "alex@trader.com", action: "Crypto Withdrawal - SOL", amount: "$150.00", status: "Pending Approval" },
+                { date: "Aug 17, 2026, 09:10", account: "courage@crestline.com", action: "Manual Balance Override", amount: "+$10,000.00", status: "Completed" }
+            ],
+            selectedChatEmail: null
+        };
+
+        // INITIALIZATION
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAll();
+        });
+
+        function renderAll() {
+            renderStats();
+            renderLogs();
+            renderUsers();
+            renderDeposits();
+            renderWithdrawals();
+            renderChatUserList();
+        }
+
+        // VIEW SWITCHER
+        function switchView(viewId, element) {
+            document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
 
             const targetView = document.getElementById('view-' + viewId);
             if (targetView) targetView.classList.add('active');
@@ -775,108 +749,332 @@
             if (element) element.classList.add('active');
         }
 
-        // Search Filter for Users
+        // RENDER STATS & LOGS
+        function renderStats() {
+            document.getElementById('statTotalUsers').innerText = state.users.length;
+            const totalBalance = state.users.reduce((acc, u) => acc + u.balance + u.bonus, 0);
+            document.getElementById('statTotalBalances').innerText = '$' + totalBalance.toLocaleString('en-US', { minimumFractionDigits: 2 });
+            document.getElementById('statPendingDeposits').innerText = state.deposits.length;
+            document.getElementById('statPendingWithdrawals').innerText = state.withdrawals.length;
+        }
+
+        function renderLogs() {
+            const tbody = document.getElementById('logsTableBody');
+            tbody.innerHTML = state.logs.map(log => `
+                <tr>
+                    <td>${log.date}</td>
+                    <td>${log.account}</td>
+                    <td>${log.action}</td>
+                    <td>${log.amount}</td>
+                    <td><span class="badge ${log.status.includes('Pending') ? 'pending' : 'success'}">${log.status}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        // USER DIRECTORY MANAGEMENT
+        function renderUsers() {
+            const tbody = document.getElementById('userTableBody');
+            tbody.innerHTML = state.users.map(u => `
+                <tr id="row-${u.id}">
+                    <td><strong>${u.name}</strong></td>
+                    <td>${u.email}</td>
+                    <td>$${u.balance.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                    <td>$${u.bonus.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                    <td>+$${u.profit.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                    <td>
+                        <button class="btn btn-primary" onclick="openEditUserModal('${u.id}')">✏️ Edit / Override</button>
+                        <button class="btn btn-secondary" onclick="impersonateUser('${u.email}')">👁️ Impersonate</button>
+                        <button class="btn btn-danger" onclick="deleteUser('${u.id}', '${u.name}')">🗑️ Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
         function filterUsers() {
             const query = document.getElementById('userSearchInput').value.toLowerCase();
             const rows = document.querySelectorAll('#userTableBody tr');
             rows.forEach(row => {
-                const text = row.innerText.toLowerCase();
-                row.style.display = text.includes(query) ? '' : 'none';
+                row.style.display = row.innerText.toLowerCase().includes(query) ? '' : 'none';
             });
         }
 
-        // Delete User Account
-        function deleteUser(rowId, userName) {
-            if (confirm(`Are you sure you want to permanently DELETE ${userName}'s account? This action is irreversible.`)) {
-                const row = document.getElementById(rowId);
-                if (row) row.remove();
-                alert(`Account for ${userName} has been purged from the system.`);
-            }
-        }
+        function openEditUserModal(userId) {
+            const user = state.users.find(u => u.id === userId);
+            if (!user) return;
 
-        // Impersonate User Access
-        function impersonateUser(email) {
-            alert(`Opening user session for ${email} in unrestricted administrator mode...`);
-            window.location.href = 'user-dashboard.html'; // Directs admin into the user view
-        }
+            document.getElementById('modalUserId').value = user.id;
+            document.getElementById('modalFullName').value = user.name;
+            document.getElementById('modalEmail').value = user.email;
+            document.getElementById('modalBalance').value = user.balance;
+            document.getElementById('modalBonus').value = user.bonus;
+            document.getElementById('modalProfit').value = user.profit;
+            document.getElementById('modalUserSubtitle').innerText = `Modifying live parameters for ${user.email}`;
 
-        // Edit User Modal Handlers
-        function openEditUserModal(name, email, balance, bonus, profit) {
-            document.getElementById('modalFullName').value = name;
-            document.getElementById('modalEmail').value = email;
-            document.getElementById('modalBalance').value = balance;
-            document.getElementById('modalBonus').value = bonus;
-            document.getElementById('modalProfit').value = profit;
-            document.getElementById('modalUserSubtitle').innerText = `Modifying live parameters for ${email}`;
-            
-            document.getElementById('editUserModal').style.display = 'flex';
+            document.getElementById('editUserModal').classList.add('active');
         }
 
         function closeEditUserModal() {
-            document.getElementById('editUserModal').style.display = 'none';
+            document.getElementById('editUserModal').classList.remove('active');
         }
 
-        function handleSaveUserOverride(event) {
-            event.preventDefault();
-            alert("User account overrides successfully saved!");
-            closeEditUserModal();
-        }
+        function handleSaveUserOverride(e) {
+            e.preventDefault();
+            const userId = document.getElementById('modalUserId').value;
+            const user = state.users.find(u => u.id === userId);
 
-        // Approve/Reject Transactions
-        function approveDeposit(rowId, userEmail, amount) {
-            const row = document.getElementById(rowId);
-            if (row) row.remove();
-            alert(`Deposit of $${amount} approved and credited to ${userEmail}!`);
-        }
+            if (user) {
+                user.name = document.getElementById('modalFullName').value;
+                user.email = document.getElementById('modalEmail').value;
+                user.balance = parseFloat(document.getElementById('modalBalance').value) || 0;
+                user.bonus = parseFloat(document.getElementById('modalBonus').value) || 0;
+                user.profit = parseFloat(document.getElementById('modalProfit').value) || 0;
 
-        function approveWithdrawal(rowId) {
-            const row = document.getElementById(rowId);
-            if (row) row.remove();
-            alert(`Withdrawal payout request approved and marked as processed!`);
-        }
+                state.logs.unshift({
+                    date: new Date().toLocaleString(),
+                    account: user.email,
+                    action: "Admin Account Override",
+                    amount: `$${user.balance.toFixed(2)}`,
+                    status: "Completed"
+                });
 
-        function rejectTransaction(rowId) {
-            if (confirm("Reject this transaction request?")) {
-                const row = document.getElementById(rowId);
-                if (row) row.remove();
-                alert("Transaction request rejected.");
+                renderAll();
+                closeEditUserModal();
+                alert(`Account settings updated for ${user.name}`);
             }
         }
 
-        // Live Chat Admin Handlers
-        function selectChatUser(name, email) {
-            document.getElementById('currentChatHeader').innerText = `Chatting with: ${name} (${email})`;
+        function deleteUser(userId, userName) {
+            if (confirm(`Are you sure you want to PERMANENTLY DELETE ${userName}'s account? This action cannot be undone.`)) {
+                state.users = state.users.filter(u => u.id !== userId);
+                renderAll();
+                alert(`${userName}'s account has been purged.`);
+            }
+        }
+
+        function impersonateUser(email) {
+            alert(`Opening user session for ${email} in administrator mode...`);
+            window.location.href = 'user-dashboard.html';
+        }
+
+        // DEPOSITS APPROVAL
+        function renderDeposits() {
+            const tbody = document.getElementById('depositsTableBody');
+            if (state.deposits.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">No pending deposit requests.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = state.deposits.map(d => `
+                <tr>
+                    <td>${d.date}</td>
+                    <td>${d.email}</td>
+                    <td>${d.currency}</td>
+                    <td>$${d.amount.toFixed(2)}</td>
+                    <td><button class="btn btn-secondary" onclick="viewReceipt('${d.currency}', ${d.amount})">🖼️ View Receipt</button></td>
+                    <td>
+                        <button class="btn btn-success" onclick="approveDeposit('${d.id}')">Approve & Credit</button>
+                        <button class="btn btn-danger" onclick="rejectDeposit('${d.id}')">Reject</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function viewReceipt(currency, amount) {
+            document.getElementById('receiptModalDetails').innerText = `Asset: ${currency} | Amount: $${amount.toFixed(2)}`;
+            document.getElementById('receiptModal').classList.add('active');
+        }
+
+        function closeReceiptModal() {
+            document.getElementById('receiptModal').classList.remove('active');
+        }
+
+        function approveDeposit(depId) {
+            const dep = state.deposits.find(d => d.id === depId);
+            if (!dep) return;
+
+            const user = state.users.find(u => u.email === dep.email);
+            if (user) {
+                user.balance += dep.amount;
+            }
+
+            state.logs.unshift({
+                date: new Date().toLocaleString(),
+                account: dep.email,
+                action: `Approved Deposit (${dep.currency})`,
+                amount: `+$${dep.amount.toFixed(2)}`,
+                status: "Completed"
+            });
+
+            state.deposits = state.deposits.filter(d => d.id !== depId);
+            renderAll();
+            alert(`Deposit of $${dep.amount} approved and credited to ${dep.email}`);
+        }
+
+        function rejectDeposit(depId) {
+            if (confirm("Reject this deposit request?")) {
+                state.deposits = state.deposits.filter(d => d.id !== depId);
+                renderAll();
+                alert("Deposit request rejected.");
+            }
+        }
+
+        // WITHDRAWALS APPROVAL
+        function renderWithdrawals() {
+            const tbody = document.getElementById('withdrawalsTableBody');
+            if (state.withdrawals.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">No pending withdrawal requests.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = state.withdrawals.map(w => `
+                <tr>
+                    <td>${w.date}</td>
+                    <td>${w.email}</td>
+                    <td>${w.method}</td>
+                    <td><code>${w.dest}</code></td>
+                    <td>$${w.amount.toFixed(2)}</td>
+                    <td>
+                        <button class="btn btn-success" onclick="approveWithdrawal('${w.id}')">Approve Payout</button>
+                        <button class="btn btn-danger" onclick="rejectWithdrawal('${w.id}')">Reject & Refund</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function approveWithdrawal(withId) {
+            const w = state.withdrawals.find(item => item.id === withId);
+            if (!w) return;
+
+            state.logs.unshift({
+                date: new Date().toLocaleString(),
+                account: w.email,
+                action: `Approved Withdrawal (${w.method})`,
+                amount: `-$${w.amount.toFixed(2)}`,
+                status: "Completed"
+            });
+
+            state.withdrawals = state.withdrawals.filter(item => item.id !== withId);
+            renderAll();
+            alert(`Withdrawal payout request approved!`);
+        }
+
+        function rejectWithdrawal(withId) {
+            if (confirm("Reject this withdrawal request and refund funds to user?")) {
+                const w = state.withdrawals.find(item => item.id === withId);
+                if (w) {
+                    const user = state.users.find(u => u.email === w.email);
+                    if (user) user.balance += w.amount;
+                }
+
+                state.withdrawals = state.withdrawals.filter(item => item.id !== withId);
+                renderAll();
+                alert("Withdrawal rejected and balance refunded.");
+            }
+        }
+
+        // LIVE MESSAGING CHAT
+        function renderChatUserList() {
+            const container = document.getElementById('chatUserList');
+            container.innerHTML = state.users.map(u => `
+                <div class="chat-user-item ${state.selectedChatEmail === u.email ? 'active' : ''}" onclick="selectChatUser('${u.email}', '${u.name}')">
+                    <div class="chat-user-name">${u.name}</div>
+                    <div class="chat-user-sub">${u.email}</div>
+                </div>
+            `).join('');
+        }
+
+        function selectChatUser(email, name) {
+            state.selectedChatEmail = email;
+            document.getElementById('currentChatHeader').innerHTML = `💬 Chatting with: <strong>${name}</strong> (${email})`;
+            document.getElementById('adminMsgInput').disabled = false;
+            document.getElementById('adminSendBtn').disabled = false;
+
+            renderChatMessages();
+            renderChatUserList();
+        }
+
+        function renderChatMessages() {
             const chatBox = document.getElementById('chatBox');
-            chatBox.innerHTML = `
-                <div class="msg user">Hello Admin, I have a quick inquiry about my pending account balance updates.</div>
-                <div class="msg admin">Hello ${name}, I am currently reviewing your profile details. How can I assist you today?</div>
-            `;
-            
-            // Highlight selected chat user in sidebar
-            const items = document.querySelectorAll('.chat-user-item');
-            items.forEach(i => i.classList.remove('active'));
-            event.currentTarget.classList.add('active');
+            const messages = state.messages[state.selectedChatEmail] || [];
+
+            if (messages.length === 0) {
+                chatBox.innerHTML = `<div style="text-align: center; color: var(--text-muted); margin-top: 2rem;">No message history with this user yet. Type below to start a message.</div>`;
+                return;
+            }
+
+            chatBox.innerHTML = messages.map(m => `
+                <div class="msg ${m.sender}">
+                    ${m.text}
+                    <span class="msg-time">${m.time}</span>
+                </div>
+            `).join('');
+
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
 
         function sendAdminMessage() {
             const input = document.getElementById('adminMsgInput');
             const text = input.value.trim();
-            if (text !== '') {
-                const chatBox = document.getElementById('chatBox');
-                const msgDiv = document.createElement('div');
-                msgDiv.className = 'msg admin';
-                msgDiv.innerText = text;
-                chatBox.appendChild(msgDiv);
-                input.value = '';
-                chatBox.scrollTop = chatBox.scrollHeight;
+            if (!text || !state.selectedChatEmail) return;
+
+            if (!state.messages[state.selectedChatEmail]) {
+                state.messages[state.selectedChatEmail] = [];
             }
+
+            const now = new Date();
+            const timeStr = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+
+            state.messages[state.selectedChatEmail].push({
+                sender: 'admin',
+                text: text,
+                time: timeStr
+            });
+
+            input.value = '';
+            renderChatMessages();
         }
 
-        // Create Account Handler
-        function handleCreateUser(event) {
-            event.preventDefault();
-            alert('New user account successfully created and registered on Crestline Global!');
+        // CREATE NEW USER
+        function handleCreateUser(e) {
+            e.preventDefault();
+            const name = document.getElementById('newFullName').value.trim();
+            const email = document.getElementById('newEmail').value.trim();
+            const balance = parseFloat(document.getElementById('newBalance').value) || 0;
+            const bonus = parseFloat(document.getElementById('newBonus').value) || 0;
+
+            if (state.users.some(u => u.email === email)) {
+                alert("A user with this email address already exists!");
+                return;
+            }
+
+            const newUser = {
+                id: "usr_" + Date.now(),
+                name: name,
+                email: email,
+                balance: balance,
+                bonus: bonus,
+                profit: 0.00
+            };
+
+            state.users.push(newUser);
+            state.logs.unshift({
+                date: new Date().toLocaleString(),
+                account: email,
+                action: "New User Provisioned",
+                amount: `$${balance.toFixed(2)}`,
+                status: "Completed"
+            });
+
+            // Reset form
+            e.target.reset();
+            renderAll();
             switchView('users');
+            alert(`User account created successfully for ${name}!`);
+        }
+
+        // GLOBAL SETTINGS
+        function saveSettings() {
+            alert("Global deposit receiving wallets & administrative parameters updated successfully!");
         }
     </script>
 </body>
