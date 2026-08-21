@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Crestline Global</title>
+    <title>User Dashboard - Crestline Global</title>
     <style>
         :root {
             --bg-color: #0b0e14;
@@ -13,9 +13,12 @@
             --text-main: #f0f6fc;
             --text-muted: #8b949e;
             --border-color: #262d3a;
+            --input-bg: #0e121a;
+            --header-height: 70px;
+            --sidebar-width: 260px;
             --success: #22c55e;
             --danger: #ef4444;
-            --header-height: 70px;
+            --info: #3b82f6;
         }
 
         * {
@@ -33,18 +36,21 @@
             flex-direction: column;
         }
 
-        /* HEADER */
+        /* HOMEPAGE STYLE HEADER */
         .site-header {
             height: var(--header-height);
-            background-color: var(--card-bg);
+            background-color: rgba(21, 26, 35, 0.95);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
         }
 
         .header-container {
-            max-width: 1380px;
+            max-width: 1400px;
             height: 100%;
             margin: 0 auto;
             padding: 0 1.5rem;
@@ -53,303 +59,598 @@
             justify-content: space-between;
         }
 
-        .brand-logo {
+        .header-left {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1.25rem;
+        }
+
+        .menu-toggle {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 30px;
+            height: 30px;
+        }
+
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: var(--text-main);
+            border-radius: 2px;
+        }
+
+        .brand-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             text-decoration: none;
+            font-size: 1.35rem;
+            font-weight: 800;
             color: var(--text-main);
         }
 
-        .logo-chart-box {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
+        .brand-logo-container span {
+            color: #ffffff;
         }
 
-        .logo-chart-box svg {
-            width: 24px;
-            height: 24px;
-            fill: none;
-            stroke: #000000;
-            stroke-width: 2.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .brand-name {
-            font-size: 1.3rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-        }
-
-        .dash-nav {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .dash-nav-link {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        .dash-nav-link.active {
-            color: var(--primary);
-        }
-
-        .user-badge {
+        .user-pill {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 0.4rem 0.85rem;
-            border-radius: 20px;
+            background-color: var(--input-bg);
             border: 1px solid var(--border-color);
+            padding: 0.35rem 0.85rem;
+            border-radius: 30px;
+        }
+
+        .avatar-container {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
             font-size: 0.85rem;
+            overflow: hidden;
+            border: 1px solid var(--primary);
         }
 
-        /* MAIN DASHBOARD LAYOUT */
-        .dash-container {
-            max-width: 1380px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem;
-            width: 100%;
-            flex: 1;
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
         }
 
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .metric-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-        }
-
-        .metric-label {
+        .user-fullname {
             font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .user-email-text {
+            font-size: 0.72rem;
             color: var(--text-muted);
-            margin-bottom: 0.5rem;
         }
 
-        .metric-value {
-            font-size: 1.75rem;
+        /* APP LAYOUT & SIDEBAR */
+        .app-container {
+            display: flex;
+            margin-top: var(--header-height);
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        aside {
+            width: var(--sidebar-width);
+            background-color: var(--card-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            top: var(--header-height);
+            bottom: 0;
+            left: 0;
+            z-index: 900;
+            transition: transform 0.3s ease;
+        }
+
+        aside.collapsed { transform: translateX(-100%); }
+
+        .nav-menu { list-style: none; }
+        .nav-item { margin-bottom: 0.35rem; }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: var(--primary);
+        }
+
+        .nav-link.logout { color: var(--danger); }
+
+        main {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+            max-width: 1400px;
+            transition: margin-left 0.3s ease;
+        }
+
+        main.full-width { margin-left: 0; }
+
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+
+        .page-title {
+            font-size: 1.5rem;
             font-weight: 800;
             margin-bottom: 0.25rem;
         }
 
-        .metric-sub {
-            font-size: 0.85rem;
-            color: var(--success);
+        .page-subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.75rem;
         }
 
-        /* DASHBOARD CONTENT GRID */
-        .dash-grid {
+        /* METRIC CARDS */
+        .grid-cards {
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
         }
 
-        .content-panel {
+        .card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 1.5rem;
+            padding: 1.25rem;
         }
 
-        .panel-header {
-            font-size: 1.1rem;
+        .card-title {
+            font-size: 0.8rem;
+            color: var(--text-muted);
             font-weight: 700;
-            margin-bottom: 1.25rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
         }
 
-        .chart-box {
-            width: 100%;
-            height: 320px;
-            background: rgba(0, 0, 0, 0.25);
-            border-radius: 8px;
+        .card-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .text-success { color: var(--success); }
+        .text-warning { color: var(--primary); }
+        .text-info { color: var(--info); }
+
+        /* FORM CONTROLS */
+        .form-card {
+            max-width: 700px;
+            background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            padding: 1rem;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
         }
 
-        .asset-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
+        .form-group { margin-bottom: 1.25rem; }
 
-        .asset-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-        }
-
-        .asset-name {
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
-
-        .asset-amount {
-            text-align: right;
+        .form-label {
+            display: block;
+            font-size: 0.85rem;
             font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
         }
 
-        .btn-action {
-            display: inline-block;
+        .form-input, .form-select {
             width: 100%;
-            padding: 0.75rem;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.85rem 1rem;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .form-input:focus, .form-select:focus { border-color: var(--primary); }
+
+        .btn-submit {
+            width: 100%;
+            padding: 0.9rem;
             background-color: var(--primary);
             color: #000000;
-            text-align: center;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-submit:hover { background-color: var(--primary-hover); }
+
+        /* TAB CONTROLS */
+        .tab-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.75rem;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
             font-weight: 700;
-            border-radius: 6px;
-            text-decoration: none;
-            margin-top: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
         }
 
-        .btn-action:hover {
-            background-color: var(--primary-hover);
+        .tab-btn.active {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: var(--primary);
+            color: var(--primary);
         }
 
-        @media (max-width: 900px) {
-            .dash-grid { grid-template-columns: 1fr; }
-            .dash-nav { display: none; }
+        /* TABLES */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.88rem;
+        }
+
+        th {
+            color: var(--text-muted);
+            font-weight: 600;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .badge.success { background: rgba(34, 197, 94, 0.15); color: var(--success); }
+        .badge.pending { background: rgba(245, 158, 11, 0.15); color: var(--primary); }
+        .badge.info { background: rgba(59, 130, 246, 0.15); color: var(--info); }
+
+        .payment-modal {
+            display: none;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 700px;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            aside { transform: translateX(-100%); }
+            aside.open { transform: translateX(0); }
+            main { margin-left: 0; padding: 1rem; }
         }
     </style>
 </head>
 <body>
 
+    <!-- HEADER -->
     <header class="site-header">
         <div class="header-container">
-            <a href="index.html" class="brand-logo">
-                <div class="logo-chart-box">
-                    <svg viewBox="0 0 24 24">
-                        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-                        <polyline points="16 7 22 7 22 13"></polyline>
-                    </svg>
+            <div class="header-left">
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" onclick="toggleSidebar()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <a href="index.html" class="brand-logo-container">
+                    📈 Crestline <span>Global</span>
+                </a>
+            </div>
+
+            <div class="user-pill">
+                <div class="avatar-container" id="navAvatar">U</div>
+                <div class="user-details">
+                    <span class="user-fullname" id="navFullName">User</span>
+                    <span class="user-email-text" id="navEmail">user@crestline.com</span>
                 </div>
-                <span class="brand-name">Crestline Global</span>
-            </a>
-
-            <nav class="dash-nav">
-                <a href="dashboard.html" class="dash-nav-link active">Overview</a>
-                <a href="#markets" class="dash-nav-link">Spot Markets</a>
-                <a href="#wallets" class="dash-nav-link">Wallets</a>
-                <a href="#orders" class="dash-nav-link">Orders</a>
-            </nav>
-
-            <div class="user-badge">
-                <span style="width: 8px; height: 8px; background: var(--success); border-radius: 50%;"></span>
-                <span>Courage Ukpomwan</span>
             </div>
         </div>
     </header>
 
-    <main class="dash-container">
-        <!-- TOP METRICS CARDS -->
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-label">Estimated Balance</div>
-                <div class="metric-value">$128,450.00</div>
-                <div class="metric-sub">+4.2% (24h)</div>
-            </div>
+    <div class="app-container">
+        <!-- SIDEBAR -->
+        <aside id="sidebar">
+            <ul class="nav-menu">
+                <li class="nav-item"><a class="nav-link active" onclick="switchView('dashboard', this)">📊 Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="switchView('deposit', this)">💳 Deposit</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="switchView('withdraw', this)">🏧 Withdrawal</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="switchView('transactions', this)">📑 Transactions</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="switchView('trade', this)">📈 Trade & Investments</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="switchView('referrals', this)">🤝 Referrals</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="switchView('profile', this)">⚙️ Profile & Settings</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="switchView('messages', this)">💬 Messages / Support</a></li>
+            </ul>
 
-            <div class="metric-card">
-                <div class="metric-label">Active Positions</div>
-                <div class="metric-value">4 Spot</div>
-                <div class="metric-sub" style="color: var(--text-muted);">Margin Ratio: 12%</div>
-            </div>
-
-            <div class="metric-card">
-                <div class="metric-label">Unrealized PnL</div>
-                <div class="metric-value" style="color: var(--success);">+$3,210.50</div>
-                <div class="metric-sub">+2.55% overall</div>
-            </div>
-        </div>
+            <a href="login.html" class="nav-link logout" onclick="handleLogout()">Sign Out</a>
+        </aside>
 
         <!-- MAIN DASHBOARD CONTENT -->
-        <div class="dash-grid">
-            <!-- LIVE CHART PANEL -->
-            <div class="content-panel">
-                <div class="panel-header">
-                    <span>BTC/USDT Performance</span>
-                    <span style="font-size: 0.85rem; color: var(--primary);">Realtime Feed</span>
-                </div>
-                <div class="chart-box">
-                    <svg width="100%" height="100%" viewBox="0 0 500 240" preserveAspectRatio="none">
-                        <line x1="0" y1="50" x2="500" y2="50" stroke="#262d3a" stroke-dasharray="4" />
-                        <line x1="0" y1="120" x2="500" y2="120" stroke="#262d3a" stroke-dasharray="4" />
-                        <line x1="0" y1="190" x2="500" y2="190" stroke="#262d3a" stroke-dasharray="4" />
-                        
-                        <path d="M 0,180 Q 80,130 160,150 T 320,80 T 420,100 T 500,30 L 500,240 L 0,240 Z" fill="rgba(245, 158, 11, 0.12)" />
-                        <path d="M 0,180 Q 80,130 160,150 T 320,80 T 420,100 T 500,30" fill="none" stroke="#f59e0b" stroke-width="3" />
-                    </svg>
-                </div>
-            </div>
+        <main id="mainContent">
 
-            <!-- WALLET BREAKDOWN PANEL -->
-            <div class="content-panel">
-                <div class="panel-header">
-                    <span>Portfolio Balances</span>
-                </div>
-                <div class="asset-list">
-                    <div class="asset-item">
-                        <div>
-                            <div class="asset-name">Bitcoin</div>
-                            <span style="font-size: 0.8rem; color: var(--text-muted);">BTC</span>
-                        </div>
-                        <div class="asset-amount">
-                            <div>1.42 BTC</div>
-                            <span style="font-size: 0.8rem; color: var(--text-muted);">$95,737.11</span>
-                        </div>
+            <!-- 1. DASHBOARD VIEW -->
+            <section id="view-dashboard" class="view-section active">
+                <div class="page-title">Overview</div>
+                <div class="page-subtitle">Real-time balances, referral reserves, and active trade metrics.</div>
+
+                <div class="grid-cards">
+                    <div class="card">
+                        <div class="card-title">Available Balance</div>
+                        <div class="card-value text-warning" id="valAvailable">$0.00</div>
                     </div>
-
-                    <div class="asset-item">
-                        <div>
-                            <div class="asset-name">Ethereum</div>
-                            <span style="font-size: 0.8rem; color: var(--text-muted);">ETH</span>
-                        </div>
-                        <div class="asset-amount">
-                            <div>6.5 ETH</div>
-                            <span style="font-size: 0.8rem; color: var(--text-muted);">$22,816.30</span>
-                        </div>
+                    <div class="card">
+                        <div class="card-title">Total Bonus</div>
+                        <div class="card-value text-info" id="valBonus">$0.00</div>
                     </div>
-
-                    <div class="asset-item">
-                        <div>
-                            <div class="asset-name">Tether</div>
-                            <span style="font-size: 0.8rem; color: var(--text-muted);">USDT</span>
-                        </div>
-                        <div class="asset-amount">
-                            <div>9,896.59 USDT</div>
-                            <span style="font-size: 0.8rem; color: var(--text-muted);">$9,896.59</span>
-                        </div>
+                    <div class="card">
+                        <div class="card-title">Total Deposit</div>
+                        <div class="card-value" id="valDeposit">$0.00</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Total Withdrawal</div>
+                        <div class="card-value" id="valWithdrawal">$0.00</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Total Ongoing Trade</div>
+                        <div class="card-value" id="valOngoingTrade">$0.00</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Amount on Active Trade</div>
+                        <div class="card-value" id="valActiveTrade">$0.00</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Current Profit</div>
+                        <div class="card-value text-success" id="valProfit">$0.00</div>
                     </div>
                 </div>
 
-                <a href="#" class="btn-action">Deposit Funds</a>
-            </div>
-        </div>
-    </main>
+                <div class="card">
+                    <div class="card-title" style="margin-bottom: 1rem;">Recent Account Movements & Trades</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type / Description</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashboardRecentTable">
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: var(--text-muted);">No recent transaction history found.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
+            <!-- 2. DEPOSIT VIEW -->
+            <section id="view-deposit" class="view-section">
+                <div class="page-title">Deposit Funds</div>
+                <div class="page-subtitle">Select your payment currency and submit receipt proof for verification.</div>
+
+                <div class="form-card">
+                    <form id="depositForm" onsubmit="handleDepositSubmit(event)">
+                        <div class="form-group">
+                            <label class="form-label" for="depAmount">Deposit Amount ($)</label>
+                            <input type="number" id="depAmount" class="form-input" placeholder="e.g. 500" min="10" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="depCurrency">Select Payment Currency</label>
+                            <select id="depCurrency" class="form-select" required>
+                                <option value="" disabled selected>Choose Currency</option>
+                                <option value="Bitcoin (BTC)">Bitcoin (BTC)</option>
+                                <option value="Solana (SOL)">Solana (SOL)</option>
+                                <option value="Tether USDT (BEP20)">Tether USDT (BEP20)</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn-submit">Proceed to Payment</button>
+                    </form>
+                </div>
+
+                <div id="paymentInstructions" class="payment-modal">
+                    <h3 style="margin-bottom: 0.5rem; color: var(--primary);">Payment Instructions</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                        Copy the exact wallet address below, complete your transfer, and upload receipt proof.
+                    </p>
+
+                    <div style="background: var(--input-bg); padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 1.25rem;">
+                        <span class="form-label">Selected Currency:</span>
+                        <strong id="payAsset" style="color: #fff; display: block; margin-bottom: 0.75rem;">-</strong>
+
+                        <span class="form-label">Official Wallet Address:</span>
+                        <code id="payAddress" style="color: var(--primary); font-size: 0.95rem; word-break: break-all; display: block;">bc1qcrestlineglobalwalletaddresssamplexyz789</code>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="receiptFile">Upload Payment Screenshot / Receipt</label>
+                        <input type="file" id="receiptFile" class="form-input" accept="image/*,.pdf" required>
+                    </div>
+
+                    <button type="button" class="btn-submit" onclick="confirmDeposit()">I HAVE SENT THE FUNDS</button>
+                </div>
+            </section>
+
+            <!-- 3. WITHDRAWAL VIEW -->
+            <section id="view-withdraw" class="view-section">
+                <div class="page-title">Request Withdrawal</div>
+                <div class="page-subtitle">Withdraw earnings via Crypto Wallet or Bank Wire Transfer.</div>
+                <div class="card">
+                    <p style="color: var(--text-muted);">Your balance is $0.00. Deposit funds or earn profits to unlock withdrawals.</p>
+                </div>
+            </section>
+
+            <!-- 4. TRANSACTIONS VIEW -->
+            <section id="view-transactions" class="view-section">
+                <div class="page-title">Transaction History</div>
+                <div class="page-subtitle">Complete ledger of all account movements.</div>
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type / Description</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="fullTransactionTable">
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: var(--text-muted);">No transactions recorded yet.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 5. TRADE VIEW -->
+            <section id="view-trade" class="view-section">
+                <div class="page-title">Trade & Investments</div>
+                <div class="page-subtitle">Manage automated AI bots and portfolio allocations.</div>
+                <div class="card"><p style="color: var(--text-muted);">No active allocations running.</p></div>
+            </section>
+
+            <!-- 6. REFERRALS VIEW -->
+            <section id="view-referrals" class="view-section">
+                <div class="page-title">Referral Network</div>
+                <div class="page-subtitle">Invite users and earn commissions.</div>
+                <div class="card"><p style="color: var(--text-muted);">Your referral link: <code style="color: var(--primary);">https://crestlineglobal.com/?ref=user</code></p></div>
+            </section>
+
+            <!-- 7. PROFILE VIEW -->
+            <section id="view-profile" class="view-section">
+                <div class="page-title">Profile & Settings</div>
+                <div class="page-subtitle">Manage your account information.</div>
+                <div class="form-card">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" id="profileFullName" class="form-input" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" id="profileEmail" class="form-input" readonly>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 8. MESSAGES VIEW -->
+            <section id="view-messages" class="view-section">
+                <div class="page-title">Support & Messages</div>
+                <div class="page-subtitle">Chat directly with the desk agent.</div>
+                <div class="card"><p style="color: var(--text-muted);">Inbox is empty.</p></div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // Check session on load and populate user info dynamically
+        window.addEventListener('DOMContentLoaded', () => {
+            const currentUser = JSON.parse(localStorage.getItem('crestline_logged_in_user'));
+            
+            if (!currentUser) {
+                // Redirect back to login if no active local user session
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Populate user details in header & profile
+            const name = currentUser.fullName || currentUser.name || "Valued User";
+            const email = currentUser.email || "user@crestline.com";
+
+            document.getElementById('navFullName').textContent = name;
+            document.getElementById('navEmail').textContent = email;
+            document.getElementById('navAvatar').textContent = name.charAt(0).toUpperCase();
+
+            const profileNameInput = document.getElementById('profileFullName');
+            const profileEmailInput = document.getElementById('profileEmail');
+            if (profileNameInput) profileNameInput.value = name;
+            if (profileEmailInput) profileEmailInput.value = email;
+        });
+
+        function switchView(viewId, element) {
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            
+            const target = document.getElementById(`view-${viewId}`);
+            if (target) target.classList.add('active');
+            if (element) element.classList.add('active');
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+            document.getElementById('mainContent').classList.toggle('full-width');
+        }
+
+        function handleDepositSubmit(e) {
+            e.preventDefault();
+            const amount = document.getElementById('depAmount').value;
+            const currency = document.getElementById('depCurrency').value;
+            
+            document.getElementById('payAsset').textContent = `${currency} ($${amount})`;
+            document.getElementById('paymentInstructions').style.display = 'block';
+        }
+
+        function confirmDeposit() {
+            alert('Deposit submission received! Awaiting blockchain verification.');
+            document.getElementById('paymentInstructions').style.display = 'none';
+            document.getElementById('depositForm').reset();
+            switchView('dashboard', document.querySelector('.nav-link'));
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('crestline_logged_in_user');
+        }
+    </script>
 </body>
 </html>
