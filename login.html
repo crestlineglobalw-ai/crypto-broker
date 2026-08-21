@@ -337,16 +337,11 @@
                 <button type="submit" class="btn-submit">Send Reset Code</button>
             </form>
 
-            <!-- STEP 2: VERIFY CODE & SET NEW USERNAME/PASSWORD -->
+            <!-- STEP 2: VERIFY CODE & SET NEW PASSWORD -->
             <form id="resetPasswordForm" style="display: none;" onsubmit="handleResetPassword(event)">
                 <div class="form-group">
                     <label class="form-label" for="verificationCode">Verification Code</label>
                     <input type="text" id="verificationCode" class="form-input" placeholder="Enter 6-digit code" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="newUsername">Username / Full Name</label>
-                    <input type="text" id="newUsername" class="form-input" placeholder="Enter new or existing name" required>
                 </div>
 
                 <div class="form-group">
@@ -368,38 +363,32 @@
     </footer>
 
     <script>
-        // Credentials configuration
-        let USER_EMAIL = "user123@user.com";
-        let USER_PASSWORD = "user123@";
-
-        let ADMIN_EMAIL = "admin123@admin.com";
-        let ADMIN_PASSWORD = "admin123@";
-
         // Simulated verification code state
         let generatedCode = null;
 
         function handleLogin(e) {
             e.preventDefault();
 
-            const emailInput = document.getElementById('loginEmail').value.trim();
-            const passwordInput = document.getElementById('loginPassword').value.trim();
+            const emailInput = document.getElementById('loginEmail').value.trim().toLowerCase();
+            const passwordInput = document.getElementById('loginPassword').value;
             const errorDiv = document.getElementById('errorMessage');
             const successDiv = document.getElementById('successMessage');
 
             successDiv.style.display = "none";
 
-            // Route to User Dashboard
-            if (emailInput === USER_EMAIL && passwordInput === USER_PASSWORD) {
+            // 1. Retrieve registered users from localStorage
+            const users = JSON.parse(localStorage.getItem('crestline_users')) || [];
+
+            // 2. Find matching user account
+            const foundUser = users.find(u => u.email === emailInput && u.password === passwordInput);
+
+            if (foundUser) {
                 errorDiv.style.display = "none";
-                window.location.href = "user-dashboard.html";
-            } 
-            // Route to Admin Dashboard
-            else if (emailInput === ADMIN_EMAIL && passwordInput === ADMIN_PASSWORD) {
-                errorDiv.style.display = "none";
-                window.location.href = "admin-dashboard.html";
-            } 
-            // Show error for invalid inputs
-            else {
+                // 3. Set active session user
+                localStorage.setItem('crestline_logged_in_user', JSON.stringify(foundUser));
+                // 4. Redirect to dashboard
+                window.location.href = "dashboard.html";
+            } else {
                 errorDiv.style.display = "block";
             }
         }
@@ -428,18 +417,21 @@
         // Step 1: Request Verification Code
         function handleRequestCode(e) {
             e.preventDefault();
-            const email = document.getElementById('resetEmail').value.trim();
+            const email = document.getElementById('resetEmail').value.trim().toLowerCase();
             const errorDiv = document.getElementById('forgotError');
 
-            if (email !== USER_EMAIL && email !== ADMIN_EMAIL) {
-                errorDiv.innerText = "Email address not found.";
+            const users = JSON.parse(localStorage.getItem('crestline_users')) || [];
+            const userExists = users.some(u => u.email === email);
+
+            if (!userExists) {
+                errorDiv.innerText = "Email address not found in registered accounts.";
                 errorDiv.style.display = "block";
                 return;
             }
 
             errorDiv.style.display = "none";
             
-            // Generate mock 6-digit code (simulated email send)
+            // Generate mock 6-digit code
             generatedCode = "123456";
             alert("A verification code has been sent to " + email + ".\n\n(For testing, use code: 123456)");
 
@@ -454,8 +446,8 @@
         function handleResetPassword(e) {
             e.preventDefault();
             const codeInput = document.getElementById('verificationCode').value.trim();
-            const newPass = document.getElementById('newPassword').value.trim();
-            const email = document.getElementById('resetEmail').value.trim();
+            const newPass = document.getElementById('newPassword').value;
+            const email = document.getElementById('resetEmail').value.trim().toLowerCase();
             const errorDiv = document.getElementById('forgotError');
 
             if (codeInput !== generatedCode) {
@@ -464,11 +456,13 @@
                 return;
             }
 
-            // Update user or admin password
-            if (email === USER_EMAIL) {
-                USER_PASSWORD = newPass;
-            } else if (email === ADMIN_EMAIL) {
-                ADMIN_PASSWORD = newPass;
+            // Update user password in localStorage array
+            let users = JSON.parse(localStorage.getItem('crestline_users')) || [];
+            const userIndex = users.findIndex(u => u.email === email);
+
+            if (userIndex !== -1) {
+                users[userIndex].password = newPass;
+                localStorage.setItem('crestline_users', JSON.stringify(users));
             }
 
             // Show login screen with success alert
