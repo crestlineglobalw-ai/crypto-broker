@@ -219,6 +219,17 @@
             background-color: var(--primary-hover);
         }
 
+        .error-banner {
+            background-color: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 1.25rem;
+            display: none;
+        }
+
         .auth-footer {
             text-align: center;
             margin-top: 1.5rem;
@@ -282,7 +293,9 @@
                 <p>Join 15M+ users trading digital assets globally</p>
             </div>
 
-            <form action="dashboard.html" method="GET">
+            <div id="registerErrorMsg" class="error-banner"></div>
+
+            <form id="registerForm" onsubmit="handleRegister(event)">
                 <div class="form-group">
                     <label class="form-label" for="fullname">Full Name</label>
                     <input type="text" id="fullname" class="form-input" placeholder="e.g. John Doe" required>
@@ -331,5 +344,52 @@
         © 2026 Crestline Global. All rights reserved.
     </footer>
 
+    <script>
+        function handleRegister(e) {
+            e.preventDefault();
+
+            const fullName = document.getElementById('fullname').value.trim();
+            const email = document.getElementById('email').value.trim().toLowerCase();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const errorBanner = document.getElementById('registerErrorMsg');
+
+            // Validate matching passwords
+            if (password !== confirmPassword) {
+                errorBanner.textContent = "Passwords do not match. Please check and try again.";
+                errorBanner.style.display = "block";
+                return;
+            }
+
+            // Retrieve registered users array from localStorage
+            let users = JSON.parse(localStorage.getItem('crestline_users')) || [];
+
+            // Check if email is already registered
+            const existingUser = users.find(u => u.email === email);
+            if (existingUser) {
+                errorBanner.textContent = "An account with this email already exists. Please log in.";
+                errorBanner.style.display = "block";
+                return;
+            }
+
+            // Create new user profile object
+            const newUser = {
+                fullName: fullName,
+                email: email,
+                password: password,
+                createdAt: new Date().toISOString()
+            };
+
+            // Save user back into the array database
+            users.push(newUser);
+            localStorage.setItem('crestline_users', JSON.stringify(users));
+
+            // Set active session log-in immediately
+            localStorage.setItem('crestline_logged_in_user', JSON.stringify(newUser));
+
+            // Redirect smoothly to dashboard
+            window.location.href = 'dashboard.html';
+        }
+    </script>
 </body>
 </html>
